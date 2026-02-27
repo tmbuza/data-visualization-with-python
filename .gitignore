@@ -12,10 +12,12 @@ _freeze/
 !docs/**/*.html
 
 # Ignore figure folders everywhere EXCEPT docs/
-figures/
 *_files/
 !docs/*_files/
 !docs/*_files/**
+figures/
+!docs/figures/
+!docs/figures/**
 
 # Ignore PDFs/DOCX everywhere
 *.pdf
