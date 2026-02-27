@@ -1,62 +1,67 @@
 # Plotnine Grammar of Graphics
 
-:::cdi-message
-- **ID:** VISPY-005
-- **Type:** Lesson
-- **Audience:** Public
-- **Theme:** Grammar-of-graphics thinking
+::: cdi-message
+-   **ID:** VISPY-005
+-   **Type:** Lesson
+-   **Audience:** Public
+-   **Theme:** Grammar-of-graphics thinking
 :::
 
 Matplotlib and Seaborn are excellent for building figures directly.
 
 Plotnine is useful when you want to think in layers:
 
-- data
-- aesthetics (mappings)
-- geometric marks (points, lines, bars)
-- scales
-- facets
-- themes
+-   data
+-   aesthetics (mappings)
+-   geometric marks (points, lines, bars)
+-   scales
+-   facets
+-   themes
 
-The point of this lesson is not to adopt a new library.
-It is to learn a mental model that improves plotting in any library.
+The point of this lesson is not to adopt a new library. It is to learn a
+mental model that improves plotting in any library.
 
----
+------------------------------------------------------------------------
 
 ## Setup
 
-```{python}
+``` {python}
 import pandas as pd
 
 from plotnine import (
     ggplot, aes, geom_point, geom_smooth,
     geom_boxplot, facet_wrap, labs,
-    theme_light, theme, element_text
+    theme_light
 )
 
+from cdi_viz.theme import cdi_notebook_init, show_and_save_plotnine, cdi_theme_plotnine
+
+# Chapter init (shared counter + plotly template if needed elsewhere)
+cdi_notebook_init(chapter="05")
+
 df = pd.read_csv("data/cdi-student-outcomes.csv")
-print(df.head())
+df.head()
 ```
 
----
+------------------------------------------------------------------------
 
 ## Core idea: mappings vs style
 
 In grammar-of-graphics, you separate:
 
-- what the data encodes (mappings)
-- what is only styling (colors, sizes, labels)
+-   what the data encodes (mappings)
+-   what is only styling (colors, sizes, labels)
 
 Example:
 
-- mapping: `x=study_hours`, `y=math_score`, `color=test_prep`
-- styling: point transparency, line thickness
+-   mapping: `x=study_hours`, `y=math_score`, `color=test_prep`
+-   styling: point transparency, line thickness
 
----
+------------------------------------------------------------------------
 
 ## Relationship plot (layered)
 
-```{python}
+``` {python}
 p = (
     ggplot(df, aes(x="study_hours", y="math_score", color="test_prep"))
     + geom_point(alpha=0.55)
@@ -69,22 +74,22 @@ p = (
         color="Test prep"
     )
     + theme_light(base_size=14)
-    + theme(
-        plot_title_position="plot",
-        plot_title=element_text(ha="center", weight="bold", margin={"b": 6}),
-        plot_subtitle=element_text(ha="center", margin={"b": 10}),
-        legend_position="top",
-    )
 )
 
-p
+show_and_save_plotnine(p)
 ```
 
----
+What matters here is the separation:
+
+-   `aes(...)` describes meaning (what encodes what)
+-   `geom_*` layers add marks and models
+-   labels and theme tune readability without changing meaning
+
+------------------------------------------------------------------------
 
 ## Group comparison (summary)
 
-```{python}
+``` {python}
 p = (
     ggplot(df, aes(x="test_prep", y="math_score"))
     + geom_boxplot()
@@ -95,21 +100,25 @@ p = (
         y="Math score"
     )
     + theme_light(base_size=14)
-    + theme(
-        plot_title_position="plot",
-        plot_title=element_text(ha="center", weight="bold", margin={"b": 6}),
-        plot_subtitle=element_text(ha="center", margin={"b": 10}),
-    )
 )
 
-p
+show_and_save_plotnine(p)
 ```
 
----
+Boxplots summarize:
+
+-   central tendency (median)
+-   spread (IQR)
+-   potential outliers
+
+------------------------------------------------------------------------
 
 ## Faceting: small multiples
 
-```{python}
+Faceting repeats the same plot by group. This forces disciplined
+comparison because every panel uses the same encodings.
+
+``` {python}
 p = (
     ggplot(df, aes(x="study_hours", y="math_score"))
     + geom_point(alpha=0.55)
@@ -122,34 +131,16 @@ p = (
         y="Math score"
     )
     + theme_light(base_size=14)
-    + theme(
-        plot_title_position="plot",
-        plot_title=element_text(ha="center", weight="bold", margin={"b": 8}),
-        plot_subtitle=element_text(ha="center", margin={"b": 12}),
-    )
 )
 
-p
+show_and_save_plotnine(p)
 ```
 
----
-
-## Exporting a Plotnine figure
-
-```{python}
-from pathlib import Path
-Path("figures").mkdir(exist_ok=True)
-
-out = Path("figures") / "05_plotnine_facet.png"
-p.save(out, dpi=160, verbose=False)
-str(out)
-```
-
----
+------------------------------------------------------------------------
 
 ## Key Takeaways
 
-- Grammar-of-graphics is a mental model, not a brand.
-- Separate mappings (meaning) from styling (appearance).
-- Layering helps you modify plots without restarting.
-- Faceting is one of the cleanest ways to compare groups.
+-   Grammar-of-graphics is a mental model, not a brand.
+-   Separate mappings (meaning) from styling (appearance).
+-   Layering helps you modify plots without restarting.
+-   Faceting is one of the cleanest ways to compare groups.

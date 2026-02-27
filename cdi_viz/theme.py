@@ -250,47 +250,76 @@ def save_gif_auto(filename, folder="figures", emit_markdown=True):
         display(Markdown(f"![]({path})"))
     return None
 
-def save_plotnine(fig, *, folder="figures", dpi=300, verbose=True, **kwargs):
+# ===========================================
+# 5) Plotnine CDI theme
+# ===========================================
+
+# Optional Plotnine support
+try:
+    import plotnine as p9
+    from plotnine import element_text
+    _PLOTNINE_AVAILABLE = True
+except Exception:  # pragma: no cover
+    p9 = None
+    element_text = None
+    _PLOTNINE_AVAILABLE = False
+
+
+def cdi_theme_plotnine(*, base_size=14, legend_position="top"):
     """
-    Save a Plotnine ggplot object incrementally using the shared chapter counter.
-
-    Output:
-        figures/{chapter}_{counter:03d}.png
-
-    Notes:
-    - Uses the same counter as Plotly + Matplotlib (via _cdi_next_static_path)
-    - kwargs are forwarded to plotnine's .save() (e.g., width=, height=, units=)
+    CDI defaults for Plotnine:
+    - Centered title
+    - Centered subtitle
+    - Bold title
+    - Legend on top
     """
-    path = _cdi_next_static_path(folder=folder, ext="png")
 
-    # Plotnine's ggplot.save() supports dpi + optional size args
-    fig.save(path, dpi=dpi, verbose=False, **kwargs)
+    if not _PLOTNINE_AVAILABLE:
+        raise ImportError("Plotnine is not available. Install plotnine to use this feature.")
 
-    if verbose:
-        print(f"Saved PNG → {path}")
-        display(Markdown(f"![]({path})"))
-
-    return None
-
-def show_and_save_plotnine(fig, *, folder="figures", dpi=300, emit_markdown=True, **kwargs):
+    return p9.theme(
+        plot_title=element_text(ha="center", weight="bold"),
+        plot_subtitle=element_text(ha="center"),
+        legend_position=legend_position,
+        text=element_text(size=base_size),
+    )
+def show_and_save_plotnine(
+    fig,
+    *,
+    folder="figures",
+    dpi=300,
+    apply_cdi_theme=True,
+    theme_kwargs=None,
+    emit_markdown=True,
+    return_fig=False,
+    **kwargs
+):
     """
     Author-facing Plotnine helper.
 
-    In notebooks, returning `fig` displays it.
-    We still save a PNG (Bookdown/GitBook-friendly).
+    IMPORTANT:
+    - Default return_fig=False prevents Plotnine auto-render duplicates in notebooks.
+    - We embed the saved PNG via Markdown (book-safe).
     """
-    # Display in notebook
-    _ = fig  # returned at end
-
-    # Save PNG using shared counter
     path = _cdi_next_static_path(folder=folder, ext="png")
-    fig.save(path, dpi=dpi, verbose=False, **kwargs)
+
+    out = fig
+    if apply_cdi_theme:
+        theme_kwargs = theme_kwargs or {}
+        out = fig + cdi_theme_plotnine(**theme_kwargs)
+
+    out.save(path, dpi=dpi, verbose=False, **kwargs)
     print(f"Saved PNG → {path}")
 
     if emit_markdown:
         display(Markdown(f"![]({path})"))
 
-    return fig
+    return out if return_fig else None
+
+
+# Backward/typo-friendly alias (what you called "plotline")
+def show_and_save_plotline(*args, **kwargs):
+    return show_and_save_plotnine(*args, **kwargs)
 
 # ===========================================
 # 5) Plotly utilities (optional but useful)

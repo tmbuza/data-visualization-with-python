@@ -264,7 +264,7 @@
     "href": "05-plotnine-grammar-of-graphics.html",
     "title": "Plotnine Grammar of Graphics",
     "section": "",
-    "text": "Setup\nMatplotlib and Seaborn are excellent for building figures directly.\nPlotnine is useful when you want to think in layers:\nThe point of this lesson is not to adopt a new library. It is to learn a mental model that improves plotting in any library.\nimport pandas as pd\n\nfrom plotnine import (\n    ggplot, aes, geom_point, geom_smooth,\n    geom_boxplot, facet_wrap, labs,\n    theme_light, theme, element_text\n)\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\nprint(df.head())\n\n     group  test_prep  study_hours  math_score  reading_score  writing_score\n0  Group B  completed          3.9          58             64             51\n1  Group A       none          7.7          67             85             61\n2  Group A       none          9.3          83             65             73\n3  Group A       none          3.9          60             67             48\n4  Group A       none          8.3          68             63             47",
+    "text": "Setup\nMatplotlib and Seaborn are excellent for building figures directly.\nPlotnine is useful when you want to think in layers:\nThe point of this lesson is not to adopt a new library. It is to learn a mental model that improves plotting in any library.\nimport pandas as pd\n\nfrom plotnine import (\n    ggplot, aes, geom_point, geom_smooth,\n    geom_boxplot, facet_wrap, labs,\n    theme_light\n)\n\nfrom cdi_viz.theme import cdi_notebook_init, show_and_save_plotnine, cdi_theme_plotnine\n\n# Chapter init (shared counter + plotly template if needed elsewhere)\ncdi_notebook_init(chapter=\"05\")\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\ndf.head()\n\n\n\n\n\n\n\n\ngroup\ntest_prep\nstudy_hours\nmath_score\nreading_score\nwriting_score\n\n\n\n\n0\nGroup B\ncompleted\n3.9\n58\n64\n51\n\n\n1\nGroup A\nnone\n7.7\n67\n85\n61\n\n\n2\nGroup A\nnone\n9.3\n83\n65\n73\n\n\n3\nGroup A\nnone\n3.9\n60\n67\n48\n\n\n4\nGroup A\nnone\n8.3\n68\n63\n47",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Plotnine Grammar of Graphics</span>"
     ]
@@ -284,7 +284,7 @@
     "href": "05-plotnine-grammar-of-graphics.html#relationship-plot-layered",
     "title": "Plotnine Grammar of Graphics",
     "section": "Relationship plot (layered)",
-    "text": "Relationship plot (layered)\n\np = (\n    ggplot(df, aes(x=\"study_hours\", y=\"math_score\", color=\"test_prep\"))\n    + geom_point(alpha=0.55)\n    + geom_smooth(method=\"lm\", se=False)\n    + labs(\n        title=\"Study Hours vs Math Score\",\n        subtitle=\"Trend shown separately by test preparation\",\n        x=\"Study hours per week\",\n        y=\"Math score\",\n        color=\"Test prep\"\n    )\n    + theme_light(base_size=14)\n    + theme(\n        plot_title_position=\"plot\",\n        plot_title=element_text(ha=\"center\", weight=\"bold\", margin={\"b\": 6}),\n        plot_subtitle=element_text(ha=\"center\", margin={\"b\": 10}),\n        legend_position=\"top\",\n    )\n)\n\np",
+    "text": "Relationship plot (layered)\n\np = (\n    ggplot(df, aes(x=\"study_hours\", y=\"math_score\", color=\"test_prep\"))\n    + geom_point(alpha=0.55)\n    + geom_smooth(method=\"lm\", se=False)\n    + labs(\n        title=\"Study Hours vs Math Score\",\n        subtitle=\"Trend shown separately by test preparation\",\n        x=\"Study hours per week\",\n        y=\"Math score\",\n        color=\"Test prep\"\n    )\n    + theme_light(base_size=14)\n)\n\nshow_and_save_plotnine(p)\n\nSaved PNG → figures/05_001.png\n\n\n\n\n\n\n\n\n\nWhat matters here is the separation:\n\naes(...) describes meaning (what encodes what)\ngeom_* layers add marks and models\nlabels and theme tune readability without changing meaning",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Plotnine Grammar of Graphics</span>"
     ]
@@ -294,7 +294,7 @@
     "href": "05-plotnine-grammar-of-graphics.html#group-comparison-summary",
     "title": "Plotnine Grammar of Graphics",
     "section": "Group comparison (summary)",
-    "text": "Group comparison (summary)\n\np = (\n    ggplot(df, aes(x=\"test_prep\", y=\"math_score\"))\n    + geom_boxplot()\n    + labs(\n        title=\"Math Score by Test Preparation\",\n        subtitle=\"Boxplots summarize differences across groups\",\n        x=\"Test preparation\",\n        y=\"Math score\"\n    )\n    + theme_light(base_size=14)\n    + theme(\n        plot_title_position=\"plot\",\n        plot_title=element_text(ha=\"center\", weight=\"bold\", margin={\"b\": 6}),\n        plot_subtitle=element_text(ha=\"center\", margin={\"b\": 10}),\n    )\n)\n\np",
+    "text": "Group comparison (summary)\n\np = (\n    ggplot(df, aes(x=\"test_prep\", y=\"math_score\"))\n    + geom_boxplot()\n    + labs(\n        title=\"Math Score by Test Preparation\",\n        subtitle=\"Boxplots summarize differences across groups\",\n        x=\"Test preparation\",\n        y=\"Math score\"\n    )\n    + theme_light(base_size=14)\n)\n\nshow_and_save_plotnine(p)\n\nSaved PNG → figures/05_002.png\n\n\n\n\n\n\n\n\n\nBoxplots summarize:\n\ncentral tendency (median)\nspread (IQR)\npotential outliers",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Plotnine Grammar of Graphics</span>"
     ]
@@ -304,17 +304,7 @@
     "href": "05-plotnine-grammar-of-graphics.html#faceting-small-multiples",
     "title": "Plotnine Grammar of Graphics",
     "section": "Faceting: small multiples",
-    "text": "Faceting: small multiples\n\np = (\n    ggplot(df, aes(x=\"study_hours\", y=\"math_score\"))\n    + geom_point(alpha=0.55)\n    + geom_smooth(method=\"lm\", se=False)\n    + facet_wrap(\"~group\")\n    + labs(\n        title=\"Study Hours vs Math Score by Group\",\n        subtitle=\"Same plot repeated by group for disciplined comparison\",\n        x=\"Study hours per week\",\n        y=\"Math score\"\n    )\n    + theme_light(base_size=14)\n    + theme(\n        plot_title_position=\"plot\",\n        plot_title=element_text(ha=\"center\", weight=\"bold\", margin={\"b\": 8}),\n        plot_subtitle=element_text(ha=\"center\", margin={\"b\": 12}),\n    )\n)\n\np",
-    "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Plotnine Grammar of Graphics</span>"
-    ]
-  },
-  {
-    "objectID": "05-plotnine-grammar-of-graphics.html#exporting-a-plotnine-figure",
-    "href": "05-plotnine-grammar-of-graphics.html#exporting-a-plotnine-figure",
-    "title": "Plotnine Grammar of Graphics",
-    "section": "Exporting a Plotnine figure",
-    "text": "Exporting a Plotnine figure\n\nfrom pathlib import Path\nPath(\"figures\").mkdir(exist_ok=True)\n\nout = Path(\"figures\") / \"05_plotnine_facet.png\"\np.save(out, dpi=160, verbose=False)\nstr(out)\n\n'figures/05_plotnine_facet.png'",
+    "text": "Faceting: small multiples\nFaceting repeats the same plot by group. This forces disciplined comparison because every panel uses the same encodings.\n\np = (\n    ggplot(df, aes(x=\"study_hours\", y=\"math_score\"))\n    + geom_point(alpha=0.55)\n    + geom_smooth(method=\"lm\", se=False)\n    + facet_wrap(\"~group\")\n    + labs(\n        title=\"Study Hours vs Math Score by Group\",\n        subtitle=\"Same plot repeated by group for disciplined comparison\",\n        x=\"Study hours per week\",\n        y=\"Math score\"\n    )\n    + theme_light(base_size=14)\n)\n\nshow_and_save_plotnine(p)\n\nSaved PNG → figures/05_003.png",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Plotnine Grammar of Graphics</span>"
     ]
