@@ -1,0 +1,162 @@
+# Seaborn Comparisons
+
+:::cdi-message
+- **ID:** VISPY-004
+- **Type:** Lesson
+- **Audience:** Public
+- **Theme:** Comparisons and statistical views
+:::
+
+Matplotlib gives control.
+Seaborn gives speed for common analytical plots:
+
+- distributions
+- group comparisons
+- relationship summaries
+
+We keep styling minimal and focus on the statistical view.
+
+---
+
+```{python}
+from cdi_viz.theme import cdi_notebook_init, show_and_save_mpl
+
+cdi_notebook_init(chapter="04")
+```
+
+## Load data
+
+```{python}
+import pandas as pd
+
+df = pd.read_csv("data/cdi-student-outcomes.csv")
+print(df.head())
+```
+
+---
+
+## Distribution: density view
+
+```{python}
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+fig, ax = plt.subplots()
+
+sns.kdeplot(data=df, x="math_score", fill=True, ax=ax)
+
+ax.set_xlabel("Math score")
+ax.set_ylabel("Density")
+
+ax.set_title(
+    "Density view supports comparison",
+    pad=10,
+    loc="center"
+)
+
+fig.suptitle(
+    "Distribution of Math Scores",
+    y=1.02,
+    fontweight="bold",
+    ha="center"
+)
+
+ax.grid(True, axis="y", linewidth=0.4, alpha=0.3)
+ax.grid(False, axis="x")
+
+show_and_save_mpl(fig)
+```
+
+---
+
+## Group comparison: boxplot
+
+```{python}
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+fig, ax = plt.subplots()
+
+sns.boxplot(data=df, x="test_prep", y="math_score", ax=ax)
+
+ax.set_xlabel("Test preparation")
+ax.set_ylabel("Math score")
+
+fig.suptitle("Math Score by Test Preparation", fontweight="bold", y=1.02)
+ax.set_title("Boxplots summarize differences across groups", pad=10)
+
+ax.grid(True, axis="y", linewidth=0.4, alpha=0.3)
+ax.grid(False, axis="x")
+
+fig.tight_layout()
+
+show_and_save_mpl(fig)
+```
+
+---
+
+## Add points (summary + raw data)
+
+```{python}
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+fig, ax = plt.subplots()
+
+sns.boxplot(data=df, x="test_prep", y="math_score", ax=ax)
+sns.stripplot(data=df, x="test_prep", y="math_score", ax=ax, alpha=0.35, jitter=0.25)
+
+ax.set_xlabel("Test preparation")
+ax.set_ylabel("Math score")
+
+fig.suptitle("Math Score by Test Preparation", fontweight="bold", y=1.02)
+ax.set_title("Summary plus raw points for honesty", pad=10)
+
+ax.grid(True, axis="y", linewidth=0.4, alpha=0.3)
+ax.grid(False, axis="x")
+
+fig.tight_layout()
+
+show_and_save_mpl(fig)
+```
+
+---
+
+## Relationship: trend summary
+
+```{python}
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+fig, ax = plt.subplots()
+
+sns.regplot(
+    data=df,
+    x="study_hours",
+    y="math_score",
+    scatter_kws={"alpha": 0.55},
+    ax=ax
+)
+
+ax.set_xlabel("Study hours per week")
+ax.set_ylabel("Math score")
+
+fig.suptitle("Study Hours vs Math Score", fontweight="bold", y=1.02)
+ax.set_title("Trend summary with fitted line", pad=10)
+
+ax.grid(True, axis="y", linewidth=0.4, alpha=0.3)
+ax.grid(False, axis="x")
+
+fig.tight_layout()
+
+show_and_save_mpl(fig)
+```
+
+---
+
+## Key Takeaways
+
+- Seaborn accelerates common analytical plots.
+- Use summaries (boxplots, trend lines) to support comparison.
+- Keep raw data visible when possible.
+- Interpretation still matters more than styling.

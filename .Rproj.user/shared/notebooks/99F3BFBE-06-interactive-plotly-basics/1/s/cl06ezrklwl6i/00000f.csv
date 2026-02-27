@@ -1,0 +1,25 @@
+"0","import warnings"
+"0","import pandas as pd"
+"0","import plotly.express as px"
+"0",""
+"0","from cdi_viz.theme import ("
+"0","    cdi_notebook_init,"
+"0","    set_cdi_theme,"
+"0","    show_and_save_plotly,"
+"0",")"
+"0",""
+"0","warnings.filterwarnings(""ignore"")"
+"0",""
+"0","# Chapter init: sets Plotly theme + resets the shared figure counter"
+"0","cdi_notebook_init(chapter=""06"", title_x=0.5)"
+"0",""
+"0","df = pd.read_csv(""data/cdi-student-outcomes.csv"")"
+"0","df.head()"
+"0",""
+"1","     group  test_prep  study_hours  math_score  reading_score  writing_score
+0  Group B  completed          3.9          58             64             51
+1  Group A       none          7.7          67             85             61
+2  Group A       none          9.3          83             65             73
+3  Group A       none          3.9          60             67             48
+4  Group A       none          8.3          68             63             47
+"

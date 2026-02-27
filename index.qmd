@@ -1,0 +1,12 @@
+---
+title: ""
+format:
+  html:
+    toc: false
+    number-sections: false
+    body-classes: front-page
+---
+
+<div style="text-align:center; margin-top: 1.5em;">
+  <img src="assets/images/cover/visualization-with-python-cover.png" width="75%" />
+</div>

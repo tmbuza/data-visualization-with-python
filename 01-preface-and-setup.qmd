@@ -1,0 +1,100 @@
+# Preface and Setup
+
+::: cdi-message
+-   **ID:** VISPY-001
+-   **Type:** Setup
+-   **Audience:** Public
+-   **Theme:** Foundational, professional visualization in Python
+:::
+
+This guide teaches **foundational, professional-grade data visualization
+in Python**.
+
+The goal is not just to make charts look good.\
+The goal is to design visuals that **explain, compare, and support
+decisions**.
+
+This is part of the **CDI Data Science domain**, under the
+**Visualization** subdomain.\
+The plotting habits here carry directly into applied work, including
+bioinformatics.
+
+## Who this guide is for
+
+This guide is designed for:
+
+-   Data analysts and data scientists working in **Python**
+-   Learners comfortable with Pandas and NumPy
+-   Anyone who wants to move beyond basic charts into **clear
+    comparisons, distributions, and narrative structure**
+-   Professionals preparing figures for reports, research writeups,
+    dashboards, and presentations
+
+If you are brand new to Python, start with CDI Data Science Foundations
+first, then return here.
+
+## What you will learn
+
+By the end of this free track, you will be able to:
+
+-   Choose visualization types based on the question and data structure
+-   Build clean Matplotlib figures with consistent labels and layout
+-   Use Seaborn for comparisons and statistical views
+-   Create multi-panel figures that read well in a report
+-   Apply design basics: annotation, color discipline, and figure
+    hierarchy
+-   Export figures consistently for documentation and sharing
+
+We use Python libraries as tools, but the emphasis is the workflow and
+reasoning.
+
+## About the data used in this guide
+
+This guide uses a **CDI synthetic dataset** generated locally.
+
+The dataset is intentionally clean and controlled so you can focus on:
+
+-   visualization technique\
+-   design trade-offs\
+-   interpretation\
+-   reproducibility
+
+The file used throughout the guide:
+
+-   `data/cdi-student-outcomes.csv`
+
+## Environment setup
+
+From the project folder:
+
+``` bash
+bash scripts/setup-env.sh
+source .venv/bin/activate
+python scripts/make-cdi-student-outcomes.py
+bash scripts/build-all.sh
+```
+
+The rendered output will be written to:
+
+-   `docs/`
+
+## Plot standard for this guide
+
+We use a minimal, consistent plotting style across chapters.
+
+```{python}
+from cdi_viz.theme import cdi_notebook_init, cdi_plot_style
+
+cdi_notebook_init(chapter="01")
+cdi_plot_style()
+```
+
+## How to use this guide
+
+Chapters are designed to be:
+
+-   Runnable\
+-   Reproducible\
+-   Focused on one visualization purpose at a time
+
+Use the Quarto navigation arrows or sidebar to move between chapters.

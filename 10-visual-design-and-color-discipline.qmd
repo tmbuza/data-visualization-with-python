@@ -1,0 +1,207 @@
+# Visual Design Principles and Color Discipline
+
+:::cdi-message
+- **ID:** VISPY-FREE-10
+- **Type:** Lesson
+- **Audience:** Public
+- **Theme:** Color, hierarchy, and visual restraint
+:::
+
+Good visualization is not decoration.
+
+It is controlled hierarchy.
+
+In this lesson you will learn:
+
+- how to use color intentionally
+- how to reduce visual noise
+- how to build visual hierarchy
+- how to avoid common design mistakes
+- how to make figures publication-ready
+
+---
+
+## Setup
+
+```{python}
+import warnings
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from cdi_viz.theme import (
+    cdi_notebook_init,
+    show_and_save_mpl,
+)
+
+warnings.filterwarnings("ignore")
+
+cdi_notebook_init(chapter="10")
+
+df = pd.read_csv("data/cdi-student-outcomes.csv")
+
+print("First rows:")
+print(df.head())
+```
+
+---
+
+# 1. Visual Hierarchy
+
+A figure should guide the eye:
+
+1. Title (main message)
+2. Data
+3. Axis labels
+4. Annotations (if necessary)
+
+If everything is bold, nothing stands out.
+
+```{python}
+fig, ax = plt.subplots(figsize=(7.6, 4.6))
+
+ax.scatter(df["study_hours"], df["math_score"], alpha=0.6)
+
+ax.set_title("More study hours are associated with higher math scores")
+ax.set_xlabel("Study hours per week")
+ax.set_ylabel("Math score")
+
+fig.tight_layout()
+
+show_and_save_mpl(fig)  # figures/10_001.png
+```
+
+Notice the title answers a question.
+It does not simply repeat variable names.
+
+---
+
+# 2. Color Discipline
+
+Color should encode meaning, not decorate.
+
+Bad practice:
+- Random colors
+- Too many categories
+- Saturated palettes without purpose
+
+Good practice:
+- Neutral base
+- One highlight color
+- Consistent mapping across plots
+
+```{python}
+palette = {
+    "completed": "#036281",
+    "not_completed": "#9CA3AF",
+}
+
+df["prep_label"] = df["test_prep"].map({
+    "completed": "completed",
+    "none": "not_completed"
+})
+
+fig, ax = plt.subplots(figsize=(7.6, 4.6))
+
+sns.boxplot(
+    data=df,
+    x="prep_label",
+    y="math_score",
+    palette=palette,
+    ax=ax
+)
+
+ax.set_title("Test preparation is associated with higher math scores")
+ax.set_xlabel("Test preparation status")
+ax.set_ylabel("Math score")
+
+fig.tight_layout()
+
+show_and_save_mpl(fig)  # figures/10_002.png
+```
+
+Two colors. Clear meaning.
+
+---
+
+# 3. Reduce Visual Noise
+
+Remove unnecessary elements:
+
+- Excess grid lines
+- Thick borders
+- Redundant legends
+- Background shading
+
+```{python}
+fig, ax = plt.subplots(figsize=(7.6, 4.6))
+
+sns.histplot(df["math_score"], bins=25, color="#036281", ax=ax)
+
+ax.set_title("Distribution of math scores")
+ax.set_xlabel("Math score")
+ax.set_ylabel("Count")
+
+ax.grid(False)
+
+fig.tight_layout()
+
+show_and_save_mpl(fig)  # figures/10_003.png
+```
+
+Simple is stronger.
+
+---
+
+# 4. Consistent Mapping Across Figures
+
+If blue means "completed", it must always mean "completed".
+
+Never change color meaning across lessons or reports.
+
+Consistency builds trust.
+
+---
+
+# 5. Common Design Mistakes
+
+Avoid:
+
+- 3D plots for 2D data
+- Excessive annotation
+- Rainbow colormaps for categorical data
+- Titles that restate axes
+- Legends inside data region
+
+---
+
+# Design Checklist
+
+Before exporting a figure:
+
+- Does the title communicate insight?
+- Is color used intentionally?
+- Is anything unnecessary?
+- Are categories consistently mapped?
+- Would this look appropriate in a professional report?
+
+---
+
+# Key Takeaways
+
+- Hierarchy guides attention.
+- Color encodes meaning.
+- Simplicity increases clarity.
+- Consistency builds credibility.
+- Professional plots are restrained.
+
+---
+
+# Exercises
+
+:::cdi-exercise
+1. Redesign a previous plot using only one highlight color.
+2. Rewrite a neutral title into an insight-driven title.
+3. Remove unnecessary grid lines and compare readability.
+4. Create a two-color comparison plot with consistent mapping.
+:::

@@ -1,0 +1,215 @@
+# Common Visualization Mistakes and How to Avoid Them
+
+:::cdi-message
+- **ID:** VISPY-FREE-11
+- **Type:** Lesson
+- **Audience:** Public
+- **Theme:** Diagnostic thinking in visualization
+:::
+
+Professional visualization is not only about creating good figures.
+
+It is about recognizing bad ones.
+
+In this lesson, you will learn to identify and correct common mistakes:
+
+- misleading axes
+- inconsistent scaling
+- overloaded color
+- inappropriate chart types
+- distorted comparisons
+
+---
+
+## Setup
+
+```{python}
+import warnings
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from cdi_viz.theme import (
+    cdi_notebook_init,
+    show_and_save_mpl,
+)
+
+warnings.filterwarnings("ignore")
+
+cdi_notebook_init(chapter="11")
+
+df = pd.read_csv("data/cdi-student-outcomes.csv")
+
+print("First rows:")
+print(df.head())
+```
+
+---
+
+# 1. Truncated Axes
+
+Truncating axes can exaggerate differences.
+
+### Misleading Version
+
+```{python}
+group_means = df.groupby("test_prep")["math_score"].mean()
+
+fig, ax = plt.subplots(figsize=(7.0, 4.6))
+
+ax.bar(group_means.index, group_means.values)
+
+ax.set_ylim(70, 85)  # truncated axis
+ax.set_title("Average math score by test prep (misleading scale)")
+ax.set_ylabel("Average math score")
+
+fig.tight_layout()
+
+show_and_save_mpl(fig)  # figures/11_001.png
+```
+
+### Corrected Version
+
+```{python}
+fig, ax = plt.subplots(figsize=(7.0, 4.6))
+
+ax.bar(group_means.index, group_means.values)
+
+ax.set_ylim(0, 100)  # full logical range
+ax.set_title("Average math score by test prep (full scale)")
+ax.set_ylabel("Average math score")
+
+fig.tight_layout()
+
+show_and_save_mpl(fig)  # figures/11_002.png
+```
+
+---
+
+# 2. Overloaded Color
+
+Too many colors reduce clarity.
+
+```{python}
+fig, ax = plt.subplots(figsize=(7.6, 4.6))
+
+sns.scatterplot(
+    data=df,
+    x="study_hours",
+    y="math_score",
+    hue="group",   # multiple categories
+    style="test_prep",
+    ax=ax
+)
+
+ax.set_title("Too many encodings at once")
+ax.set_xlabel("Study hours per week")
+ax.set_ylabel("Math score")
+
+fig.tight_layout()
+
+show_and_save_mpl(fig)  # figures/11_003.png
+```
+
+Ask yourself:
+
+Is every encoding necessary?
+
+---
+
+# 3. Wrong Chart Type
+
+Bar charts are often misused for continuous distributions.
+
+Better:
+
+```{python}
+fig, ax = plt.subplots(figsize=(7.6, 4.6))
+
+sns.histplot(df["math_score"], bins=25, ax=ax)
+
+ax.set_title("Distribution of math scores")
+ax.set_xlabel("Math score")
+ax.set_ylabel("Count")
+
+fig.tight_layout()
+
+show_and_save_mpl(fig)  # figures/11_004.png
+```
+
+Choose the chart type that matches the data structure.
+
+---
+
+# 4. Independent Scales in Multi-Panel Figures
+
+Without shared scales, comparisons break.
+
+```{python}
+groups = sorted(df["group"].unique())
+
+fig, axes = plt.subplots(ncols=len(groups), figsize=(11, 4))
+
+for ax, g in zip(axes, groups):
+    sub = df[df["group"] == g]
+    ax.scatter(sub["study_hours"], sub["math_score"], alpha=0.6)
+    ax.set_title(f"Group {g}")
+    ax.set_xlabel("Study hours")
+
+axes[0].set_ylabel("Math score")
+fig.suptitle("Independent scales can mislead", y=1.02)
+fig.tight_layout()
+
+show_and_save_mpl(fig)  # figures/11_005.png
+```
+
+Better:
+
+```{python}
+fig, axes = plt.subplots(ncols=len(groups), figsize=(11, 4), sharey=True)
+
+for ax, g in zip(axes, groups):
+    sub = df[df["group"] == g]
+    ax.scatter(sub["study_hours"], sub["math_score"], alpha=0.6)
+    ax.set_title(f"Group {g}")
+    ax.set_xlabel("Study hours")
+
+axes[0].set_ylabel("Math score")
+fig.suptitle("Shared scales enable valid comparison", y=1.02)
+fig.tight_layout()
+
+show_and_save_mpl(fig)  # figures/11_006.png
+```
+
+---
+
+# Diagnostic Checklist
+
+Before finalizing a figure:
+
+- Is the axis scale appropriate?
+- Is color encoding meaningful?
+- Is the chart type appropriate?
+- Are scales consistent across panels?
+- Is anything exaggerating differences unintentionally?
+
+---
+
+# Key Takeaways
+
+- Visualization errors often look subtle.
+- Axis scaling strongly affects perception.
+- Too much encoding reduces clarity.
+- Shared scales matter in comparisons.
+- Always ask: could this be misinterpreted?
+
+---
+
+# Exercises
+
+:::cdi-exercise
+1. Create a deliberately misleading plot. Then correct it.
+2. Remove one encoding from a cluttered scatter plot.
+3. Compare a bar chart vs histogram for continuous data.
+4. Build a multi-panel figure with and without shared scales and compare interpretation.
+:::

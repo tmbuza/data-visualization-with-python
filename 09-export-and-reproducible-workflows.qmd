@@ -1,0 +1,145 @@
+# Exporting and Reproducible Figure Workflows
+
+:::cdi-message
+- **ID:** VISPY-009
+- **Type:** Lesson
+- **Audience:** Public
+- **Theme:** Reproducible figure export and publication discipline
+:::
+
+Professional visualization is not only about creating figures.
+It is about exporting them consistently and reproducibly.
+
+In this lesson you will:
+
+- understand static vs interactive outputs
+- export high-resolution PNG figures
+- control figure dimensions
+- maintain clean project structure
+- avoid duplicate or unstable outputs in Quarto builds
+
+All figures are exported to `figures/` using CDI helpers.
+
+---
+
+## Setup
+
+```{python}
+import warnings
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+
+from cdi_viz.theme import (
+    cdi_notebook_init,
+    cdi_theme,
+    show_and_save_mpl,
+    show_and_save_plotly,
+)
+
+warnings.filterwarnings("ignore")
+
+cdi_notebook_init(chapter="09")
+
+df = pd.read_csv("data/cdi-student-outcomes.csv")
+
+print("First rows:")
+print(df.head())
+```
+
+---
+
+## Static Export: Matplotlib (High Resolution)
+
+```{python}
+fig, ax = plt.subplots(figsize=(7.6, 4.6))
+
+ax.scatter(df["study_hours"], df["math_score"], alpha=0.6)
+
+ax.set_title("Study hours vs math score")
+ax.set_xlabel("Study hours per week")
+ax.set_ylabel("Math score")
+
+fig.tight_layout()
+
+show_and_save_mpl(fig, dpi=300)  # figures/09_001.png
+```
+
+---
+
+## Controlling Figure Size
+
+```{python}
+fig, ax = plt.subplots(figsize=(9, 5))
+
+sns.histplot(df["math_score"], bins=25, ax=ax)
+
+ax.set_title("Distribution of math scores")
+ax.set_xlabel("Math score")
+ax.set_ylabel("Count")
+
+fig.tight_layout()
+
+show_and_save_mpl(fig, dpi=300)  # figures/09_002.png
+```
+
+---
+
+## Plotly: Static Snapshot Export
+
+```{python}
+fig = px.scatter(
+    df,
+    x="study_hours",
+    y="math_score",
+    color="test_prep",
+    title="Study hours vs math score (Plotly)",
+)
+
+cdi_theme(fig)
+
+show_and_save_plotly(fig, show=False)  # figures/09_003.png
+```
+
+---
+
+## Project Structure Discipline
+
+A clean visualization project should look like this:
+
+project-root/
+│
+├── data/
+├── figures/
+├── cdi_viz/
+├── 01-preface-and-setup.qmd
+├── 02-story-driven-visualization.qmd
+...
+
+Rules:
+
+- Never manually rename exported figures
+- Let the chapter counter manage numbering
+- Keep figure filenames deterministic
+
+---
+
+## Key Takeaways
+
+- Professional visualization requires export discipline.
+- Use consistent figure sizes.
+- Control DPI intentionally.
+- Keep project structure clean.
+- Use CDI helpers to standardize outputs.
+
+---
+
+## Exercises
+
+:::cdi-exercise
+1. Export the same scatter plot at 150 DPI and 300 DPI. Compare clarity.
+2. Change figure size to (12, 6) and evaluate readability.
+3. Create a Plotly histogram and export a static snapshot.
+4. Inspect your `figures/` folder and confirm numbering consistency.
+:::

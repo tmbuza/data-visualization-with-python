@@ -1,0 +1,36 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Data Visualization with Python"
+  subtitle: "Foundational Principles for Professional Visualization in Python" 
+  chapters:
+    - index.qmd
+    - 01-preface-and-setup.qmd
+    - 02-story-driven-visualization.qmd
+    - 03-matplotlib-core-skills.qmd
+    - 04-seaborn-comparisons.qmd
+    - 05-plotnine-grammar-of-graphics.qmd
+    - 06-interactive-plotly-basics.qmd
+    - 07-multi-panel-and-layouts.qmd
+    - 08-annotations-and-figure-polish.qmd
+    - 09-export-and-reproducible-workflows.qmd
+    - 10-visual-design-and-color-discipline.qmd
+    - 11-common-visualization-mistakes.qmd
+    - 12-mini-capstone-visual-report.qmd
+    - 99-appendix.qmd
+    - 99-references.qmd
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto
+
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-copy: true
+    css: assets/css/cdi.css

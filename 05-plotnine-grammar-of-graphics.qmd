@@ -1,0 +1,155 @@
+# Plotnine Grammar of Graphics
+
+:::cdi-message
+- **ID:** VISPY-005
+- **Type:** Lesson
+- **Audience:** Public
+- **Theme:** Grammar-of-graphics thinking
+:::
+
+Matplotlib and Seaborn are excellent for building figures directly.
+
+Plotnine is useful when you want to think in layers:
+
+- data
+- aesthetics (mappings)
+- geometric marks (points, lines, bars)
+- scales
+- facets
+- themes
+
+The point of this lesson is not to adopt a new library.
+It is to learn a mental model that improves plotting in any library.
+
+---
+
+## Setup
+
+```{python}
+import pandas as pd
+
+from plotnine import (
+    ggplot, aes, geom_point, geom_smooth,
+    geom_boxplot, facet_wrap, labs,
+    theme_light, theme, element_text
+)
+
+df = pd.read_csv("data/cdi-student-outcomes.csv")
+print(df.head())
+```
+
+---
+
+## Core idea: mappings vs style
+
+In grammar-of-graphics, you separate:
+
+- what the data encodes (mappings)
+- what is only styling (colors, sizes, labels)
+
+Example:
+
+- mapping: `x=study_hours`, `y=math_score`, `color=test_prep`
+- styling: point transparency, line thickness
+
+---
+
+## Relationship plot (layered)
+
+```{python}
+p = (
+    ggplot(df, aes(x="study_hours", y="math_score", color="test_prep"))
+    + geom_point(alpha=0.55)
+    + geom_smooth(method="lm", se=False)
+    + labs(
+        title="Study Hours vs Math Score",
+        subtitle="Trend shown separately by test preparation",
+        x="Study hours per week",
+        y="Math score",
+        color="Test prep"
+    )
+    + theme_light(base_size=14)
+    + theme(
+        plot_title_position="plot",
+        plot_title=element_text(ha="center", weight="bold", margin={"b": 6}),
+        plot_subtitle=element_text(ha="center", margin={"b": 10}),
+        legend_position="top",
+    )
+)
+
+p
+```
+
+---
+
+## Group comparison (summary)
+
+```{python}
+p = (
+    ggplot(df, aes(x="test_prep", y="math_score"))
+    + geom_boxplot()
+    + labs(
+        title="Math Score by Test Preparation",
+        subtitle="Boxplots summarize differences across groups",
+        x="Test preparation",
+        y="Math score"
+    )
+    + theme_light(base_size=14)
+    + theme(
+        plot_title_position="plot",
+        plot_title=element_text(ha="center", weight="bold", margin={"b": 6}),
+        plot_subtitle=element_text(ha="center", margin={"b": 10}),
+    )
+)
+
+p
+```
+
+---
+
+## Faceting: small multiples
+
+```{python}
+p = (
+    ggplot(df, aes(x="study_hours", y="math_score"))
+    + geom_point(alpha=0.55)
+    + geom_smooth(method="lm", se=False)
+    + facet_wrap("~group")
+    + labs(
+        title="Study Hours vs Math Score by Group",
+        subtitle="Same plot repeated by group for disciplined comparison",
+        x="Study hours per week",
+        y="Math score"
+    )
+    + theme_light(base_size=14)
+    + theme(
+        plot_title_position="plot",
+        plot_title=element_text(ha="center", weight="bold", margin={"b": 8}),
+        plot_subtitle=element_text(ha="center", margin={"b": 12}),
+    )
+)
+
+p
+```
+
+---
+
+## Exporting a Plotnine figure
+
+```{python}
+from pathlib import Path
+Path("figures").mkdir(exist_ok=True)
+
+out = Path("figures") / "05_plotnine_facet.png"
+p.save(out, dpi=160, verbose=False)
+str(out)
+```
+
+---
+
+## Key Takeaways
+
+- Grammar-of-graphics is a mental model, not a brand.
+- Separate mappings (meaning) from styling (appearance).
+- Layering helps you modify plots without restarting.
+- Faceting is one of the cleanest ways to compare groups.
