@@ -25,7 +25,7 @@ If you control the figure, you control:
 
 ## Initialize plotting standard
 
-``` {python}
+```{python}
 import pandas as pd
 import matplotlib.pyplot as plt
 from cdi_viz.theme import cdi_notebook_init, show_and_save_mpl
@@ -47,7 +47,7 @@ Every Matplotlib plot has:
 
 Explicit control improves reproducibility.
 
-``` {python}
+```{python}
 from plotnine import (
     ggplot, aes, geom_point, geom_smooth,
     labs, theme_light, theme, element_text
@@ -92,7 +92,7 @@ state.
 
 Axis limits influence perception.
 
-``` {python}
+```{python}
 fig, ax = plt.subplots()
 
 ax.scatter(df["study_hours"], df["math_score"], alpha=0.6)
@@ -114,7 +114,7 @@ Control prevents misleading compression or exaggeration.
 
 Grid lines should support interpretation, not dominate it.
 
-``` {python}
+```{python}
 fig, ax = plt.subplots()
 
 ax.scatter(df["study_hours"], df["math_score"], alpha=0.6)
@@ -133,7 +133,7 @@ Subtle grids improve readability in analytical contexts.
 
 Only include a legend when grouping adds meaning.
 
-``` {python}
+```{python}
 fig, ax = plt.subplots()
 
 for grp, sub in df.groupby("test_prep"):
@@ -155,7 +155,7 @@ Legends clarify structure when comparisons are present.
 
 Reproducibility includes export discipline.
 
-``` {python}
+```{python}
 fig, ax = plt.subplots()
 
 ax.scatter(df["study_hours"], df["math_score"], alpha=0.6)

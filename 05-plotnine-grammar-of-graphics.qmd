@@ -25,7 +25,7 @@ mental model that improves plotting in any library.
 
 ## Setup
 
-``` {python}
+```{python}
 import pandas as pd
 
 from plotnine import (
@@ -61,7 +61,7 @@ Example:
 
 ## Relationship plot (layered)
 
-``` {python}
+```{python}
 p = (
     ggplot(df, aes(x="study_hours", y="math_score", color="test_prep"))
     + geom_point(alpha=0.55)
@@ -89,7 +89,7 @@ What matters here is the separation:
 
 ## Group comparison (summary)
 
-``` {python}
+```{python}
 p = (
     ggplot(df, aes(x="test_prep", y="math_score"))
     + geom_boxplot()
@@ -118,7 +118,7 @@ Boxplots summarize:
 Faceting repeats the same plot by group. This forces disciplined
 comparison because every panel uses the same encodings.
 
-``` {python}
+```{python}
 p = (
     ggplot(df, aes(x="study_hours", y="math_score"))
     + geom_point(alpha=0.55)
