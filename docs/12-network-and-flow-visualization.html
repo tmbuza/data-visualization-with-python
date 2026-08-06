@@ -478,7 +478,7 @@ A network view is an analytical model
 </tbody>
 </table>
 <p>An edge list is usually the most convenient analytical form:</p>
-<div id="4da28b6c" class="cell">
+<div id="173c0fab" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>edges <span class="op">=</span> [</span>
@@ -499,7 +499,7 @@ A network view is an analytical model
 <li><code>MultiGraph</code> and <code>MultiDiGraph</code>: parallel edges are retained; and</li>
 <li>bipartite graphs: nodes belong to two disjoint sets and edges cross sets.</li>
 </ul>
-<div id="0067e149" class="cell">
+<div id="05a2dff4" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
@@ -516,7 +516,7 @@ A network view is an analytical model
 <section id="validate-before-drawing" class="level3">
 <h3 class="anchored" data-anchor-id="validate-before-drawing">Validate before drawing</h3>
 <p>Useful checks include:</p>
-<div id="3723d039" class="cell">
+<div id="cab49302" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">all</span>(data[<span class="st">"volume"</span>] <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">for</span> <span class="op">*</span>_, data <span class="kw">in</span> graph.edges(data<span class="op">=</span><span class="va">True</span>))</span>
@@ -634,7 +634,7 @@ Figure&nbsp;14.1: A layered network uses stage for position, node color for comm
 </table>
 <p>For weighted shortest-path metrics, NetworkX interprets an edge weight as a <strong>distance or cost</strong>. Shipment volume is the opposite: a high volume often signals a strong connection. The accompanying script therefore calculates betweenness on unweighted topology. In another application, create a distance such as <code>1 / volume</code> only when that transformation has a defensible meaning.</p>
 <p>Community detection groups nodes with relatively dense internal connections. It is exploratory—not proof that real organizational or social groups exist. The script applies greedy modularity to an undirected projection, then uses the result as a categorical color encoding.</p>
-<div id="324a186c" class="cell">
+<div id="304818b3" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>undirected <span class="op">=</span> graph.to_undirected()</span>
@@ -650,7 +650,7 @@ Figure&nbsp;14.1: A layered network uses stage for position, node color for comm
 <section id="directed-weighted-and-bipartite-networks" class="level2">
 <h2 class="anchored" data-anchor-id="directed-weighted-and-bipartite-networks">Directed, Weighted, and Bipartite Networks</h2>
 <p>Direction is essential when edges represent movement, influence, citations, or dependencies. Weighted degree in a directed graph separates incoming and outgoing totals:</p>
-<div id="0cad610a" class="cell">
+<div id="544ad67b" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>in_volume <span class="op">=</span> <span class="bu">dict</span>(graph.in_degree(weight<span class="op">=</span><span class="st">"volume"</span>))</span>
@@ -663,7 +663,7 @@ Figure&nbsp;14.1: A layered network uses stage for position, node color for comm
 <section id="sankey-and-alluvial-views" class="level2">
 <h2 class="anchored" data-anchor-id="sankey-and-alluvial-views">Sankey and Alluvial Views</h2>
 <p>Node-link diagrams emphasize connectivity. <strong>Sankey diagrams</strong> emphasize the magnitude of flows between stages, with link width proportional to quantity. Alluvial diagrams are closely related and are often used to show changes in membership or composition across categorical dimensions.</p>
-<div id="a073791d" class="cell">
+<div id="de93b3e3" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
