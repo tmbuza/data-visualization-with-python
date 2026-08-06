@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Color, Layout, Annotation, and Accessibility – Data Visualization with Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./15-data-storytelling-and-visual-critique.html" rel="next">
+<link href="./13-text-categorical-and-compositional-visualization.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="assets/css/cdi.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./14-color-layout-annotation-and-accessibility.html">Design and Communication</a></li><li class="breadcrumb-item"><a href="./14-color-layout-annotation-and-accessibility.html"><span class="chapter-title">Color, Layout, Annotation, and Accessibility</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data Visualization with Python</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visual Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-visualization-thinking-and-chart-choice.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualization Thinking and Chart Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-environment-data-and-reproducible-workflows.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Environment, Data, and Reproducible Workflows</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Core Visualization Libraries</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-matplotlib-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Matplotlib Foundations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-statistical-visualization-with-seaborn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical Visualization with Seaborn</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-grammar-of-graphics-with-plotnine.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Grammar of Graphics with Plotnine</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-interactive-visualization-with-plotly.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interactive Visualization with Plotly</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-declarative-interactivity-with-altair.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Declarative Interactivity with Altair</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Analytical and Specialized Visuals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-distributions-relationships-and-multivariate-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distributions, Relationships, and Multivariate Views</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-time-series-and-event-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Time Series and Event Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-uncertainty-and-statistical-evidence.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Uncertainty and Statistical Evidence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-geospatial-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Geospatial Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-network-and-flow-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Network and Flow Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-text-categorical-and-compositional-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Text, Categorical, and Compositional Visualization</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Design and Communication</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-color-layout-annotation-and-accessibility.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Color, Layout, Annotation, and Accessibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-data-storytelling-and-visual-critique.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Storytelling and Visual Critique</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Interactive Delivery and Production</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Service Operations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-publishing-automation-and-figure-governance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Publishing, Automation, and Figure Governance</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Case Study</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-end-to-end-visualization-case-study.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">End-to-End Visualization Case Study</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#visual-hierarchy-and-attention" id="toc-visual-hierarchy-and-attention" class="nav-link" data-scroll-target="#visual-hierarchy-and-attention">Visual Hierarchy and Attention</a>
+  <ul class="collapse">
+  <li><a href="#a-hierarchy-checklist" id="toc-a-hierarchy-checklist" class="nav-link" data-scroll-target="#a-hierarchy-checklist">A hierarchy checklist</a></li>
+  </ul></li>
+  <li><a href="#sequential-diverging-and-qualitative-color" id="toc-sequential-diverging-and-qualitative-color" class="nav-link" data-scroll-target="#sequential-diverging-and-qualitative-color">Sequential, Diverging, and Qualitative Color</a></li>
+  <li><a href="#perceptually-uniform-palettes" id="toc-perceptually-uniform-palettes" class="nav-link" data-scroll-target="#perceptually-uniform-palettes">Perceptually Uniform Palettes</a></li>
+  <li><a href="#color-vision-accessibility" id="toc-color-vision-accessibility" class="nav-link" data-scroll-target="#color-vision-accessibility">Color-Vision Accessibility</a>
+  <ul class="collapse">
+  <li><a href="#contrast-as-a-measurable-property" id="toc-contrast-as-a-measurable-property" class="nav-link" data-scroll-target="#contrast-as-a-measurable-property">Contrast as a measurable property</a></li>
+  </ul></li>
+  <li><a href="#typography-spacing-and-layout" id="toc-typography-spacing-and-layout" class="nav-link" data-scroll-target="#typography-spacing-and-layout">Typography, Spacing, and Layout</a></li>
+  <li><a href="#direct-labels-and-annotations" id="toc-direct-labels-and-annotations" class="nav-link" data-scroll-target="#direct-labels-and-annotations">Direct Labels and Annotations</a></li>
+  <li><a href="#alt-text-and-text-equivalents" id="toc-alt-text-and-text-equivalents" class="nav-link" data-scroll-target="#alt-text-and-text-equivalents">Alt Text and Text Equivalents</a></li>
+  <li><a href="#testing-at-different-sizes-and-formats" id="toc-testing-at-different-sizes-and-formats" class="nav-link" data-scroll-target="#testing-at-different-sizes-and-formats">Testing at Different Sizes and Formats</a></li>
+  <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter Practice</a>
+  <ul class="collapse">
+  <li><a href="#design-review-rubric" id="toc-design-review-rubric" class="nav-link" data-scroll-target="#design-review-rubric">Design review rubric</a></li>
+  </ul></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./14-color-layout-annotation-and-accessibility.html">Design and Communication</a></li><li class="breadcrumb-item"><a href="./14-color-layout-annotation-and-accessibility.html"><span class="chapter-title">Color, Layout, Annotation, and Accessibility</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-accessible-design" class="quarto-section-identifier"><span class="chapter-title">Color, Layout, Annotation, and Accessibility</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Aug 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cdi-message">
+<ul>
+<li><strong>ID:</strong> DVP-014</li>
+<li><strong>Type:</strong> Design and Communication</li>
+<li><strong>Audience:</strong> Beginner / Intermediate</li>
+<li><strong>Theme:</strong> Inclusive visual design and purposeful emphasis</li>
+</ul>
+</div>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>use visual hierarchy to guide attention without distorting the data;</li>
+<li>select sequential, diverging, and qualitative color schemes for the analytical task;</li>
+<li>evaluate color contrast and avoid color-only encodings;</li>
+<li>improve charts through typography, spacing, direct labels, and concise annotations;</li>
+<li>write useful alt text and text equivalents for static and interactive graphics; and</li>
+<li>test whether a visualization remains understandable across sizes, formats, and viewing conditions.</li>
+</ul>
+<p>Accessible design is not a decorative step applied after analysis. It is part of analytical quality. A chart fails if its intended audience cannot perceive the distinctions, identify the comparison, or recover the main result.</p>
+</section>
+<section id="visual-hierarchy-and-attention" class="level2">
+<h2 class="anchored" data-anchor-id="visual-hierarchy-and-attention">Visual Hierarchy and Attention</h2>
+<p>A viewer usually notices position, size, contrast, and enclosure before reading every label. Visual hierarchy deliberately orders those signals. A practical hierarchy has three levels:</p>
+<ol type="1">
+<li><strong>Primary:</strong> the evidence that answers the question;</li>
+<li><strong>Secondary:</strong> scales, labels, and reference values needed to interpret it; and</li>
+<li><strong>Tertiary:</strong> grid lines, borders, sources, and supporting notes.</li>
+</ol>
+<p>The primary layer should be the strongest, but strength does not require many bright colors. In most analytical charts, neutral context plus one emphasis color is more effective than giving every mark equal visual weight.</p>
+<div id="fig-visual-hierarchy" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Horizontal bars for four services. Only Service C is blue; it reaches 84 percent, four points above the 80 percent target.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-visual-hierarchy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/14-visual-hierarchy.png" class="img-fluid figure-img" alt="Horizontal bars for four services. Only Service C is blue; it reaches 84 percent, four points above the 80 percent target.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-visual-hierarchy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.1: A horizontal bar chart uses muted gray for comparison categories and blue for the focus category. A dashed reference line marks the target, and a direct annotation states that the focus category is four percentage points above target.
+</figcaption>
+</figure>
+</div>
+<p>In <a href="#fig-visual-hierarchy" class="quarto-xref">Figure&nbsp;<span>16.1</span></a>, color identifies the focus, position carries the quantitative comparison, and the annotation explains why the highlighted mark matters. The reference line remains visible but subordinate.</p>
+<section id="a-hierarchy-checklist" class="level3">
+<h3 class="anchored" data-anchor-id="a-hierarchy-checklist">A hierarchy checklist</h3>
+<p>Before polishing a figure, ask:</p>
+<ul>
+<li>What should the viewer notice first?</li>
+<li>Which visual property creates that priority?</li>
+<li>Can the context recede without disappearing?</li>
+<li>Does emphasis correspond to analytical importance rather than aesthetics?</li>
+</ul>
+</section>
+</section>
+<section id="sequential-diverging-and-qualitative-color" class="level2">
+<h2 class="anchored" data-anchor-id="sequential-diverging-and-qualitative-color">Sequential, Diverging, and Qualitative Color</h2>
+<p>Color schemes encode different structures. Selecting the wrong family can imply order, distance, or a meaningful midpoint that the data do not contain.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Palette family</th>
+<th>Data structure</th>
+<th>Typical question</th>
+<th>Design rule</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sequential</td>
+<td>Ordered values from low to high</td>
+<td>Where is incidence greatest?</td>
+<td>Vary lightness monotonically</td>
+</tr>
+<tr class="even">
+<td>Diverging</td>
+<td>Values around a meaningful center</td>
+<td>Which areas are above or below target?</td>
+<td>Reserve the strongest contrast for opposite extremes</td>
+</tr>
+<tr class="odd">
+<td>Qualitative</td>
+<td>Unordered categories</td>
+<td>Which series represents each region?</td>
+<td>Use distinct hues with comparable visual weight</td>
+</tr>
+</tbody>
+</table>
+<div id="fig-palette-families" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three labeled palette strips: light-to-dark blue sequential colors, blue-to-light-to-orange diverging colors, and six distinct qualitative colors.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-palette-families-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/14-palette-families.png" class="img-fluid figure-img" alt="Three labeled palette strips: light-to-dark blue sequential colors, blue-to-light-to-orange diverging colors, and six distinct qualitative colors.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-palette-families-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.2: Three horizontal color strips demonstrate sequential, diverging, and qualitative palettes.
+</figcaption>
+</figure>
+</div>
+<p>The midpoint of a diverging palette must mean something: zero change, parity, a benchmark, or another defensible reference. Do not use a diverging scheme merely because it looks balanced.</p>
+<p>Qualitative palettes have a practical category limit. When a chart needs many categories, consider grouping minor categories, faceting, direct labels, line style, or small multiples rather than adding more hues.</p>
+</section>
+<section id="perceptually-uniform-palettes" class="level2">
+<h2 class="anchored" data-anchor-id="perceptually-uniform-palettes">Perceptually Uniform Palettes</h2>
+<p>A perceptually uniform palette changes in a way that viewers experience as approximately even. This matters because common rainbow palettes contain abrupt lightness shifts that create false boundaries and can hide real ones.</p>
+<p>For ordered data, palettes such as <code>viridis</code>, <code>cividis</code>, <code>magma</code>, and <code>plasma</code> provide a more reliable progression than a rainbow scale. Their lightness structure also tends to survive grayscale conversion more successfully.</p>
+<p>Use these checks:</p>
+<ul>
+<li>inspect the palette in grayscale;</li>
+<li>confirm that lightness moves consistently for ordered data;</li>
+<li>compare adjacent colors at the actual mark size; and</li>
+<li>verify extremes against the chart background.</li>
+</ul>
+<p>Perceptual uniformity does not automatically make every chart accessible. Very small marks, low contrast, or excessive categories can still obscure the encoding.</p>
+</section>
+<section id="color-vision-accessibility" class="level2">
+<h2 class="anchored" data-anchor-id="color-vision-accessibility">Color-Vision Accessibility</h2>
+<p>Color-vision differences affect how some hue combinations are distinguished. Red and green are a familiar risk, but accessibility is broader than substituting a different palette.</p>
+<p>Use redundant encoding whenever color carries essential meaning:</p>
+<ul>
+<li>combine color with position, shape, line style, pattern, or direct labels;</li>
+<li>avoid legends that require repeated color matching when direct labels fit;</li>
+<li>use sufficient lightness contrast between adjacent marks;</li>
+<li>keep status language explicit—for example, label <strong>Delayed</strong> rather than relying on red; and</li>
+<li>test the rendered chart, not only the palette swatches.</li>
+</ul>
+<section id="contrast-as-a-measurable-property" class="level3">
+<h3 class="anchored" data-anchor-id="contrast-as-a-measurable-property">Contrast as a measurable property</h3>
+<p>For two sRGB colors, relative luminance is calculated from linearized red, green, and blue components:</p>
+<p><span class="math display">\[
+L = 0.2126R + 0.7152G + 0.0722B.
+\]</span></p>
+<p>The contrast ratio between lighter and darker colors is:</p>
+<p><span class="math display">\[
+\text{contrast ratio} = \frac{L_{\text{lighter}} + 0.05}{L_{\text{darker}} + 0.05}.
+\]</span></p>
+<p>WCAG guidance commonly uses a ratio of 4.5:1 for normal text and 3:1 for large text and meaningful graphical objects. These thresholds are useful audit criteria, although a complete accessibility review also considers context, mark size, redundancy, and interaction.</p>
+<p>The chapter script evaluates its foreground and background pairs and saves the results to <code>results/14-contrast-audit.csv</code>.</p>
+</section>
+</section>
+<section id="typography-spacing-and-layout" class="level2">
+<h2 class="anchored" data-anchor-id="typography-spacing-and-layout">Typography, Spacing, and Layout</h2>
+<p>Typography establishes reading order. A chart generally needs fewer typographic styles than a report page:</p>
+<ul>
+<li>one clear title aligned with the plotting area;</li>
+<li>an optional subtitle that frames the comparison;</li>
+<li>readable axis and direct labels;</li>
+<li>a compact source or methods note; and</li>
+<li>consistent number formatting.</li>
+</ul>
+<p>Write a message-oriented title only when the evidence supports a stable conclusion. During exploration, a descriptive title such as <em>Monthly completion rate by region</em> leaves room for discovery.</p>
+<p>Spacing separates ideas without adding ink. Increase space between the title and plot, between facets, or around an annotation before adding borders and boxes. Align related elements to a common edge. For dashboards, consistent gutters and repeated card structures help viewers scan across panels.</p>
+<p>Layout should reflect task order. Put the overview before the detail and the decision-relevant metric before diagnostics. Avoid placing panels merely to fill a rectangular canvas.</p>
+</section>
+<section id="direct-labels-and-annotations" class="level2">
+<h2 class="anchored" data-anchor-id="direct-labels-and-annotations">Direct Labels and Annotations</h2>
+<p>Direct labels reduce the memory burden of moving between marks and a legend. They are especially useful for line endpoints, a small number of bars, and highlighted observations.</p>
+<div id="fig-direct-labels" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Side-by-side monthly line charts for North and South. The improved chart labels each line at its endpoint and marks the South region's recovery after April.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-direct-labels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/14-direct-labels-and-annotation.png" class="img-fluid figure-img" alt="Side-by-side monthly line charts for North and South. The improved chart labels each line at its endpoint and marks the South region's recovery after April.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-direct-labels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.3: Two line charts show the same monthly rates. The first depends on a legend; the second uses direct endpoint labels and annotates a recovery after April.
+</figcaption>
+</figure>
+</div>
+<p>An annotation should answer at least one of four questions:</p>
+<ul>
+<li>What happened?</li>
+<li>Where did it happen?</li>
+<li>Why is it relevant?</li>
+<li>What comparison should the viewer make?</li>
+</ul>
+<p>Keep annotation text close to the evidence and use a connector only when proximity is insufficient. Do not annotate every fluctuation. Select the observation that changes interpretation.</p>
+</section>
+<section id="alt-text-and-text-equivalents" class="level2">
+<h2 class="anchored" data-anchor-id="alt-text-and-text-equivalents">Alt Text and Text Equivalents</h2>
+<p>Alt text communicates the content and purpose of a graphic to people who cannot access it visually. It should not reproduce every pixel or begin with “image of.” A useful structure is:</p>
+<ol type="1">
+<li><strong>Chart form and topic:</strong> what kind of display and what it measures;</li>
+<li><strong>Main pattern:</strong> the most important relationship or trend;</li>
+<li><strong>Key values:</strong> only values required to support the conclusion; and</li>
+<li><strong>Notable exception:</strong> an outlier, reversal, or limitation when relevant.</li>
+</ol>
+<p>For <a href="#fig-direct-labels" class="quarto-xref">Figure&nbsp;<span>16.3</span></a>, useful alt text could be:</p>
+<blockquote class="blockquote">
+<p>Two monthly line series compare North and South completion rates. North rises gradually from 72% to 82%. South falls to 62% in April, then recovers to 78% in June.</p>
+</blockquote>
+<p>Complex charts may need a short alt description plus a nearby data table or longer text explanation. Interactive charts must expose the same essential information without requiring mouse hover. Keyboard access, visible focus, meaningful control labels, and a downloadable table are valuable complements.</p>
+<p>Alt text is contextual. If the surrounding paragraph already states the conclusion, the alt text can focus on the evidence instead of repeating the prose verbatim.</p>
+</section>
+<section id="testing-at-different-sizes-and-formats" class="level2">
+<h2 class="anchored" data-anchor-id="testing-at-different-sizes-and-formats">Testing at Different Sizes and Formats</h2>
+<p>A figure designed at desktop width may fail in a narrow report column or presentation thumbnail. Test at the sizes in which the audience will encounter it.</p>
+<div id="fig-responsive-layouts" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Wide and compact versions of the same two-series trend chart. Both preserve direct labels and the April recovery annotation; the compact chart displays fewer month labels.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-responsive-layouts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/14-responsive-layouts.png" class="img-fluid figure-img" alt="Wide and compact versions of the same two-series trend chart. Both preserve direct labels and the April recovery annotation; the compact chart displays fewer month labels.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-responsive-layouts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.4: The same trend chart is rendered at wide and compact sizes. The compact version reduces tick density, moves labels inside the frame, and retains the main annotation.
+</figcaption>
+</figure>
+</div>
+<p>Use the following review loop:</p>
+<ol type="1">
+<li>Render at intended desktop, report, and mobile widths.</li>
+<li>Check title wrapping, clipped text, legend placement, and annotation collisions.</li>
+<li>Inspect a grayscale version and, where possible, simulate common color-vision differences.</li>
+<li>Export to the final raster or vector format and inspect the actual file.</li>
+<li>Zoom to 200% and then view as a thumbnail.</li>
+<li>Ask another person to state the main message without coaching.</li>
+</ol>
+<p>Raster output is appropriate for web previews and image-based workflows. Vector output is preferable for many reports and presentations because text and lines remain sharp when resized. Always check whether the destination preserves embedded fonts and accessibility metadata.</p>
+</section>
+<section id="chapter-practice" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-practice">Chapter Practice</h2>
+<p>Run the reproducible example from the repository root:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/bash/14-run-accessible-design.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The script generates four figures and a contrast audit. Then complete these tasks:</p>
+<ol type="1">
+<li>Change the highlighted service in the hierarchy chart without changing the data.</li>
+<li>Replace one accessible text color with a low-contrast gray and inspect the failed audit row.</li>
+<li>Rewrite one figure title for exploration and another for communication.</li>
+<li>Draft alt text for the palette figure without listing every hexadecimal value.</li>
+<li>Add a third line to the trend chart and decide whether direct labels still work.</li>
+<li>Render the compact chart at half its current width and resolve any collisions.</li>
+</ol>
+<section id="design-review-rubric" class="level3">
+<h3 class="anchored" data-anchor-id="design-review-rubric">Design review rubric</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Criterion</th>
+<th>Question</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Purpose</td>
+<td>Is the analytical question evident?</td>
+</tr>
+<tr class="even">
+<td>Hierarchy</td>
+<td>Does attention reach the important evidence first?</td>
+</tr>
+<tr class="odd">
+<td>Encoding</td>
+<td>Does color represent the correct data structure?</td>
+</tr>
+<tr class="even">
+<td>Redundancy</td>
+<td>Can essential distinctions be recovered without color?</td>
+</tr>
+<tr class="odd">
+<td>Contrast</td>
+<td>Are text and meaningful graphical objects distinguishable?</td>
+</tr>
+<tr class="even">
+<td>Language</td>
+<td>Are labels, annotations, and alt text concise and informative?</td>
+</tr>
+<tr class="odd">
+<td>Robustness</td>
+<td>Does the chart work at its final size and format?</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Accessibility strengthens analytical communication; it is not an optional styling layer.</li>
+<li>Visual hierarchy should emphasize the evidence that answers the question while keeping context available.</li>
+<li>Sequential, diverging, and qualitative palettes encode different data structures.</li>
+<li>Perceptually uniform palettes reduce misleading lightness variation, but still require testing.</li>
+<li>Color should not be the only channel for essential distinctions.</li>
+<li>Typography, spacing, direct labels, and selective annotations reduce cognitive effort.</li>
+<li>Useful alt text states the chart’s purpose, main pattern, and only the key values needed for interpretation.</li>
+<li>A visualization is finished only after it has been tested in its intended sizes and formats.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./13-text-categorical-and-compositional-visualization.html" class="pagination-link" aria-label="Text, Categorical, and Compositional Visualization">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Text, Categorical, and Compositional Visualization</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./15-data-storytelling-and-visual-critique.html" class="pagination-link" aria-label="Data Storytelling and Visual Critique">
+        <span class="nav-page-text"><span class="chapter-title">Data Storytelling and Visual Critique</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
