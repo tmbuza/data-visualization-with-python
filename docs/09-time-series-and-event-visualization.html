@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Time Series and Event Visualization – Visualization with Python</title>
+<title>Time Series and Event Visualization – Data Visualization with Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -134,7 +134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Visualization with Python</a> 
+      <a href="./">Data Visualization with Python</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -405,7 +405,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Order:</strong> observations are sorted within each series.</li>
 <li><strong>Uniqueness:</strong> the intended time-series key has no duplicates.</li>
 </ul>
-<div id="30d45e95" class="cell">
+<div id="72bd5cbc" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -448,7 +448,7 @@ Figure&nbsp;11.1: Daily volume, a seven-day rolling mean, and an expected interv
 <section id="multiple-series-and-small-multiples" class="level2">
 <h2 class="anchored" data-anchor-id="multiple-series-and-small-multiples">Multiple Series and Small Multiples</h2>
 <p>Overlaying several lines works when there are few series, their scales are comparable, and crossings are limited. Direct labels near line ends are often easier to follow than a distant legend. Once the display becomes tangled, small multiples provide each series with the same visual grammar while retaining a shared scale.</p>
-<div id="83e89aa3" class="cell">
+<div id="9935b917" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(</span>
@@ -468,7 +468,7 @@ Figure&nbsp;11.1: Daily volume, a seven-day rolling mean, and an expected interv
 <section id="rolling-summaries-and-smoothing" class="level2">
 <h2 class="anchored" data-anchor-id="rolling-summaries-and-smoothing">Rolling Summaries and Smoothing</h2>
 <p>Rolling statistics reduce short-term noise, but every choice encodes a judgment. A seven-day window is appropriate for daily data with a weekly cycle; it is not a universally neutral default.</p>
-<div id="329dc252" class="cell">
+<div id="09edd743" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>daily[<span class="st">"requests_7d"</span>] <span class="op">=</span> daily.groupby(<span class="st">"region"</span>)[<span class="st">"requests"</span>].transform(</span>
@@ -505,7 +505,7 @@ Figure&nbsp;11.2: Median request volume by weekday, with an interquartile band f
 <section id="events-regimes-and-annotations" class="level2">
 <h2 class="anchored" data-anchor-id="events-regimes-and-annotations">Events, Regimes, and Annotations</h2>
 <p>Events are points in time; regimes are sustained intervals. Represent them differently:</p>
-<div id="f1efeeed" class="cell">
+<div id="ac623636" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ax.axvline(release_date, color<span class="op">=</span><span class="st">"#be123c"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>)</span>
@@ -525,7 +525,7 @@ Figure&nbsp;11.2: Median request volume by weekday, with an interquartile band f
 <li>a value suppressed by a rule.</li>
 </ol>
 <p>Reindexing exposes missing periods explicitly:</p>
-<div id="f78a3a89" class="cell">
+<div id="0f312ddc" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>complete <span class="op">=</span> (</span>
@@ -548,7 +548,7 @@ Figure&nbsp;11.2: Median request volume by weekday, with an interquartile band f
 <li>selective highlighting instead of hiding all unselected series; and</li>
 <li>accessible keyboard and textual alternatives.</li>
 </ul>
-<div id="2a79dc6a" class="cell">
+<div id="62651e5f" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>

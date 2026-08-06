@@ -7,7 +7,7 @@ date: 2026-08-06
 date-format: "MMM YYYY"
 
 book:
-  title: "Visualization with Python"
+  title: "Data Visualization with Python"
   subtitle: "Modern, Reproducible Visual Communication for Data Projects"
 
   chapters:
