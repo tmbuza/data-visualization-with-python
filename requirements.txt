@@ -1,0 +1,33 @@
+# Visualization with Python
+# Supported interpreter: Python 3.12
+
+# Core data and scientific computing
+numpy>=2.0,<3.0
+pandas>=2.2,<3.0
+scipy>=1.14,<2.0
+statsmodels>=0.14,<1.0
+
+# Static and statistical visualization
+matplotlib>=3.9,<4.0
+seaborn>=0.13,<1.0
+plotnine>=0.14,<1.0
+
+# Interactive and declarative visualization
+plotly>=5.24,<7.0
+kaleido>=1.0,<2.0
+altair>=5.4,<7.0
+vl-convert-python>=1.7,<2.0
+
+# Data formats and performance
+pyarrow>=17.0,<24.0
+openpyxl>=3.1,<4.0
+
+# Quarto execution and notebooks
+jupyter>=1.1,<2.0
+jupyterlab>=4.2,<5.0
+ipykernel>=6.29,<8.0
+nbformat>=5.10,<6.0
+
+# Testing and code quality
+pytest>=8.3,<10.0
+ruff>=0.6,<1.0
