@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Visualization Thinking and Chart Choice – Visualization with Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02-environment-data-and-reproducible-workflows.html" rel="next">
+<link href="./00-preface.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="assets/css/cdi.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-visualization-thinking-and-chart-choice.html">Visual Foundations</a></li><li class="breadcrumb-item"><a href="./01-visualization-thinking-and-chart-choice.html"><span class="chapter-title">Visualization Thinking and Chart Choice</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Visualization with Python</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visual Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-visualization-thinking-and-chart-choice.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Visualization Thinking and Chart Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-environment-data-and-reproducible-workflows.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Environment, Data, and Reproducible Workflows</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Core Visualization Libraries</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-matplotlib-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Matplotlib Foundations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-statistical-visualization-with-seaborn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical Visualization with Seaborn</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-grammar-of-graphics-with-plotnine.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Grammar of Graphics with Plotnine</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-interactive-visualization-with-plotly.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interactive Visualization with Plotly</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-declarative-interactivity-with-altair.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Declarative Interactivity with Altair</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Analytical and Specialized Visuals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-distributions-relationships-and-multivariate-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distributions, Relationships, and Multivariate Views</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-time-series-and-event-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Time Series and Event Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-uncertainty-and-statistical-evidence.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Uncertainty and Statistical Evidence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-geospatial-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Geospatial Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-network-and-flow-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Network and Flow Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-text-categorical-and-compositional-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Text, Categorical, and Compositional Visualization</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Design and Communication</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-color-layout-annotation-and-accessibility.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Color, Layout, Annotation, and Accessibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-data-storytelling-and-visual-critique.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Storytelling and Visual Critique</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Interactive Delivery and Production</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dashboards and Linked Views</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-publishing-automation-and-figure-governance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Publishing, Automation, and Figure Governance</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Case Study</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-end-to-end-visualization-case-study.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">End-to-End Visualization Case Study</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#visualization-begins-before-plotting" id="toc-visualization-begins-before-plotting" class="nav-link" data-scroll-target="#visualization-begins-before-plotting">Visualization begins before plotting</a></li>
+  <li><a href="#from-decision-to-visual-task" id="toc-from-decision-to-visual-task" class="nav-link" data-scroll-target="#from-decision-to-visual-task">From decision to visual task</a>
+  <ul class="collapse">
+  <li><a href="#write-the-intended-takeaway" id="toc-write-the-intended-takeaway" class="nav-link" data-scroll-target="#write-the-intended-takeaway">Write the intended takeaway</a></li>
+  </ul></li>
+  <li><a href="#the-six-core-analytical-questions" id="toc-the-six-core-analytical-questions" class="nav-link" data-scroll-target="#the-six-core-analytical-questions">The six core analytical questions</a>
+  <ul class="collapse">
+  <li><a href="#comparison" id="toc-comparison" class="nav-link" data-scroll-target="#comparison">Comparison</a></li>
+  <li><a href="#change-over-time" id="toc-change-over-time" class="nav-link" data-scroll-target="#change-over-time">Change over time</a></li>
+  <li><a href="#distribution" id="toc-distribution" class="nav-link" data-scroll-target="#distribution">Distribution</a></li>
+  <li><a href="#relationship" id="toc-relationship" class="nav-link" data-scroll-target="#relationship">Relationship</a></li>
+  <li><a href="#composition" id="toc-composition" class="nav-link" data-scroll-target="#composition">Composition</a></li>
+  <li><a href="#spatial-pattern" id="toc-spatial-pattern" class="nav-link" data-scroll-target="#spatial-pattern">Spatial pattern</a></li>
+  </ul></li>
+  <li><a href="#match-variables-to-encodings" id="toc-match-variables-to-encodings" class="nav-link" data-scroll-target="#match-variables-to-encodings">Match variables to encodings</a></li>
+  <li><a href="#one-dataset-three-different-questions" id="toc-one-dataset-three-different-questions" class="nav-link" data-scroll-target="#one-dataset-three-different-questions">One dataset, three different questions</a></li>
+  <li><a href="#exploratory-and-explanatory-visualization" id="toc-exploratory-and-explanatory-visualization" class="nav-link" data-scroll-target="#exploratory-and-explanatory-visualization">Exploratory and explanatory visualization</a></li>
+  <li><a href="#a-practical-chart-selection-workflow" id="toc-a-practical-chart-selection-workflow" class="nav-link" data-scroll-target="#a-practical-chart-selection-workflow">A practical chart-selection workflow</a>
+  <ul class="collapse">
+  <li><a href="#define-the-audience-and-decision" id="toc-define-the-audience-and-decision" class="nav-link" data-scroll-target="#define-the-audience-and-decision">1. Define the audience and decision</a></li>
+  <li><a href="#formulate-one-primary-question" id="toc-formulate-one-primary-question" class="nav-link" data-scroll-target="#formulate-one-primary-question">2. Formulate one primary question</a></li>
+  <li><a href="#identify-the-analytical-task" id="toc-identify-the-analytical-task" class="nav-link" data-scroll-target="#identify-the-analytical-task">3. Identify the analytical task</a></li>
+  <li><a href="#audit-the-variables" id="toc-audit-the-variables" class="nav-link" data-scroll-target="#audit-the-variables">4. Audit the variables</a></li>
+  <li><a href="#choose-the-simplest-viable-chart-family" id="toc-choose-the-simplest-viable-chart-family" class="nav-link" data-scroll-target="#choose-the-simplest-viable-chart-family">5. Choose the simplest viable chart family</a></li>
+  <li><a href="#assign-visual-channels-by-importance" id="toc-assign-visual-channels-by-importance" class="nav-link" data-scroll-target="#assign-visual-channels-by-importance">6. Assign visual channels by importance</a></li>
+  <li><a href="#make-a-rough-version" id="toc-make-a-rough-version" class="nav-link" data-scroll-target="#make-a-rough-version">7. Make a rough version</a></li>
+  <li><a href="#stress-test-the-interpretation" id="toc-stress-test-the-interpretation" class="nav-link" data-scroll-target="#stress-test-the-interpretation">8. Stress-test the interpretation</a></li>
+  <li><a href="#add-explanatory-structure" id="toc-add-explanatory-structure" class="nav-link" data-scroll-target="#add-explanatory-structure">9. Add explanatory structure</a></li>
+  <li><a href="#test-accessibility-and-reproducibility" id="toc-test-accessibility-and-reproducibility" class="nav-link" data-scroll-target="#test-accessibility-and-reproducibility">10. Test accessibility and reproducibility</a></li>
+  </ul></li>
+  <li><a href="#common-chart-choice-failures" id="toc-common-chart-choice-failures" class="nav-link" data-scroll-target="#common-chart-choice-failures">Common chart-choice failures</a>
+  <ul class="collapse">
+  <li><a href="#choosing-by-software-menu" id="toc-choosing-by-software-menu" class="nav-link" data-scroll-target="#choosing-by-software-menu">Choosing by software menu</a></li>
+  <li><a href="#showing-every-variable" id="toc-showing-every-variable" class="nav-link" data-scroll-target="#showing-every-variable">Showing every variable</a></li>
+  <li><a href="#using-a-dual-axis-without-a-defensible-scale-relationship" id="toc-using-a-dual-axis-without-a-defensible-scale-relationship" class="nav-link" data-scroll-target="#using-a-dual-axis-without-a-defensible-scale-relationship">Using a dual axis without a defensible scale relationship</a></li>
+  <li><a href="#truncating-a-bar-chart-axis" id="toc-truncating-a-bar-chart-axis" class="nav-link" data-scroll-target="#truncating-a-bar-chart-axis">Truncating a bar-chart axis</a></li>
+  <li><a href="#hiding-the-distribution" id="toc-hiding-the-distribution" class="nav-link" data-scroll-target="#hiding-the-distribution">Hiding the distribution</a></li>
+  <li><a href="#encoding-magnitude-with-area-or-three-dimensional-volume" id="toc-encoding-magnitude-with-area-or-three-dimensional-volume" class="nav-link" data-scroll-target="#encoding-magnitude-with-area-or-three-dimensional-volume">Encoding magnitude with area or three-dimensional volume</a></li>
+  <li><a href="#treating-correlation-as-causation" id="toc-treating-correlation-as-causation" class="nav-link" data-scroll-target="#treating-correlation-as-causation">Treating correlation as causation</a></li>
+  <li><a href="#using-a-rainbow-colour-scale" id="toc-using-a-rainbow-colour-scale" class="nav-link" data-scroll-target="#using-a-rainbow-colour-scale">Using a rainbow colour scale</a></li>
+  <li><a href="#overloading-a-single-figure" id="toc-overloading-a-single-figure" class="nav-link" data-scroll-target="#overloading-a-single-figure">Overloading a single figure</a></li>
+  </ul></li>
+  <li><a href="#evaluation-checklist" id="toc-evaluation-checklist" class="nav-link" data-scroll-target="#evaluation-checklist">Evaluation checklist</a>
+  <ul class="collapse">
+  <li><a href="#question-and-audience" id="toc-question-and-audience" class="nav-link" data-scroll-target="#question-and-audience">Question and audience</a></li>
+  <li><a href="#data-and-transformation" id="toc-data-and-transformation" class="nav-link" data-scroll-target="#data-and-transformation">Data and transformation</a></li>
+  <li><a href="#encoding-and-form" id="toc-encoding-and-form" class="nav-link" data-scroll-target="#encoding-and-form">Encoding and form</a></li>
+  <li><a href="#communication" id="toc-communication" class="nav-link" data-scroll-target="#communication">Communication</a></li>
+  <li><a href="#accessibility-and-reproducibility" id="toc-accessibility-and-reproducibility" class="nav-link" data-scroll-target="#accessibility-and-reproducibility">Accessibility and reproducibility</a></li>
+  </ul></li>
+  <li><a href="#practice-choose-before-you-code" id="toc-practice-choose-before-you-code" class="nav-link" data-scroll-target="#practice-choose-before-you-code">Practice: choose before you code</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter summary</a></li>
+  <li><a href="#reproducibility-note" id="toc-reproducibility-note" class="nav-link" data-scroll-target="#reproducibility-note">Reproducibility note</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-visualization-thinking-and-chart-choice.html">Visual Foundations</a></li><li class="breadcrumb-item"><a href="./01-visualization-thinking-and-chart-choice.html"><span class="chapter-title">Visualization Thinking and Chart Choice</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-visualization-thinking-chart-choice" class="quarto-section-identifier"><span class="chapter-title">Visualization Thinking and Chart Choice</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Aug 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cdi-message">
+<ul>
+<li><strong>ID:</strong> DVP-001</li>
+<li><strong>Type:</strong> Conceptual and practical chapter</li>
+<li><strong>Audience:</strong> Analysts, researchers, data scientists, and technical communicators</li>
+<li><strong>Theme:</strong> Start with the decision and analytical question, then choose the visual form</li>
+</ul>
+</div>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol type="1">
+<li>translate a broad communication goal into a precise analytical question;</li>
+<li>identify the data relationships that a chart must reveal;</li>
+<li>choose defensible chart families for comparison, change, distribution, relationship, composition, and spatial questions;</li>
+<li>separate exploratory visualization from explanatory communication;</li>
+<li>recognize common chart-choice failures and repair them; and</li>
+<li>apply a repeatable chart-selection workflow before writing plotting code.</li>
+</ol>
+</section>
+<section id="visualization-begins-before-plotting" class="level2">
+<h2 class="anchored" data-anchor-id="visualization-begins-before-plotting">Visualization begins before plotting</h2>
+<p>Data visualization is not the act of adding a chart to a report. It is the process of turning data into a visible argument that a reader can inspect. The plotting library matters, but it comes late in the reasoning sequence.</p>
+<p>A useful visual starts with four questions:</p>
+<ol type="1">
+<li><strong>Who will use it?</strong></li>
+<li><strong>What do they need to understand or decide?</strong></li>
+<li><strong>Which data relationship supplies the evidence?</strong></li>
+<li><strong>Which visual encoding makes that relationship easiest to judge?</strong></li>
+</ol>
+<p>This ordering protects a project from a familiar failure: choosing a visually attractive chart first and then forcing the data into it. A chart is successful when its structure matches the question, its encodings support accurate comparison, and its annotations make the intended reading clear without hiding uncertainty.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The chart is not the question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Create a dashboard” or “make a scatter plot” specifies an output. “Which services have the longest delays, and are those delays improving?” specifies an analytical question. Start with the latter.</p>
+</div>
+</div>
+</section>
+<section id="from-decision-to-visual-task" class="level2">
+<h2 class="anchored" data-anchor-id="from-decision-to-visual-task">From decision to visual task</h2>
+<p>An effective visualization can be planned as a chain of reasoning:</p>
+<blockquote class="blockquote">
+<p><strong>Decision context → audience question → analytical task → data relationship → visual encoding → chart form</strong></p>
+</blockquote>
+<p>Suppose a programme manager asks, “How are our clinics performing?” The request is too broad to determine a chart. It might mean:</p>
+<ul>
+<li>compare current waiting times across clinics;</li>
+<li>show whether waiting time has changed over the past year;</li>
+<li>examine whether staffing and waiting time are related;</li>
+<li>display the distribution of waiting times within each clinic; or</li>
+<li>identify clinics whose performance falls outside a target.</li>
+</ul>
+<p>Each formulation produces a different visual task. Refining the question is therefore part of visualization work, not a preliminary administrative step.</p>
+<section id="write-the-intended-takeaway" class="level3">
+<h3 class="anchored" data-anchor-id="write-the-intended-takeaway">Write the intended takeaway</h3>
+<p>Before choosing a chart, complete this sentence:</p>
+<blockquote class="blockquote">
+<p>After viewing this figure, the audience should understand that <strong>_____</strong>.</p>
+</blockquote>
+<p>For exploration, the blank may be tentative: “some clinics may have unusually variable waiting times.” For explanation, it should be evidence-based and specific: “Clinic C has the highest median waiting time and the widest variation.”</p>
+<p>If the sentence contains several unrelated claims, the figure may be trying to do too much. Split it into a sequence of focused views.</p>
+</section>
+</section>
+<section id="the-six-core-analytical-questions" class="level2">
+<h2 class="anchored" data-anchor-id="the-six-core-analytical-questions">The six core analytical questions</h2>
+<p>Most everyday chart choices can be organized around six analytical questions. The categories overlap, but they provide a reliable starting point.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Analytical question</th>
+<th>What the reader must judge</th>
+<th>Strong starting choices</th>
+<th>Frequent mistake</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Comparison</strong></td>
+<td>Which value is larger, smaller, highest, or lowest?</td>
+<td>Ordered bar, dot, or lollipop chart</td>
+<td>Using area or angle when length would be clearer</td>
+</tr>
+<tr class="even">
+<td><strong>Change over time</strong></td>
+<td>What is the direction, pace, or pattern of change?</td>
+<td>Line, step, or slope chart</td>
+<td>Treating dates as unordered categories</td>
+</tr>
+<tr class="odd">
+<td><strong>Distribution</strong></td>
+<td>What values are typical, unusual, concentrated, or variable?</td>
+<td>Histogram, density, box, violin, ECDF, or strip plot</td>
+<td>Showing only a mean and hiding spread</td>
+</tr>
+<tr class="even">
+<td><strong>Relationship</strong></td>
+<td>How do two or more variables move together?</td>
+<td>Scatter, bubble, heatmap, or connected scatter plot</td>
+<td>Suggesting causation from association</td>
+</tr>
+<tr class="odd">
+<td><strong>Composition</strong></td>
+<td>How is a total divided, and how does that division change?</td>
+<td>Stacked bar, 100% stacked bar, or small multiples</td>
+<td>Comparing many pie slices across groups</td>
+</tr>
+<tr class="even">
+<td><strong>Spatial pattern</strong></td>
+<td>Where are values or events located?</td>
+<td>Symbol, choropleth, flow, or density map</td>
+<td>Mapping data merely because a location field exists</td>
+</tr>
+</tbody>
+</table>
+<section id="comparison" class="level3">
+<h3 class="anchored" data-anchor-id="comparison">Comparison</h3>
+<p>Comparison asks readers to judge magnitudes across categories, groups, conditions, or periods. Position and length along a common scale usually support that judgment well.</p>
+<p>Use an <strong>ordered horizontal bar chart</strong> when category labels are long or ranking matters. Use a <strong>dot plot</strong> when a lighter display is desirable or when several series share the same categories. Use a <strong>slope chart</strong> when the central question is how a modest number of entities changed between two points.</p>
+<p>Useful design decisions include:</p>
+<ul>
+<li>sort values when rank is meaningful;</li>
+<li>retain a meaningful category order when sequence matters;</li>
+<li>start bar-chart axes at zero because bar length encodes magnitude;</li>
+<li>highlight only the categories that support the intended comparison; and</li>
+<li>show direct labels when exact values matter.</li>
+</ul>
+</section>
+<section id="change-over-time" class="level3">
+<h3 class="anchored" data-anchor-id="change-over-time">Change over time</h3>
+<p>Time-series charts preserve temporal order and reveal direction, turning points, cycles, and unusual events. A line chart is a strong default for continuous observations over time because adjacent points are understood as a sequence.</p>
+<p>Use:</p>
+<ul>
+<li>a <strong>line chart</strong> for trends across many ordered periods;</li>
+<li>a <strong>step chart</strong> when values change at discrete moments and remain constant between them;</li>
+<li>a <strong>column chart</strong> for discrete period totals, especially with few periods;</li>
+<li>a <strong>slope chart</strong> for before-and-after comparisons; and</li>
+<li><strong>small multiples</strong> when many series would overlap in a single panel.</li>
+</ul>
+<p>Do not automatically connect observations when measurements are sparse or when the intervals have no meaningful continuity. Also check whether unequal time intervals are represented honestly.</p>
+</section>
+<section id="distribution" class="level3">
+<h3 class="anchored" data-anchor-id="distribution">Distribution</h3>
+<p>A distribution describes more than a typical value. It reveals spread, skewness, clusters, gaps, and extreme observations.</p>
+<ul>
+<li><strong>Histogram:</strong> communicates counts or proportions within bins; bin width changes the visible pattern.</li>
+<li><strong>Density plot:</strong> provides a smoothed shape; bandwidth controls the amount of smoothing.</li>
+<li><strong>Box plot:</strong> summarizes median, quartiles, and potential outliers compactly.</li>
+<li><strong>Violin plot:</strong> combines distribution shape with group comparison but needs sufficient observations.</li>
+<li><strong>ECDF:</strong> shows the proportion of observations at or below each value without selecting bins.</li>
+<li><strong>Strip or swarm plot:</strong> shows individual observations and is especially valuable for small samples.</li>
+</ul>
+<p>Whenever possible, pair a summary with the underlying observations. Two groups can share the same mean and have radically different distributions.</p>
+</section>
+<section id="relationship" class="level3">
+<h3 class="anchored" data-anchor-id="relationship">Relationship</h3>
+<p>A scatter plot uses position on two quantitative axes to reveal association, clusters, nonlinear patterns, and unusual observations. It is often the first view for two continuous variables.</p>
+<p>Before interpreting the pattern, ask:</p>
+<ul>
+<li>Could a third variable explain the association?</li>
+<li>Does overplotting hide dense regions?</li>
+<li>Is the relationship nonlinear?</li>
+<li>Are a few influential points driving the pattern?</li>
+<li>Does the visible pattern remain within meaningful subgroups?</li>
+</ul>
+<p>Transparency, smaller markers, jitter, binning, faceting, or density contours can reduce overplotting. A fitted line may summarize a pattern, but it does not establish causality.</p>
+</section>
+<section id="composition" class="level3">
+<h3 class="anchored" data-anchor-id="composition">Composition</h3>
+<p>Composition focuses on part-to-whole structure. A stacked bar works when both totals and components matter. A 100% stacked bar emphasizes proportional composition while intentionally removing total magnitude.</p>
+<p>Pie and donut charts can communicate a simple part-to-whole message with very few, clearly different categories. They become difficult to compare when slices are numerous, similar in size, repeated across panels, or dependent on precise judgments. In those cases, bars provide a shared baseline and are usually more effective.</p>
+</section>
+<section id="spatial-pattern" class="level3">
+<h3 class="anchored" data-anchor-id="spatial-pattern">Spatial pattern</h3>
+<p>Maps answer questions where location is analytically meaningful. A choropleth shades geographic areas and is appropriate for normalized values such as rates or percentages—not raw counts that mostly reflect population size or area. Proportional-symbol maps can show magnitude at specific locations, while flow maps show movement between places.</p>
+<p>Every map requires attention to:</p>
+<ul>
+<li>the geographic unit and boundary definitions;</li>
+<li>the coordinate reference system and projection;</li>
+<li>missing or suppressed regions;</li>
+<li>classification thresholds and colour scale;</li>
+<li>normalization by population, area, or another exposure; and</li>
+<li>whether a non-spatial chart would support comparison more accurately.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+A map is not automatically the best view of geographic data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If the question is “Which region has the highest rate?”, an ordered bar chart may be easier to read. Use a map when spatial neighbourhood, proximity, or regional pattern is part of the question.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="match-variables-to-encodings" class="level2">
+<h2 class="anchored" data-anchor-id="match-variables-to-encodings">Match variables to encodings</h2>
+<p>Chart choice depends on variable type as well as analytical task.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable type</th>
+<th>Examples</th>
+<th>Appropriate visual roles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Nominal</td>
+<td>district, species, product</td>
+<td>position by category, colour, shape, facets</td>
+</tr>
+<tr class="even">
+<td>Ordinal</td>
+<td>low/medium/high, stage I–IV</td>
+<td>ordered position, ordered colour lightness</td>
+</tr>
+<tr class="odd">
+<td>Quantitative</td>
+<td>age, revenue, temperature</td>
+<td>position on a numeric scale, length, size, colour intensity</td>
+</tr>
+<tr class="even">
+<td>Temporal</td>
+<td>date, month, duration</td>
+<td>ordered position, intervals, animation when justified</td>
+</tr>
+<tr class="odd">
+<td>Spatial</td>
+<td>longitude, region, route</td>
+<td>map position, geographic area, connection</td>
+</tr>
+</tbody>
+</table>
+<p>Visual channels do not support equally accurate judgments. Position on a shared scale generally enables more precise comparison than length, angle, area, volume, or colour intensity. This is why a dot plot often makes small differences easier to judge than a bubble chart and why bars usually outperform repeated pie charts for comparisons.</p>
+<p>Choose encodings intentionally:</p>
+<ul>
+<li>use <strong>position</strong> for the most important quantitative comparison;</li>
+<li>use <strong>length</strong> when magnitude begins at a meaningful baseline;</li>
+<li>use <strong>colour hue</strong> primarily to distinguish categories;</li>
+<li>use <strong>colour lightness or saturation</strong> for ordered magnitude;</li>
+<li>use <strong>area</strong> cautiously because readers compare it less precisely;</li>
+<li>use <strong>shape</strong> for a small number of categorical distinctions; and</li>
+<li>avoid encoding critical information only through colour.</li>
+</ul>
+</section>
+<section id="one-dataset-three-different-questions" class="level2">
+<h2 class="anchored" data-anchor-id="one-dataset-three-different-questions">One dataset, three different questions</h2>
+<p>The figure below demonstrates that chart form follows the question. The examples use synthetic data generated with a fixed random seed.</p>
+<div id="fig-chart-choice-workbench" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three panels demonstrate chart choice: ordered bars for comparison, a line for time, and a scatter plot with a trend line for relationship.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chart-choice-workbench-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/01-chart-choice-workbench.png" class="img-fluid figure-img" style="width:100.0%" alt="Three panels demonstrate chart choice: ordered bars for comparison, a line for time, and a scatter plot with a trend line for relationship.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chart-choice-workbench-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: A horizontal bar chart compares conversion rates, a line chart shows active users over time, and a scatter plot examines response time and satisfaction.
+</figcaption>
+</figure>
+</div>
+<p>The categories, time series, and observations are different because each panel represents a distinct analytical structure. The point is not to memorize one chart for every situation. It is to recognize what the audience needs to compare and select encodings that make that comparison direct.</p>
+<p>The figure is generated by:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/python/01-chart-choice-workbench.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The script saves <a href="#fig-chart-choice-workbench" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> to <code>results/figures/</code> and does not require external data.</p>
+</section>
+<section id="exploratory-and-explanatory-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-and-explanatory-visualization">Exploratory and explanatory visualization</h2>
+<p>Exploratory and explanatory graphics share visual principles but serve different stages of analysis.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimension</th>
+<th>Exploratory visualization</th>
+<th>Explanatory visualization</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Primary purpose</td>
+<td>Discover patterns and test questions</td>
+<td>Communicate a supported finding</td>
+</tr>
+<tr class="even">
+<td>Audience</td>
+<td>Analyst or close collaborators</td>
+<td>A defined external audience</td>
+</tr>
+<tr class="odd">
+<td>Number of views</td>
+<td>Often many and disposable</td>
+<td>Usually few and carefully selected</td>
+</tr>
+<tr class="even">
+<td>Annotation</td>
+<td>Minimal while iterating</td>
+<td>Clear title, context, labels, and takeaway</td>
+</tr>
+<tr class="odd">
+<td>Complexity</td>
+<td>Can expose many variables at once</td>
+<td>Removes detail that does not serve the message</td>
+</tr>
+<tr class="even">
+<td>Uncertainty</td>
+<td>Investigated and diagnosed</td>
+<td>Communicated in audience-appropriate form</td>
+</tr>
+</tbody>
+</table>
+<p>During exploration, generate several views, change scales, inspect subgroups, and look for data-quality problems. The objective is not polish; it is understanding. During explanation, choose the view that best represents the evidence, remove distractions, and add the context needed for correct interpretation.</p>
+<p>Do not publish an exploratory chart unchanged merely because it revealed the finding. Rebuild it for the audience and verify that the explanatory version still represents the evidence faithfully.</p>
+</section>
+<section id="a-practical-chart-selection-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="a-practical-chart-selection-workflow">A practical chart-selection workflow</h2>
+<p>Use the following workflow before plotting.</p>
+<section id="define-the-audience-and-decision" class="level3">
+<h3 class="anchored" data-anchor-id="define-the-audience-and-decision">1. Define the audience and decision</h3>
+<p>Identify the reader’s knowledge, constraints, and intended action. A technical diagnostic plot for a modelling team may be inappropriate for a public programme report even when both use the same data.</p>
+</section>
+<section id="formulate-one-primary-question" class="level3">
+<h3 class="anchored" data-anchor-id="formulate-one-primary-question">2. Formulate one primary question</h3>
+<p>Replace broad requests with a testable question. Prefer “How did monthly retention change after the intervention?” over “Show retention.”</p>
+</section>
+<section id="identify-the-analytical-task" class="level3">
+<h3 class="anchored" data-anchor-id="identify-the-analytical-task">3. Identify the analytical task</h3>
+<p>Classify the main task as comparison, time, distribution, relationship, composition, spatial pattern, or a carefully defined combination.</p>
+</section>
+<section id="audit-the-variables" class="level3">
+<h3 class="anchored" data-anchor-id="audit-the-variables">4. Audit the variables</h3>
+<p>For every variable, record:</p>
+<ul>
+<li>semantic meaning and unit;</li>
+<li>data type and valid range;</li>
+<li>missingness and suppression rules;</li>
+<li>level of aggregation;</li>
+<li>sample size and grouping structure; and</li>
+<li>whether transformation or normalization is required.</li>
+</ul>
+</section>
+<section id="choose-the-simplest-viable-chart-family" class="level3">
+<h3 class="anchored" data-anchor-id="choose-the-simplest-viable-chart-family">5. Choose the simplest viable chart family</h3>
+<p>Start from a dependable form rather than an exotic one. Complexity is justified only when it reveals an important structure that a simpler chart cannot show.</p>
+</section>
+<section id="assign-visual-channels-by-importance" class="level3">
+<h3 class="anchored" data-anchor-id="assign-visual-channels-by-importance">6. Assign visual channels by importance</h3>
+<p>Place the most important comparison on the strongest available channel, usually position on a common scale. Reserve colour and annotation for grouping, emphasis, or context.</p>
+</section>
+<section id="make-a-rough-version" class="level3">
+<h3 class="anchored" data-anchor-id="make-a-rough-version">7. Make a rough version</h3>
+<p>Create the smallest plot that allows you to assess whether the form works. At this point, inspect scales, ordering, overlap, missing values, and subgroup patterns.</p>
+</section>
+<section id="stress-test-the-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="stress-test-the-interpretation">8. Stress-test the interpretation</h3>
+<p>Ask what else could explain the visible pattern. Try alternative denominators, scales, bin widths, time windows, and groupings. Check whether the main conclusion depends on one design choice.</p>
+</section>
+<section id="add-explanatory-structure" class="level3">
+<h3 class="anchored" data-anchor-id="add-explanatory-structure">9. Add explanatory structure</h3>
+<p>Use an informative title, clear units, direct labels, source or method notes, uncertainty displays, and selective emphasis. An annotation should guide attention without replacing evidence.</p>
+</section>
+<section id="test-accessibility-and-reproducibility" class="level3">
+<h3 class="anchored" data-anchor-id="test-accessibility-and-reproducibility">10. Test accessibility and reproducibility</h3>
+<p>Confirm that the figure remains understandable in grayscale or with common colour-vision differences, that text is legible, and that the chart can be regenerated from code and documented inputs.</p>
+</section>
+</section>
+<section id="common-chart-choice-failures" class="level2">
+<h2 class="anchored" data-anchor-id="common-chart-choice-failures">Common chart-choice failures</h2>
+<section id="choosing-by-software-menu" class="level3">
+<h3 class="anchored" data-anchor-id="choosing-by-software-menu">Choosing by software menu</h3>
+<p>Tool menus encourage selection by chart name. Repair this by writing the question and analytical task before opening the plotting interface.</p>
+</section>
+<section id="showing-every-variable" class="level3">
+<h3 class="anchored" data-anchor-id="showing-every-variable">Showing every variable</h3>
+<p>Adding variables often produces competing encodings, crowded legends, and unclear priorities. Repair this by identifying the primary comparison and moving secondary questions into facets or separate views.</p>
+</section>
+<section id="using-a-dual-axis-without-a-defensible-scale-relationship" class="level3">
+<h3 class="anchored" data-anchor-id="using-a-dual-axis-without-a-defensible-scale-relationship">Using a dual axis without a defensible scale relationship</h3>
+<p>Two vertical axes can make unrelated series appear correlated because either scale can be adjusted. Prefer aligned panels with a shared time axis, indexed values, or a direct analysis of the relationship.</p>
+</section>
+<section id="truncating-a-bar-chart-axis" class="level3">
+<h3 class="anchored" data-anchor-id="truncating-a-bar-chart-axis">Truncating a bar-chart axis</h3>
+<p>Because bar length represents value, a nonzero baseline exaggerates differences. Use a zero baseline for bars. If change around a reference is the real question, consider dots or a line with a clearly labelled scale.</p>
+</section>
+<section id="hiding-the-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="hiding-the-distribution">Hiding the distribution</h3>
+<p>A bar of means can conceal skewness, multimodality, sample size, and outliers. Add intervals and observations, or use a distribution-focused chart.</p>
+</section>
+<section id="encoding-magnitude-with-area-or-three-dimensional-volume" class="level3">
+<h3 class="anchored" data-anchor-id="encoding-magnitude-with-area-or-three-dimensional-volume">Encoding magnitude with area or three-dimensional volume</h3>
+<p>Decorative bubbles and 3D shapes make exact comparison difficult and can introduce perspective distortion. Prefer position or length on a common scale.</p>
+</section>
+<section id="treating-correlation-as-causation" class="level3">
+<h3 class="anchored" data-anchor-id="treating-correlation-as-causation">Treating correlation as causation</h3>
+<p>A fitted trend line summarizes association. It does not prove that the horizontal variable caused the vertical variable to change. Use careful language and incorporate study design, temporal order, confounding, and uncertainty.</p>
+</section>
+<section id="using-a-rainbow-colour-scale" class="level3">
+<h3 class="anchored" data-anchor-id="using-a-rainbow-colour-scale">Using a rainbow colour scale</h3>
+<p>Rainbow scales contain abrupt perceptual transitions, lack a clear magnitude order, and can be inaccessible. Use a perceptually ordered sequential scale, a diverging scale around a meaningful midpoint, or distinct categorical hues as appropriate.</p>
+</section>
+<section id="overloading-a-single-figure" class="level3">
+<h3 class="anchored" data-anchor-id="overloading-a-single-figure">Overloading a single figure</h3>
+<p>A chart can be technically correct and still fail because it contains too many messages. Use a figure sequence or small multiples when the audience must reason through several related comparisons.</p>
+</section>
+</section>
+<section id="evaluation-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation-checklist">Evaluation checklist</h2>
+<p>Before accepting a chart, ask:</p>
+<section id="question-and-audience" class="level3">
+<h3 class="anchored" data-anchor-id="question-and-audience">Question and audience</h3>
+<ul>
+<li>Is the intended audience defined?</li>
+<li>Does the figure answer one primary analytical question?</li>
+<li>Is the expected takeaway supported by the data?</li>
+</ul>
+</section>
+<section id="data-and-transformation" class="level3">
+<h3 class="anchored" data-anchor-id="data-and-transformation">Data and transformation</h3>
+<ul>
+<li>Are units, denominators, filters, and aggregation levels correct?</li>
+<li>Are missing values and sample sizes handled transparently?</li>
+<li>Are transformations and statistical summaries defensible?</li>
+</ul>
+</section>
+<section id="encoding-and-form" class="level3">
+<h3 class="anchored" data-anchor-id="encoding-and-form">Encoding and form</h3>
+<ul>
+<li>Does the chart family match the analytical task?</li>
+<li>Is the most important comparison placed on a strong visual channel?</li>
+<li>Are ordering, axes, scales, and baselines appropriate?</li>
+</ul>
+</section>
+<section id="communication" class="level3">
+<h3 class="anchored" data-anchor-id="communication">Communication</h3>
+<ul>
+<li>Does the title state the topic or finding precisely?</li>
+<li>Can labels replace unnecessary legend lookups?</li>
+<li>Are uncertainty and limitations visible where they matter?</li>
+<li>Does colour carry meaning rather than decoration?</li>
+</ul>
+</section>
+<section id="accessibility-and-reproducibility" class="level3">
+<h3 class="anchored" data-anchor-id="accessibility-and-reproducibility">Accessibility and reproducibility</h3>
+<ul>
+<li>Is the figure readable at its final display size?</li>
+<li>Is information available without relying only on colour?</li>
+<li>Does useful alternative text describe the chart’s message?</li>
+<li>Can the complete output be regenerated from documented code and inputs?</li>
+</ul>
+</section>
+</section>
+<section id="practice-choose-before-you-code" class="level2">
+<h2 class="anchored" data-anchor-id="practice-choose-before-you-code">Practice: choose before you code</h2>
+<p>For each scenario, identify the primary task and a strong starting chart.</p>
+<ol type="1">
+<li>A hospital team wants to compare the distribution of patient waiting times across four departments.</li>
+<li>A product team wants to show monthly retention for three user cohorts.</li>
+<li>A researcher wants to examine the association between dose and response, while distinguishing treatment groups.</li>
+<li>A policy team wants to compare the share of the annual budget allocated to five programmes across three years.</li>
+<li>A public-health analyst wants to identify geographic clusters of incidence after adjusting for population.</li>
+</ol>
+<p>Suggested starting points:</p>
+<ol type="1">
+<li>box or violin plots with individual observations;</li>
+<li>cohort-specific lines or small multiples;</li>
+<li>a scatter plot with treatment encoded by colour or facets;</li>
+<li>100% stacked bars if shares are primary, or grouped dots if precise programme comparisons are primary; and</li>
+<li>a choropleth or spatial-rate map, supported by an ordered non-spatial comparison.</li>
+</ol>
+<p>Different answers can be defensible. The important requirement is that the chart supports the intended judgment and preserves the meaning of the data.</p>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter summary</h2>
+<p>Chart choice is a reasoning problem before it is a coding problem. Begin with the audience and decision, refine the analytical question, identify the data relationship, and assign the most important comparison to an effective visual channel. Comparison, change, distribution, relationship, composition, and spatial pattern provide a practical set of starting tasks. Exploration helps discover the evidence; explanation reshapes the strongest evidence for a defined audience. A reliable workflow makes these choices explicit, testable, accessible, and reproducible.</p>
+</section>
+<section id="reproducibility-note" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility-note">Reproducibility note</h2>
+<p>This chapter’s figure is produced by <code>scripts/python/01-chart-choice-workbench.py</code> with a fixed NumPy random seed. The script writes only the chapter-specific PNG under <code>results/figures/</code>, allowing the visual to be regenerated without changing other repository files.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./00-preface.html" class="pagination-link" aria-label="Preface">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Preface</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02-environment-data-and-reproducible-workflows.html" class="pagination-link" aria-label="Environment, Data, and Reproducible Workflows">
+        <span class="nav-page-text"><span class="chapter-title">Environment, Data, and Reproducible Workflows</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

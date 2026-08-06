@@ -1,0 +1,11 @@
+# References {#sec-references}
+
+:::cdi-message
+- **ID:** DVP-999R
+- **Type:** Reference
+- **Audience:** All readers
+- **Theme:** Sources cited throughout the guide
+:::
+
+::: {#refs}
+:::

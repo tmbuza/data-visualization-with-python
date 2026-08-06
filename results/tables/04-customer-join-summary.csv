@@ -1,0 +1,6 @@
+customer_id,customer_name,region,completed_orders,revenue
+2,Baraka,North,1,44.0
+3,Chausiku,South,2,33.0
+1,Asha,East,1,13.5
+4,Daudi,West,1,8.0
+5,Elina,East,0,0.0

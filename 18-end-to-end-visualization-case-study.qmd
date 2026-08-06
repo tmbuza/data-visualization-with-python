@@ -1,0 +1,23 @@
+# End-to-End Visualization Case Study {#sec-end-to-end-case-study}
+
+:::cdi-message
+- **ID:** DVP-018
+- **Type:** Case Study
+- **Audience:** Intermediate
+- **Theme:** From raw data to a defensible multi-format visual product
+:::
+
+## Learning Objectives
+## Case Study Question and Audience
+## Data Audit and Preparation
+## Visual Analysis Plan
+## Exploratory Static Views
+## Interactive Exploration
+## Specialized Visual Component
+## Explanatory Story and Dashboard
+## Accessibility and Quality Review
+## Export, Figure Index, and Reproduction
+## Final Interpretation and Limitations
+## Case Study Deliverables
+## Key Takeaways
+

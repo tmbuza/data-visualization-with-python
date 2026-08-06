@@ -1,0 +1,21 @@
+# Interactive Visualization with Plotly {#sec-plotly}
+
+:::cdi-message
+- **ID:** DVP-006
+- **Type:** Interactive Visualization
+- **Audience:** Intermediate
+- **Theme:** Exploratory and presentation-ready interactive graphics
+:::
+
+## Learning Objectives
+## Interactivity with Purpose
+## Plotly Express and Graph Objects
+## Hover, Selection, Zoom, and Filtering
+## Interactive Subplots
+## Animation and Transitions
+## Custom Data and Tooltips
+## Exporting and Embedding Interactive Figures
+## Performance and Accessibility Tradeoffs
+## Chapter Practice
+## Key Takeaways
+

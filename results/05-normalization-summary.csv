@@ -1,0 +1,6 @@
+metric,wide_design,normalized_design,interpretation
+customer_descriptive_repetitions,15,0,Customer facts are stored once per customer
+product_descriptive_repetitions,8,0,Product facts are stored once per product
+order_line_rows,8,8,Normalization preserves order-line facts
+reconstructed_order_total,159.00,159.00,Joins reproduce the same analytical total
+integrity_checks_passed,not_enforced,4,Four invalid writes are rejected

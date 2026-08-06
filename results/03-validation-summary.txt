@@ -1,0 +1,8 @@
+Chapter 03 aggregation validation
+completed rows (ungrouped): 13
+completed rows (grouped sum): 13
+completed net revenue (ungrouped): 6961.88
+completed net revenue (grouped sum): 6961.88
+category count reconciliation: PASS
+category revenue reconciliation: PASS
+regional status partitions: PASS

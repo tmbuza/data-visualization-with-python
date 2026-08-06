@@ -1,0 +1,21 @@
+# Statistical Visualization with Seaborn {#sec-seaborn}
+
+:::cdi-message
+- **ID:** DVP-004
+- **Type:** Core Skills
+- **Audience:** Beginner / Intermediate
+- **Theme:** Clear statistical graphics with semantic mappings
+:::
+
+## Learning Objectives
+## Figure-Level and Axes-Level Functions
+## Distributions and Empirical Patterns
+## Categorical Comparisons
+## Relationships and Regression Views
+## Faceting and Small Multiples
+## Semantic Mappings
+## Themes, Palettes, and Context
+## Avoiding Statistical Misrepresentation
+## Chapter Practice
+## Key Takeaways
+

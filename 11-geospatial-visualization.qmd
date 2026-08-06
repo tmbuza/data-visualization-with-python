@@ -1,0 +1,21 @@
+# Geospatial Visualization {#sec-geospatial}
+
+:::cdi-message
+- **ID:** DVP-011
+- **Type:** Specialized Visualization
+- **Audience:** Intermediate
+- **Theme:** Static and interactive spatial data communication
+:::
+
+## Learning Objectives
+## Spatial Data Models and Coordinate Systems
+## Working with GeoPandas
+## Point, Line, and Polygon Maps
+## Choropleths and Classification Choices
+## Contextily Basemaps
+## Interactive Maps with Plotly and Folium
+## Spatial Scale, Projection, and Normalization
+## Ethical and Accessible Mapping
+## Chapter Practice
+## Key Takeaways
+

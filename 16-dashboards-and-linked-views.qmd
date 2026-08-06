@@ -1,0 +1,21 @@
+# Dashboards and Linked Views {#sec-dashboards}
+
+:::cdi-message
+- **ID:** DVP-016
+- **Type:** Interactive Communication
+- **Audience:** Intermediate
+- **Theme:** Focused dashboards for monitoring and exploration
+:::
+
+## Learning Objectives
+## When a Dashboard Is Appropriate
+## Metrics, Context, and Decision Needs
+## Layout and Information Hierarchy
+## Quarto Dashboards
+## Interactive Components and Linked Views
+## Filters, Inputs, and Tooltips
+## Responsive and Accessible Design
+## Dashboard Performance and Testing
+## Chapter Practice
+## Key Takeaways
+

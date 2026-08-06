@@ -1,0 +1,21 @@
+# Color, Layout, Annotation, and Accessibility {#sec-accessible-design}
+
+:::cdi-message
+- **ID:** DVP-014
+- **Type:** Design and Communication
+- **Audience:** Beginner / Intermediate
+- **Theme:** Inclusive visual design and purposeful emphasis
+:::
+
+## Learning Objectives
+## Visual Hierarchy and Attention
+## Sequential, Diverging, and Qualitative Color
+## Perceptually Uniform Palettes
+## Color-Vision Accessibility
+## Typography, Spacing, and Layout
+## Direct Labels and Annotations
+## Alt Text and Text Equivalents
+## Testing at Different Sizes and Formats
+## Chapter Practice
+## Key Takeaways
+

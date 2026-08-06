@@ -1,0 +1,7 @@
+region,habitat,n_sites,rainfall_mean_mm,rainfall_sd_mm,richness_median,richness_iqr,temperature_mean_c
+North,Forest,121,904.61,188.58,33.0,9.0,27.67
+North,Grassland,116,701.39,209.33,18.0,9.25,27.82
+Central,Forest,145,1249.3,221.38,41.0,9.0,24.12
+Central,Grassland,124,998.35,211.54,27.0,8.25,24.38
+South,Forest,113,1465.45,215.67,45.0,7.0,26.35
+South,Grassland,101,1247.03,197.23,31.0,9.0,26.41

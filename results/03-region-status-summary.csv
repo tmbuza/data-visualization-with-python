@@ -1,0 +1,5 @@
+region,all_order_lines,completed_lines,returned_lines,cancelled_lines,return_rate_percent
+East,5,3,1,1,20.0
+North,5,4,1,0,20.0
+South,5,4,0,1,0.0
+West,5,2,2,1,40.0

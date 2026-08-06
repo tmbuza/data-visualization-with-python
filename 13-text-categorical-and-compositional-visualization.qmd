@@ -1,0 +1,21 @@
+# Text, Categorical, and Compositional Visualization {#sec-text-categorical}
+
+:::cdi-message
+- **ID:** DVP-013
+- **Type:** Specialized Visualization
+- **Audience:** Intermediate
+- **Theme:** Frequencies, rankings, language, and part-to-whole structure
+:::
+
+## Learning Objectives
+## Ordered Categorical Comparisons
+## Dot, Lollipop, and Slope Charts
+## Composition and Part-to-Whole Views
+## Text Frequency and Term Comparison
+## Co-Occurrence and Topic Views
+## Heatmaps and Matrix Displays
+## Why Word Clouds Are Usually Weak Evidence
+## Choosing Labels and Ordering Categories
+## Chapter Practice
+## Key Takeaways
+

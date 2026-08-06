@@ -1,0 +1,21 @@
+# Data Storytelling and Visual Critique {#sec-storytelling-critique}
+
+:::cdi-message
+- **ID:** DVP-015
+- **Type:** Design and Communication
+- **Audience:** Intermediate
+- **Theme:** Turning analysis into defensible visual narratives
+:::
+
+## Learning Objectives
+## Audience, Purpose, and Message
+## Exploratory and Explanatory Graphics
+## Narrative Sequence and Visual Flow
+## Titles, Captions, and Takeaway Statements
+## Separating Evidence from Inference
+## A Structured Critique Framework
+## Misleading Charts and Ethical Redesign
+## Building a Visual Story
+## Chapter Practice
+## Key Takeaways
+

@@ -1,0 +1,5 @@
+file,format,purpose
+results/figures/07-altair-linked-view.html,interactive HTML,Coordinated selection across views
+results/figures/07-altair-linked-view.png,PNG,Static preview of coordinated views
+results/figures/07-altair-focus-context.html,interactive HTML,Zoomable time-series view
+results/figures/07-altair-focus-context.png,PNG,Static focus-and-context preview

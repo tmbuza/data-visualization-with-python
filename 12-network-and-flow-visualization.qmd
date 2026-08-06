@@ -1,0 +1,21 @@
+# Network and Flow Visualization {#sec-network-flow}
+
+:::cdi-message
+- **ID:** DVP-012
+- **Type:** Specialized Visualization
+- **Audience:** Intermediate
+- **Theme:** Relationships, movement, hierarchy, and connectivity
+:::
+
+## Learning Objectives
+## Nodes, Edges, and Graph Attributes
+## Building Graphs with NetworkX
+## Layouts and Visual Encodings
+## Communities and Centrality
+## Directed, Weighted, and Bipartite Networks
+## Sankey and Alluvial Views
+## Hierarchies and Treemaps
+## Avoiding Network Hairballs
+## Chapter Practice
+## Key Takeaways
+

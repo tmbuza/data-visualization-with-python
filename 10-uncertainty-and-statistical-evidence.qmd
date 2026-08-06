@@ -1,0 +1,21 @@
+# Uncertainty and Statistical Evidence {#sec-uncertainty}
+
+:::cdi-message
+- **ID:** DVP-010
+- **Type:** Analytical Patterns
+- **Audience:** Intermediate
+- **Theme:** Communicating estimates, variation, and uncertainty honestly
+:::
+
+## Learning Objectives
+## Why Uncertainty Must Be Visible
+## Variation, Standard Error, and Confidence Intervals
+## Error Bars, Bands, and Interval Plots
+## Bootstrap Distributions
+## Model Estimates and Predictions
+## Sample Size and Data Quality Cues
+## Avoiding Dichotomous Visual Reasoning
+## Annotating Evidence and Limitations
+## Chapter Practice
+## Key Takeaways
+

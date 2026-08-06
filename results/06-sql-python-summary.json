@@ -1,0 +1,16 @@
+{
+  "chapter": "DVP-06",
+  "reporting_window": {
+    "start_inclusive": "2026-01-01",
+    "end_exclusive": "2026-04-01"
+  },
+  "source_rows": {
+    "customers": 12,
+    "orders": 18
+  },
+  "result_rows": 3,
+  "completed_orders": 12,
+  "reported_revenue": 4873.5,
+  "control_revenue": 4873.5,
+  "reconciled": true
+}

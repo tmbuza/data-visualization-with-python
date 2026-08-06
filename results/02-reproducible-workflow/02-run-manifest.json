@@ -1,0 +1,22 @@
+{
+  "chapter_id": "DVP-002",
+  "script": "scripts/python/02-reproducible-visualization-workflow.py",
+  "input": "data/raw/02-service-indicators.csv",
+  "input_sha256": "ccdb789c47289d6c48c5527585c1c47f51075da017354d3d02930614b37c6348",
+  "source_rows": 48,
+  "plot_rows": 12,
+  "reporting_period": {
+    "start": "2026-01-01",
+    "end": "2026-06-01"
+  },
+  "environment": {
+    "python": "3.12.6",
+    "pandas": "2.3.3",
+    "matplotlib": "3.10.0"
+  },
+  "outputs": [
+    "results/02-reproducible-workflow/02-monthly-completion-rate.csv",
+    "results/02-reproducible-workflow/02-data-profile.csv",
+    "results/figures/02-monthly-completion-rate.png"
+  ]
+}

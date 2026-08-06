@@ -20,5 +20,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
           publish_branch: gh-pages
-          cname: python-viz.complexdatainsights.com
+          cname: data-visualization.complexdatainsights.com
           force_orphan: true

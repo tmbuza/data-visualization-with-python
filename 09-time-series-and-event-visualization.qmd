@@ -1,0 +1,21 @@
+# Time Series and Event Visualization {#sec-time-series}
+
+:::cdi-message
+- **ID:** DVP-009
+- **Type:** Analytical Patterns
+- **Audience:** Intermediate
+- **Theme:** Trends, seasonality, change, and events over time
+:::
+
+## Learning Objectives
+## Preparing Temporal Data
+## Line, Area, and Interval Views
+## Multiple Series and Small Multiples
+## Rolling Summaries and Smoothing
+## Seasonality and Calendar Patterns
+## Events, Regimes, and Annotations
+## Missing Time and Irregular Intervals
+## Interactive Time-Series Exploration
+## Chapter Practice
+## Key Takeaways
+

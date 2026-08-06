@@ -1,0 +1,7 @@
+column,dtype,non_missing,missing,unique
+month,datetime64[ns],48,0,6
+region,string,48,0,4
+service,string,48,0,2
+requests,int64,48,0,42
+completed,int64,48,0,45
+median_wait_minutes,float64,48,0,45

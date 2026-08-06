@@ -2,54 +2,77 @@ project:
   type: book
   output-dir: docs
 
+bibliography: library/references.bib
+date: 2026-08-06
+date-format: "MMM YYYY"
+
 book:
-  title: "Data Visualization with Python"
-  subtitle: "Foundational Principles for Professional Visualization in Python" 
+  title: "Visualization with Python"
+  subtitle: "Modern, Reproducible Visual Communication for Data Projects"
 
   chapters:
     - index.qmd
+    - 00-preface.qmd
 
-    - part: "Foundations"
+    - part: "Visual Foundations"
       chapters:
-        - 01-preface-and-setup.qmd
-        - 02-story-driven-visualization.qmd
+        - 01-visualization-thinking-and-chart-choice.qmd
+        - 02-environment-data-and-reproducible-workflows.qmd
 
-    - part: "Core Libraries"
+    - part: "Core Visualization Libraries"
       chapters:
-        - 03-matplotlib-core-skills.qmd
-        - 04-seaborn-comparisons.qmd
-        - 05-plotnine-grammar-of-graphics.qmd
+        - 03-matplotlib-foundations.qmd
+        - 04-statistical-visualization-with-seaborn.qmd
+        - 05-grammar-of-graphics-with-plotnine.qmd
+        - 06-interactive-visualization-with-plotly.qmd
+        - 07-declarative-interactivity-with-altair.qmd
 
-    - part: "Expanding Your Visualization Skills"
+    - part: "Analytical and Specialized Visuals"
       chapters:
-        - 06-interactive-plotly-basics.qmd
-        - 07-multi-panel-and-layouts.qmd
-        - 08-annotations-and-figure-polish.qmd
+        - 08-distributions-relationships-and-multivariate-views.qmd
+        - 09-time-series-and-event-visualization.qmd
+        - 10-uncertainty-and-statistical-evidence.qmd
+        - 11-geospatial-visualization.qmd
+        - 12-network-and-flow-visualization.qmd
+        - 13-text-categorical-and-compositional-visualization.qmd
 
-    - part: "Professional Workflow"
+    - part: "Design and Communication"
       chapters:
-        - 09-export-and-reproducible-workflows.qmd
-        - 10-visual-design-and-color-discipline.qmd
-        - 11-common-visualization-mistakes.qmd
+        - 14-color-layout-annotation-and-accessibility.qmd
+        - 15-data-storytelling-and-visual-critique.qmd
 
-    - part: "Capstone"
+    - part: "Interactive Delivery and Production"
       chapters:
-        - 12-mini-capstone-visual-report.qmd
+        - 16-dashboards-and-linked-views.qmd
+        - 17-publishing-automation-and-figure-governance.qmd
 
-    - part: "Appendix"
+    - part: "Case Study"
       chapters:
-        - 99-appendix.qmd
-        - 99-references.qmd
+        - 18-end-to-end-visualization-case-study.qmd
+
+    - 999-appendix.qmd
+    - 999-references.qmd
+
+  page-navigation: true
+  search: true
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    smooth-scroll: true
+    anchor-sections: true
+    link-external-icon: true
+    code-fold: true
+    css: assets/css/cdi.css
+    mermaid:
+      theme: forest
 
 execute:
   echo: true
   warning: false
   message: false
   freeze: auto
-
-format:
-  html:
-    toc: true
-    number-sections: false
-    code-copy: true
-    css: assets/css/cdi.css
+  working-dir: .

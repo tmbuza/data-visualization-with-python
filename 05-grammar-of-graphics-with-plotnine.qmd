@@ -1,0 +1,21 @@
+# Grammar of Graphics with Plotnine {#sec-plotnine}
+
+:::cdi-message
+- **ID:** DVP-005
+- **Type:** Core Skills
+- **Audience:** Intermediate
+- **Theme:** Declarative and layered visualization
+:::
+
+## Learning Objectives
+## The Grammar of Graphics
+## Data, Aesthetics, and Geometries
+## Statistical Transformations
+## Scales and Coordinate Systems
+## Facets and Themes
+## Layering Evidence and Annotations
+## Reusable Plot Specifications
+## When to Choose Plotnine
+## Chapter Practice
+## Key Takeaways
+

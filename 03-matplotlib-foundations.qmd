@@ -1,0 +1,21 @@
+# Matplotlib Foundations {#sec-matplotlib-foundations}
+
+:::cdi-message
+- **ID:** DVP-003
+- **Type:** Core Skills
+- **Audience:** Beginner / Intermediate
+- **Theme:** Precise, composable static graphics
+:::
+
+## Learning Objectives
+## Figure and Axes Objects
+## Lines, Points, Bars, and Areas
+## Labels, Scales, Ticks, and Legends
+## Multiple Panels and Layouts
+## Annotations and Reference Lines
+## Styles and Reusable Themes
+## Exporting PNG, SVG, and PDF
+## Building a Publication-Ready Figure
+## Chapter Practice
+## Key Takeaways
+

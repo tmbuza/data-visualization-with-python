@@ -1,0 +1,19 @@
+# Appendix {#sec-appendix}
+
+:::cdi-message
+- **ID:** DVP-999A
+- **Type:** Reference
+- **Audience:** All readers
+- **Theme:** Reusable visualization references and checklists
+:::
+
+## Chart Selection Matrix
+## Library Selection Matrix
+## Color and Accessibility Checklist
+## Static Export Checklist
+## Interactive Visualization Checklist
+## Figure Review Checklist
+## Suggested Repository Structure
+## Troubleshooting Guide
+## Further Practice
+

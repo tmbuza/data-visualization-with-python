@@ -1,0 +1,21 @@
+# Publishing, Automation, and Figure Governance {#sec-publishing-governance}
+
+:::cdi-message
+- **ID:** DVP-017
+- **Type:** Reproducible Delivery
+- **Audience:** Intermediate
+- **Theme:** Reliable visual assets across reports, notebooks, and projects
+:::
+
+## Learning Objectives
+## Static, Interactive, and Document Outputs
+## Resolution, Dimensions, and File Formats
+## Reproducible Naming and Output Paths
+## Figure Metadata and Indexes
+## Batch Generation with Scripts
+## Themes, Templates, and Brand Consistency
+## Visual Regression and Quality Checks
+## Publishing with Quarto
+## Chapter Practice
+## Key Takeaways
+

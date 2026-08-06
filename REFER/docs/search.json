@@ -1,0 +1,827 @@
+[
+  {
+    "objectID": "01-preface-and-setup.html",
+    "href": "01-preface-and-setup.html",
+    "title": "Preface and Setup",
+    "section": "",
+    "text": "Who this guide is for\nThis guide teaches foundational, professional-grade data visualization in Python.\nThe goal is not just to make charts look good.\nThe goal is to design visuals that explain, compare, and support decisions.\nThis is part of the CDI Data Science domain, under the Visualization subdomain.\nThe plotting habits here carry directly into applied work, including bioinformatics.\nThis guide is designed for:\nIf you are brand new to Python, start with CDI Data Science Foundations first, then return here.",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Setup</span>"
+    ]
+  },
+  {
+    "objectID": "01-preface-and-setup.html#who-this-guide-is-for",
+    "href": "01-preface-and-setup.html#who-this-guide-is-for",
+    "title": "Preface and Setup",
+    "section": "",
+    "text": "Data analysts and data scientists working in Python\nLearners comfortable with Pandas and NumPy\nAnyone who wants to move beyond basic charts into clear comparisons, distributions, and narrative structure\nProfessionals preparing figures for reports, research writeups, dashboards, and presentations",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Setup</span>"
+    ]
+  },
+  {
+    "objectID": "01-preface-and-setup.html#what-you-will-learn",
+    "href": "01-preface-and-setup.html#what-you-will-learn",
+    "title": "Preface and Setup",
+    "section": "What you will learn",
+    "text": "What you will learn\nBy the end of this free track, you will be able to:\n\nChoose visualization types based on the question and data structure\nBuild clean Matplotlib figures with consistent labels and layout\nUse Seaborn for comparisons and statistical views\nCreate multi-panel figures that read well in a report\nApply design basics: annotation, color discipline, and figure hierarchy\nExport figures consistently for documentation and sharing\n\nWe use Python libraries as tools, but the emphasis is the workflow and reasoning.",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Setup</span>"
+    ]
+  },
+  {
+    "objectID": "01-preface-and-setup.html#about-the-data-used-in-this-guide",
+    "href": "01-preface-and-setup.html#about-the-data-used-in-this-guide",
+    "title": "Preface and Setup",
+    "section": "About the data used in this guide",
+    "text": "About the data used in this guide\nThis guide uses a CDI synthetic dataset generated locally.\nThe dataset is intentionally clean and controlled so you can focus on:\n\nvisualization technique\n\ndesign trade-offs\n\ninterpretation\n\nreproducibility\n\nThe file used throughout the guide:\n\ndata/cdi-student-outcomes.csv",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Setup</span>"
+    ]
+  },
+  {
+    "objectID": "01-preface-and-setup.html#environment-setup",
+    "href": "01-preface-and-setup.html#environment-setup",
+    "title": "Preface and Setup",
+    "section": "Environment setup",
+    "text": "Environment setup\nFrom the project folder:\nbash scripts/setup-env.sh\nsource .venv/bin/activate\npython scripts/make-cdi-student-outcomes.py\nbash scripts/build-all.sh\nThe rendered output will be written to:\n\ndocs/",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Setup</span>"
+    ]
+  },
+  {
+    "objectID": "01-preface-and-setup.html#plot-standard-for-this-guide",
+    "href": "01-preface-and-setup.html#plot-standard-for-this-guide",
+    "title": "Preface and Setup",
+    "section": "Plot standard for this guide",
+    "text": "Plot standard for this guide\nWe use a minimal, consistent plotting style across chapters.\n\nfrom cdi_viz.theme import cdi_notebook_init, cdi_plot_style\n\ncdi_notebook_init(chapter=\"01\")\ncdi_plot_style()",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Setup</span>"
+    ]
+  },
+  {
+    "objectID": "01-preface-and-setup.html#how-to-use-this-guide",
+    "href": "01-preface-and-setup.html#how-to-use-this-guide",
+    "title": "Preface and Setup",
+    "section": "How to use this guide",
+    "text": "How to use this guide\nChapters are designed to be:\n\nRunnable\n\nReproducible\n\nFocused on one visualization purpose at a time\n\nUse the Quarto navigation arrows or sidebar to move between chapters.",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Setup</span>"
+    ]
+  },
+  {
+    "objectID": "02-story-driven-visualization.html",
+    "href": "02-story-driven-visualization.html",
+    "title": "Story-driven Visualization",
+    "section": "",
+    "text": "Step 1 — Load the data\nGood visualization does not start with a library. It starts with a question.\nBefore writing code, define:\nIn this lesson, we begin with a simple analytical question and build the plot around it.\nimport pandas as pd\nfrom cdi_viz.theme import cdi_notebook_init\n\n# Chapter init: resets the shared figure counter and ensures figures/ exists\ncdi_notebook_init(chapter=\"02\")\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\n\nprint(\"First rows:\")\nprint(df.head())\n\nFirst rows:\n     group  test_prep  study_hours  math_score  reading_score  writing_score\n0  Group B  completed          3.9          58             64             51\n1  Group A       none          7.7          67             85             61\n2  Group A       none          9.3          83             65             73\n3  Group A       none          3.9          60             67             48\n4  Group A       none          8.3          68             63             47",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Story-driven Visualization</span>"
+    ]
+  },
+  {
+    "objectID": "02-story-driven-visualization.html#step-2-define-the-question",
+    "href": "02-story-driven-visualization.html#step-2-define-the-question",
+    "title": "Story-driven Visualization",
+    "section": "Step 2 — Define the question",
+    "text": "Step 2 — Define the question\nSuppose we ask:\nDoes study time relate to math performance?\nThis is a relationship question between:\n\nstudy_hours\nmath_score\n\nThat suggests a scatter plot.",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Story-driven Visualization</span>"
+    ]
+  },
+  {
+    "objectID": "02-story-driven-visualization.html#step-3-a-minimal-first-plot-exported",
+    "href": "02-story-driven-visualization.html#step-3-a-minimal-first-plot-exported",
+    "title": "Story-driven Visualization",
+    "section": "Step 3 — A minimal first plot (exported)",
+    "text": "Step 3 — A minimal first plot (exported)\n\nimport matplotlib.pyplot as plt\nfrom cdi_viz.theme import show_and_save_mpl\n\nfig, ax = plt.subplots(figsize=(7.6, 4.6))\n\nax.scatter(df[\"study_hours\"], df[\"math_score\"], alpha=0.6)\n\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\n# Title + subtitle without overlap\nfig.suptitle(\"Study Hours vs Math Score\", fontweight=\"bold\", y=1.02)\nax.set_title(\"A first look at the relationship\", pad=10)\n\n# Simple, readable grid (y only)\nax.grid(True, axis=\"y\", linewidth=0.4, alpha=0.3)\nax.grid(False, axis=\"x\")\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig)  # figures/02_001.png\n\nSaved PNG → figures/02_001.png\n\n\n\n\n\n\n\n\n\nThis answers the structural question:\n\nIs there an upward trend?\nIs the relationship linear?\nAre there obvious outliers?",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Story-driven Visualization</span>"
+    ]
+  },
+  {
+    "objectID": "02-story-driven-visualization.html#step-4-make-the-comparison-explicit-exported",
+    "href": "02-story-driven-visualization.html#step-4-make-the-comparison-explicit-exported",
+    "title": "Story-driven Visualization",
+    "section": "Step 4 — Make the comparison explicit (exported)",
+    "text": "Step 4 — Make the comparison explicit (exported)\nNow extend the question:\nDoes test preparation change the relationship?\nThis introduces grouping.\n\nimport matplotlib.pyplot as plt\nfrom cdi_viz.theme import show_and_save_mpl\n\nfig, ax = plt.subplots(figsize=(7.6, 4.6))\n\nfor grp, sub in df.groupby(\"test_prep\"):\n    ax.scatter(sub[\"study_hours\"], sub[\"math_score\"], alpha=0.6, label=str(grp))\n\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\nfig.suptitle(\"Study Hours vs Math Score\", fontweight=\"bold\", y=1.02)\nax.set_title(\"Trend shown separately by test preparation\", pad=10)\n\nax.legend(title=\"Test prep\")\n\nax.grid(True, axis=\"y\", linewidth=0.4, alpha=0.3)\nax.grid(False, axis=\"x\")\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig)  # figures/02_002.png\n\nSaved PNG → figures/02_002.png\n\n\n\n\n\n\n\n\n\nNow the visual supports comparison:\n\nIs one group consistently higher?\nIs the relationship mostly the same shape?",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Story-driven Visualization</span>"
+    ]
+  },
+  {
+    "objectID": "02-story-driven-visualization.html#step-5-interpret-before-optimizing",
+    "href": "02-story-driven-visualization.html#step-5-interpret-before-optimizing",
+    "title": "Story-driven Visualization",
+    "section": "Step 5 — Interpret before optimizing",
+    "text": "Step 5 — Interpret before optimizing\nInterpret what you see before adjusting style.\n\nThere is a positive association between study hours and math score.\nStudents who completed test preparation tend to score higher.\nThe relationship appears approximately linear.",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Story-driven Visualization</span>"
+    ]
+  },
+  {
+    "objectID": "02-story-driven-visualization.html#key-takeaways",
+    "href": "02-story-driven-visualization.html#key-takeaways",
+    "title": "Story-driven Visualization",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nStart with a question, not a plotting function.\nMatch plot type to data structure.\nAdd grouping only when it strengthens the comparison.\nInterpretation comes before aesthetic optimization.",
+    "crumbs": [
+      "Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Story-driven Visualization</span>"
+    ]
+  },
+  {
+    "objectID": "03-matplotlib-core-skills.html",
+    "href": "03-matplotlib-core-skills.html",
+    "title": "Matplotlib Core Skills",
+    "section": "",
+    "text": "Initialize plotting standard\nIn the previous lesson, we focused on the question first.\nNow we focus on control.\nMatplotlib is not just a plotting tool.\nIt is a figure construction system.\nIf you control the figure, you control:\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom cdi_viz.theme import cdi_notebook_init, show_and_save_mpl\n\n# Chapter init: resets the shared figure counter and ensures figures/ exists\ncdi_notebook_init(chapter=\"03\")\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Matplotlib Core Skills</span>"
+    ]
+  },
+  {
+    "objectID": "03-matplotlib-core-skills.html#figure-vs-axes",
+    "href": "03-matplotlib-core-skills.html#figure-vs-axes",
+    "title": "Matplotlib Core Skills",
+    "section": "Figure vs Axes",
+    "text": "Figure vs Axes\nEvery Matplotlib plot has:\n\nA Figure (the container)\nOne or more Axes (the plotting area)\n\nExplicit control improves reproducibility.\n\nfrom plotnine import (\n    ggplot, aes, geom_point, geom_smooth,\n    labs, theme_light, theme, element_text\n)\n\np = (\n    ggplot(df, aes(x=\"study_hours\", y=\"math_score\", color=\"test_prep\"))\n    + geom_point(alpha=0.55)\n    + geom_smooth(method=\"lm\", se=False)\n    + labs(\n        title=\"Study Hours vs Math Score\",\n        subtitle=\"Trend shown separately by test preparation\",\n        x=\"Study hours per week\",\n        y=\"Math score\",\n        color=\"Test prep\"\n    )\n    + theme_light(base_size=14)\n    + theme(\n        plot_title_position=\"plot\",\n        plot_title=element_text(\n            ha=\"center\",\n            weight=\"bold\",\n            margin={\"b\": 6}\n        ),\n        plot_subtitle=element_text(\n            ha=\"center\",\n            margin={\"b\": 10}\n        ),\n        legend_position=\"top\"\n    )\n)\n\np\n\n\n\n\n\n\n\n\nUsing fig, ax is more explicit and scalable than relying on global state.",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Matplotlib Core Skills</span>"
+    ]
+  },
+  {
+    "objectID": "03-matplotlib-core-skills.html#controlling-limits",
+    "href": "03-matplotlib-core-skills.html#controlling-limits",
+    "title": "Matplotlib Core Skills",
+    "section": "Controlling limits",
+    "text": "Controlling limits\nAxis limits influence perception.\n\nfig, ax = plt.subplots()\n\nax.scatter(df[\"study_hours\"], df[\"math_score\"], alpha=0.6)\n\nax.set_xlim(0, 16)\nax.set_ylim(0, 100)\n\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\nshow_and_save_mpl(fig)  # figures/03_001.png\n\nSaved PNG → figures/03_001.png\n\n\n\n\n\n\n\n\n\nControl prevents misleading compression or exaggeration.",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Matplotlib Core Skills</span>"
+    ]
+  },
+  {
+    "objectID": "03-matplotlib-core-skills.html#adding-grid-discipline",
+    "href": "03-matplotlib-core-skills.html#adding-grid-discipline",
+    "title": "Matplotlib Core Skills",
+    "section": "Adding grid discipline",
+    "text": "Adding grid discipline\nGrid lines should support interpretation, not dominate it.\n\nfig, ax = plt.subplots()\n\nax.scatter(df[\"study_hours\"], df[\"math_score\"], alpha=0.6)\n\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\nshow_and_save_mpl(fig) \n\nSaved PNG → figures/03_002.png\n\n\n\n\n\n\n\n\n\nSubtle grids improve readability in analytical contexts.",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Matplotlib Core Skills</span>"
+    ]
+  },
+  {
+    "objectID": "03-matplotlib-core-skills.html#legends-with-intention",
+    "href": "03-matplotlib-core-skills.html#legends-with-intention",
+    "title": "Matplotlib Core Skills",
+    "section": "Legends with intention",
+    "text": "Legends with intention\nOnly include a legend when grouping adds meaning.\n\nfig, ax = plt.subplots()\n\nfor grp, sub in df.groupby(\"test_prep\"):\n    ax.scatter(sub[\"study_hours\"], sub[\"math_score\"], alpha=0.6, label=grp)\n\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\nax.legend(title=\"Test prep\")\n\nshow_and_save_mpl(fig)  \n\nSaved PNG → figures/03_003.png\n\n\n\n\n\n\n\n\n\nLegends clarify structure when comparisons are present.",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Matplotlib Core Skills</span>"
+    ]
+  },
+  {
+    "objectID": "03-matplotlib-core-skills.html#exporting-figures-consistently",
+    "href": "03-matplotlib-core-skills.html#exporting-figures-consistently",
+    "title": "Matplotlib Core Skills",
+    "section": "Exporting figures consistently",
+    "text": "Exporting figures consistently\nReproducibility includes export discipline.\n\nfig, ax = plt.subplots()\n\nax.scatter(df[\"study_hours\"], df[\"math_score\"], alpha=0.6)\n\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\nshow_and_save_mpl(fig)\n\nSaved PNG → figures/03_004.png\n\n\n\n\n\n\n\n\n\nFigures are saved automatically in:\n\nfigures/03_001.png\n\nfigures/03_002.png\n\netc.\n\nConsistent naming prevents chaos in real projects.",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Matplotlib Core Skills</span>"
+    ]
+  },
+  {
+    "objectID": "03-matplotlib-core-skills.html#key-takeaways",
+    "href": "03-matplotlib-core-skills.html#key-takeaways",
+    "title": "Matplotlib Core Skills",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nUse fig, ax for explicit control.\nSet labels and limits deliberately.\nAdd legends only when comparisons require them.\nExport figures systematically.\nClean structure beats decorative complexity.",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Matplotlib Core Skills</span>"
+    ]
+  },
+  {
+    "objectID": "04-seaborn-comparisons.html",
+    "href": "04-seaborn-comparisons.html",
+    "title": "Seaborn Comparisons",
+    "section": "",
+    "text": "Load data\nMatplotlib gives control. Seaborn gives speed for common analytical plots:\nWe keep styling minimal and focus on the statistical view.\nimport pandas as pd\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\nprint(df.head())\n\n     group  test_prep  study_hours  math_score  reading_score  writing_score\n0  Group B  completed          3.9          58             64             51\n1  Group A       none          7.7          67             85             61\n2  Group A       none          9.3          83             65             73\n3  Group A       none          3.9          60             67             48\n4  Group A       none          8.3          68             63             47",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Seaborn Comparisons</span>"
+    ]
+  },
+  {
+    "objectID": "04-seaborn-comparisons.html#distribution-density-view",
+    "href": "04-seaborn-comparisons.html#distribution-density-view",
+    "title": "Seaborn Comparisons",
+    "section": "Distribution: density view",
+    "text": "Distribution: density view\n\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\nfig, ax = plt.subplots()\n\nsns.kdeplot(data=df, x=\"math_score\", fill=True, ax=ax)\n\nax.set_xlabel(\"Math score\")\nax.set_ylabel(\"Density\")\n\nax.set_title(\n    \"Density view supports comparison\",\n    pad=10,\n    loc=\"center\"\n)\n\nfig.suptitle(\n    \"Distribution of Math Scores\",\n    y=1.02,\n    fontweight=\"bold\",\n    ha=\"center\"\n)\n\nax.grid(True, axis=\"y\", linewidth=0.4, alpha=0.3)\nax.grid(False, axis=\"x\")\n\nshow_and_save_mpl(fig)\n\nSaved PNG → figures/04_001.png",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Seaborn Comparisons</span>"
+    ]
+  },
+  {
+    "objectID": "04-seaborn-comparisons.html#group-comparison-boxplot",
+    "href": "04-seaborn-comparisons.html#group-comparison-boxplot",
+    "title": "Seaborn Comparisons",
+    "section": "Group comparison: boxplot",
+    "text": "Group comparison: boxplot\n\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\nfig, ax = plt.subplots()\n\nsns.boxplot(data=df, x=\"test_prep\", y=\"math_score\", ax=ax)\n\nax.set_xlabel(\"Test preparation\")\nax.set_ylabel(\"Math score\")\n\nfig.suptitle(\"Math Score by Test Preparation\", fontweight=\"bold\", y=1.02)\nax.set_title(\"Boxplots summarize differences across groups\", pad=10)\n\nax.grid(True, axis=\"y\", linewidth=0.4, alpha=0.3)\nax.grid(False, axis=\"x\")\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig)\n\nSaved PNG → figures/04_002.png",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Seaborn Comparisons</span>"
+    ]
+  },
+  {
+    "objectID": "04-seaborn-comparisons.html#add-points-summary-raw-data",
+    "href": "04-seaborn-comparisons.html#add-points-summary-raw-data",
+    "title": "Seaborn Comparisons",
+    "section": "Add points (summary + raw data)",
+    "text": "Add points (summary + raw data)\n\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\nfig, ax = plt.subplots()\n\nsns.boxplot(data=df, x=\"test_prep\", y=\"math_score\", ax=ax)\nsns.stripplot(data=df, x=\"test_prep\", y=\"math_score\", ax=ax, alpha=0.35, jitter=0.25)\n\nax.set_xlabel(\"Test preparation\")\nax.set_ylabel(\"Math score\")\n\nfig.suptitle(\"Math Score by Test Preparation\", fontweight=\"bold\", y=1.02)\nax.set_title(\"Summary plus raw points for honesty\", pad=10)\n\nax.grid(True, axis=\"y\", linewidth=0.4, alpha=0.3)\nax.grid(False, axis=\"x\")\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig)\n\nSaved PNG → figures/04_003.png",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Seaborn Comparisons</span>"
+    ]
+  },
+  {
+    "objectID": "04-seaborn-comparisons.html#relationship-trend-summary",
+    "href": "04-seaborn-comparisons.html#relationship-trend-summary",
+    "title": "Seaborn Comparisons",
+    "section": "Relationship: trend summary",
+    "text": "Relationship: trend summary\n\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\nfig, ax = plt.subplots()\n\nsns.regplot(\n    data=df,\n    x=\"study_hours\",\n    y=\"math_score\",\n    scatter_kws={\"alpha\": 0.55},\n    ax=ax\n)\n\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\nfig.suptitle(\"Study Hours vs Math Score\", fontweight=\"bold\", y=1.02)\nax.set_title(\"Trend summary with fitted line\", pad=10)\n\nax.grid(True, axis=\"y\", linewidth=0.4, alpha=0.3)\nax.grid(False, axis=\"x\")\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig)\n\nSaved PNG → figures/04_004.png",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Seaborn Comparisons</span>"
+    ]
+  },
+  {
+    "objectID": "04-seaborn-comparisons.html#key-takeaways",
+    "href": "04-seaborn-comparisons.html#key-takeaways",
+    "title": "Seaborn Comparisons",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nSeaborn accelerates common analytical plots.\nUse summaries (boxplots, trend lines) to support comparison.\nKeep raw data visible when possible.\nInterpretation still matters more than styling.",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Seaborn Comparisons</span>"
+    ]
+  },
+  {
+    "objectID": "05-plotnine-grammar-of-graphics.html",
+    "href": "05-plotnine-grammar-of-graphics.html",
+    "title": "Plotnine Grammar of Graphics",
+    "section": "",
+    "text": "Setup\nMatplotlib and Seaborn are excellent for building figures directly.\nPlotnine is useful when you want to think in layers:\nThe point of this lesson is not to adopt a new library. It is to learn a mental model that improves plotting in any library.\nimport pandas as pd\n\nfrom plotnine import (\n    ggplot, aes, geom_point, geom_smooth,\n    geom_boxplot, facet_wrap, labs,\n    theme_light\n)\n\nfrom cdi_viz.theme import cdi_notebook_init, show_and_save_plotnine, cdi_theme_plotnine\n\n# Chapter init (shared counter + plotly template if needed elsewhere)\ncdi_notebook_init(chapter=\"05\")\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\ndf.head()\n\n\n\n\n\n\n\n\ngroup\ntest_prep\nstudy_hours\nmath_score\nreading_score\nwriting_score\n\n\n\n\n0\nGroup B\ncompleted\n3.9\n58\n64\n51\n\n\n1\nGroup A\nnone\n7.7\n67\n85\n61\n\n\n2\nGroup A\nnone\n9.3\n83\n65\n73\n\n\n3\nGroup A\nnone\n3.9\n60\n67\n48\n\n\n4\nGroup A\nnone\n8.3\n68\n63\n47",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Plotnine Grammar of Graphics</span>"
+    ]
+  },
+  {
+    "objectID": "05-plotnine-grammar-of-graphics.html#core-idea-mappings-vs-style",
+    "href": "05-plotnine-grammar-of-graphics.html#core-idea-mappings-vs-style",
+    "title": "Plotnine Grammar of Graphics",
+    "section": "Core idea: mappings vs style",
+    "text": "Core idea: mappings vs style\nIn grammar-of-graphics, you separate:\n\nwhat the data encodes (mappings)\nwhat is only styling (colors, sizes, labels)\n\nExample:\n\nmapping: x=study_hours, y=math_score, color=test_prep\nstyling: point transparency, line thickness",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Plotnine Grammar of Graphics</span>"
+    ]
+  },
+  {
+    "objectID": "05-plotnine-grammar-of-graphics.html#relationship-plot-layered",
+    "href": "05-plotnine-grammar-of-graphics.html#relationship-plot-layered",
+    "title": "Plotnine Grammar of Graphics",
+    "section": "Relationship plot (layered)",
+    "text": "Relationship plot (layered)\n\np = (\n    ggplot(df, aes(x=\"study_hours\", y=\"math_score\", color=\"test_prep\"))\n    + geom_point(alpha=0.55)\n    + geom_smooth(method=\"lm\", se=False)\n    + labs(\n        title=\"Study Hours vs Math Score\",\n        subtitle=\"Trend shown separately by test preparation\",\n        x=\"Study hours per week\",\n        y=\"Math score\",\n        color=\"Test prep\"\n    )\n    + theme_light(base_size=14)\n)\n\nshow_and_save_plotnine(p)\n\nSaved PNG → figures/05_001.png\n\n\n\n\n\n\n\n\n\nWhat matters here is the separation:\n\naes(...) describes meaning (what encodes what)\ngeom_* layers add marks and models\nlabels and theme tune readability without changing meaning",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Plotnine Grammar of Graphics</span>"
+    ]
+  },
+  {
+    "objectID": "05-plotnine-grammar-of-graphics.html#group-comparison-summary",
+    "href": "05-plotnine-grammar-of-graphics.html#group-comparison-summary",
+    "title": "Plotnine Grammar of Graphics",
+    "section": "Group comparison (summary)",
+    "text": "Group comparison (summary)\n\np = (\n    ggplot(df, aes(x=\"test_prep\", y=\"math_score\"))\n    + geom_boxplot()\n    + labs(\n        title=\"Math Score by Test Preparation\",\n        subtitle=\"Boxplots summarize differences across groups\",\n        x=\"Test preparation\",\n        y=\"Math score\"\n    )\n    + theme_light(base_size=14)\n)\n\nshow_and_save_plotnine(p)\n\nSaved PNG → figures/05_002.png\n\n\n\n\n\n\n\n\n\nBoxplots summarize:\n\ncentral tendency (median)\nspread (IQR)\npotential outliers",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Plotnine Grammar of Graphics</span>"
+    ]
+  },
+  {
+    "objectID": "05-plotnine-grammar-of-graphics.html#faceting-small-multiples",
+    "href": "05-plotnine-grammar-of-graphics.html#faceting-small-multiples",
+    "title": "Plotnine Grammar of Graphics",
+    "section": "Faceting: small multiples",
+    "text": "Faceting: small multiples\nFaceting repeats the same plot by group. This forces disciplined comparison because every panel uses the same encodings.\n\np = (\n    ggplot(df, aes(x=\"study_hours\", y=\"math_score\"))\n    + geom_point(alpha=0.55)\n    + geom_smooth(method=\"lm\", se=False)\n    + facet_wrap(\"~group\")\n    + labs(\n        title=\"Study Hours vs Math Score by Group\",\n        subtitle=\"Same plot repeated by group for disciplined comparison\",\n        x=\"Study hours per week\",\n        y=\"Math score\"\n    )\n    + theme_light(base_size=14)\n)\n\nshow_and_save_plotnine(p)\n\nSaved PNG → figures/05_003.png",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Plotnine Grammar of Graphics</span>"
+    ]
+  },
+  {
+    "objectID": "05-plotnine-grammar-of-graphics.html#key-takeaways",
+    "href": "05-plotnine-grammar-of-graphics.html#key-takeaways",
+    "title": "Plotnine Grammar of Graphics",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nGrammar-of-graphics is a mental model, not a brand.\nSeparate mappings (meaning) from styling (appearance).\nLayering helps you modify plots without restarting.\nFaceting is one of the cleanest ways to compare groups.",
+    "crumbs": [
+      "Core Libraries",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Plotnine Grammar of Graphics</span>"
+    ]
+  },
+  {
+    "objectID": "06-interactive-plotly-basics.html",
+    "href": "06-interactive-plotly-basics.html",
+    "title": "Interactive Plotly Basics",
+    "section": "",
+    "text": "Requirements\nThis chapter introduces interactive visualizations using Plotly.\nPlotly charts are naturally interactive. In a live Python environment you can hover, zoom, pan, toggle legend groups, and download high-resolution images from the toolbar.\nIn this CDI free track, charts are rendered as static PNG snapshots for consistency and clean book builds. The PNGs are automatically generated from the same Plotly code using the shared CDI export helper.\nTo experience full interactivity (hover, zoom, legend toggling), run this chapter locally in Jupyter Notebook, JupyterLab, or VS Code. The first example below is intended to be viewed interactively during development (show=True).\nPlotly static PNG export requires kaleido.",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Plotly Basics</span>"
+    ]
+  },
+  {
+    "objectID": "06-interactive-plotly-basics.html#requirements",
+    "href": "06-interactive-plotly-basics.html#requirements",
+    "title": "Interactive Plotly Basics",
+    "section": "",
+    "text": "pip install -U kaleido",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Plotly Basics</span>"
+    ]
+  },
+  {
+    "objectID": "06-interactive-plotly-basics.html#setup",
+    "href": "06-interactive-plotly-basics.html#setup",
+    "title": "Interactive Plotly Basics",
+    "section": "Setup",
+    "text": "Setup\n\nimport warnings\nimport pandas as pd\nimport plotly.express as px\n\nfrom cdi_viz.theme import (\n    cdi_notebook_init,\n    cdi_theme,\n    show_and_save_plotly,\n)\n\nwarnings.filterwarnings(\"ignore\")\n\n# Chapter init: sets Plotly theme + resets the shared figure counter\ncdi_notebook_init(chapter=\"06\", title_x=0.5)\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\nprint(df.head())\n\n     group  test_prep  study_hours  math_score  reading_score  writing_score\n0  Group B  completed          3.9          58             64             51\n1  Group A       none          7.7          67             85             61\n2  Group A       none          9.3          83             65             73\n3  Group A       none          3.9          60             67             48\n4  Group A       none          8.3          68             63             47",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Plotly Basics</span>"
+    ]
+  },
+  {
+    "objectID": "06-interactive-plotly-basics.html#understand-the-dataset",
+    "href": "06-interactive-plotly-basics.html#understand-the-dataset",
+    "title": "Interactive Plotly Basics",
+    "section": "Understand the dataset",
+    "text": "Understand the dataset\nThis guide uses a CDI synthetic dataset designed for clear plotting practice.\nFile: data/cdi-student-outcomes.csv\nColumns available:\n\nlist(df.columns)\n\n['group',\n 'test_prep',\n 'study_hours',\n 'math_score',\n 'reading_score',\n 'writing_score']\n\n\nQuick mental model:\n\nstudy_hours and math_score support relationship plots\ntest_prep and group support comparisons and faceting\nreading_score and writing_score provide extra hover context",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Plotly Basics</span>"
+    ]
+  },
+  {
+    "objectID": "06-interactive-plotly-basics.html#first-interactive-plotly-visualization",
+    "href": "06-interactive-plotly-basics.html#first-interactive-plotly-visualization",
+    "title": "Interactive Plotly Basics",
+    "section": "First interactive Plotly visualization",
+    "text": "First interactive Plotly visualization\n\nInteractive scatter plot\nThis plot answers:\nDoes study time relate to math performance, and does test preparation matter?\n\nfig = px.scatter(\n    df,\n    x=\"study_hours\",\n    y=\"math_score\",\n    color=\"test_prep\",\n    hover_data=[\"group\", \"reading_score\", \"writing_score\"],\n    title=\"Study Hours vs Math Score (Interactive)\",\n)\n\ncdi_theme(fig, title_x=0.5) # center the title\n\n# Development mode: interactive view + exported PNG\nshow_and_save_plotly(fig, show=False)  # figures/06_001.png\n\nSaved PNG → figures/06_001.png\n\n\n\n\n\n\n\n\n\nWhen you run locally, hover points to inspect values. In the book, you will see the PNG snapshot saved in figures/.",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Plotly Basics</span>"
+    ]
+  },
+  {
+    "objectID": "06-interactive-plotly-basics.html#distribution-views",
+    "href": "06-interactive-plotly-basics.html#distribution-views",
+    "title": "Interactive Plotly Basics",
+    "section": "Distribution views",
+    "text": "Distribution views\n\nHistogram: distribution of math scores\n\nfig = px.histogram(\n    df,\n    x=\"math_score\",\n    color=\"test_prep\",\n    barmode=\"overlay\",\n    opacity=0.65,\n    nbins=30,\n    title=\"Distribution of Math Scores\",\n)\n\ncdi_theme(fig, title_x=0.5)\n\n# Book rendering: save PNG only (no interactive output)\nshow_and_save_plotly(fig, show=False)  # figures/06_002.png\n\nSaved PNG → figures/06_002.png\n\n\n\n\n\n\n\n\n\nInterpretation prompts:\n\nAre the distributions shifted?\nIs one group more variable?\nDo you see ceiling or floor effects?",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Plotly Basics</span>"
+    ]
+  },
+  {
+    "objectID": "06-interactive-plotly-basics.html#group-comparisons",
+    "href": "06-interactive-plotly-basics.html#group-comparisons",
+    "title": "Interactive Plotly Basics",
+    "section": "Group comparisons",
+    "text": "Group comparisons\n\nBox plot: math score by test preparation\n\nfig = px.box(\n    df,\n    x=\"test_prep\",\n    y=\"math_score\",\n    title=\"Math Score by Test Preparation\",\n    labels={\"test_prep\": \"Test preparation\", \"math_score\": \"Math score\"},\n)\n\nfig.update_traces(\n    boxpoints=\"all\",\n    jitter=0.25,\n    pointpos=0,\n    marker=dict(size=4, opacity=0.6),\n)\n\ncdi_theme(fig, title_x=0.5)\nshow_and_save_plotly(fig, show=False)\n\nSaved PNG → figures/06_003.png\n\n\n\n\n\n\n\n\n\nWhy this is useful:\n\nthe box summarizes distribution (median + spread)\npoints keep the plot honest",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Plotly Basics</span>"
+    ]
+  },
+  {
+    "objectID": "06-interactive-plotly-basics.html#small-multiples-faceting",
+    "href": "06-interactive-plotly-basics.html#small-multiples-faceting",
+    "title": "Interactive Plotly Basics",
+    "section": "Small multiples (faceting)",
+    "text": "Small multiples (faceting)\nFaceting is one of the cleanest ways to compare patterns without mixing categories into one panel.\n\nScatter plot faceted by group\n\nfig = px.scatter(\n    df,\n    x=\"study_hours\",\n    y=\"math_score\",\n    color=\"test_prep\",\n    facet_col=\"group\",\n    title=\"Study Hours vs Math Score (Faceted by Group)\",\n)\n\ncdi_theme(fig, title_x=0.5)\n\nshow_and_save_plotly(fig, show=False)  # figures/06_004.png\n\nSaved PNG → figures/06_004.png\n\n\n\n\n\n\n\n\n\nInterpretation prompts:\n\nDoes the relationship look similar in each group?\nIs one group consistently higher?\nAre outliers concentrated in one panel?",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Plotly Basics</span>"
+    ]
+  },
+  {
+    "objectID": "06-interactive-plotly-basics.html#summary",
+    "href": "06-interactive-plotly-basics.html#summary",
+    "title": "Interactive Plotly Basics",
+    "section": "Summary",
+    "text": "Summary\n\nIn this chapter you used Plotly to build interactive views and exported them as stable PNGs:\n\ninteractive scatter plots\ndistributions (histograms)\ncomparisons (box plots + points)\nfaceted small multiples\n\nUse Plotly interactivity during exploration, then publish stable PNG figures for reports and book builds.",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Plotly Basics</span>"
+    ]
+  },
+  {
+    "objectID": "06-interactive-plotly-basics.html#exercises",
+    "href": "06-interactive-plotly-basics.html#exercises",
+    "title": "Interactive Plotly Basics",
+    "section": "Exercises",
+    "text": "Exercises\n\n\nBuild an interactive scatter plot using reading_score vs writing_score.\n\nCreate a histogram of study_hours and compare by test_prep.\n\nMake a box plot for reading_score by group (points on).\n\nFacet a scatter plot by group and color by test_prep.\n\nFor one figure, set show=True to explore it interactively, then switch back to show=False for publishing.",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Plotly Basics</span>"
+    ]
+  },
+  {
+    "objectID": "07-multi-panel-and-layouts.html",
+    "href": "07-multi-panel-and-layouts.html",
+    "title": "Multi-Panel Figures and Layouts",
+    "section": "",
+    "text": "Setup\nSingle plots are useful, but many real questions require structured comparison:\nIn this lesson, you will build multi-panel figures using:\nAll figures are exported to figures/ using the shared CDI counter.\nimport warnings\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\nfrom cdi_viz.theme import (\n    cdi_notebook_init,\n    show_and_save_mpl,\n    show_and_save_plotly,\n    cdi_theme\n)\n\nwarnings.filterwarnings(\"ignore\")\n\n# Chapter init: resets the shared counter and ensures figures/ exists\ncdi_notebook_init(chapter=\"07\")\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\nprint(df.head())\n\n     group  test_prep  study_hours  math_score  reading_score  writing_score\n0  Group B  completed          3.9          58             64             51\n1  Group A       none          7.7          67             85             61\n2  Group A       none          9.3          83             65             73\n3  Group A       none          3.9          60             67             48\n4  Group A       none          8.3          68             63             47",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Multi-Panel Figures and Layouts</span>"
+    ]
+  },
+  {
+    "objectID": "07-multi-panel-and-layouts.html#matplotlib-a-clean-2-panel-comparison",
+    "href": "07-multi-panel-and-layouts.html#matplotlib-a-clean-2-panel-comparison",
+    "title": "Multi-Panel Figures and Layouts",
+    "section": "Matplotlib: a clean 2-panel comparison",
+    "text": "Matplotlib: a clean 2-panel comparison\nThis layout answers two questions at once:\n\nRelationship: study time vs math score\nDistribution: how math scores are spread\n\n\nfig, axes = plt.subplots(ncols=2, figsize=(10, 4.2))\n\n# Panel 1: scatter\naxes[0].scatter(df[\"study_hours\"], df[\"math_score\"], alpha=0.6)\naxes[0].set_title(\"Study hours vs math score\")\naxes[0].set_xlabel(\"Study hours per week\")\naxes[0].set_ylabel(\"Math score\")\n\n# Panel 2: histogram\naxes[1].hist(df[\"math_score\"], bins=22, alpha=0.85)\naxes[1].set_title(\"Distribution of math scores\")\naxes[1].set_xlabel(\"Math score\")\naxes[1].set_ylabel(\"Count\")\n\nfig.suptitle(\"Two views of the same outcome\", y=1.02)\nfig.tight_layout()\n\nshow_and_save_mpl(fig)  # figures/07_001.png\n\nSaved PNG → figures/07_001.png\n\n\n\n\n\n\n\n\n\n\nWhy this works\n\nThe left panel shows structure (trend and outliers).\nThe right panel shows distribution (spread and skew).\nTogether they prevent over-interpreting a single view.",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Multi-Panel Figures and Layouts</span>"
+    ]
+  },
+  {
+    "objectID": "07-multi-panel-and-layouts.html#matplotlib-small-multiples-with-shared-scales",
+    "href": "07-multi-panel-and-layouts.html#matplotlib-small-multiples-with-shared-scales",
+    "title": "Multi-Panel Figures and Layouts",
+    "section": "Matplotlib: small multiples with shared scales",
+    "text": "Matplotlib: small multiples with shared scales\nSmall multiples are disciplined comparison: same axes, same scales, repeated across groups.\nHere we repeat the same scatter plot for each group.\n\ngroups = sorted(df[\"group\"].unique())\n\nfig, axes = plt.subplots(ncols=len(groups), figsize=(11, 4), sharey=True)\n\nfor ax, g in zip(axes, groups):\n    sub = df[df[\"group\"] == g]\n    ax.scatter(sub[\"study_hours\"], sub[\"math_score\"], alpha=0.6)\n    ax.set_title(f\"Group {g}\")\n    ax.set_xlabel(\"Study hours\")\n\naxes[0].set_ylabel(\"Math score\")\nfig.suptitle(\"Study hours vs math score by group\", y=1.02)\nfig.tight_layout()\n\nshow_and_save_mpl(fig)  # figures/07_002.png\n\nSaved PNG → figures/07_002.png\n\n\n\n\n\n\n\n\n\nTip: sharey=True is important. If each panel auto-scales independently, comparisons become unreliable.",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Multi-Panel Figures and Layouts</span>"
+    ]
+  },
+  {
+    "objectID": "07-multi-panel-and-layouts.html#seaborn-facetgrid-for-quick-small-multiples",
+    "href": "07-multi-panel-and-layouts.html#seaborn-facetgrid-for-quick-small-multiples",
+    "title": "Multi-Panel Figures and Layouts",
+    "section": "Seaborn: FacetGrid for quick small multiples",
+    "text": "Seaborn: FacetGrid for quick small multiples\nSeaborn can create small multiples quickly. It is useful for exploration when you want repeat the same plot across categories with minimal code.\n\ng = sns.FacetGrid(df, col=\"group\", height=3.6, aspect=1.0, sharey=True)\ng.map_dataframe(sns.scatterplot, x=\"study_hours\", y=\"math_score\", alpha=0.65)\ng.set_axis_labels(\"Study hours per week\", \"Math score\")\ng.set_titles(\"Group {col_name}\")\ng.fig.suptitle(\"FacetGrid: disciplined comparison by group\", y=1.02)\n\nshow_and_save_mpl(g.fig)  # figures/07_003.png\n\nSaved PNG → figures/07_003.png",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Multi-Panel Figures and Layouts</span>"
+    ]
+  },
+  {
+    "objectID": "07-multi-panel-and-layouts.html#seaborn-multi-panel-categorical-comparison",
+    "href": "07-multi-panel-and-layouts.html#seaborn-multi-panel-categorical-comparison",
+    "title": "Multi-Panel Figures and Layouts",
+    "section": "Seaborn: multi-panel categorical comparison",
+    "text": "Seaborn: multi-panel categorical comparison\nThis uses a panel-per-group layout for a box plot.\n\ng = sns.catplot(\n    data=df,\n    x=\"test_prep\",\n    y=\"math_score\",\n    col=\"group\",\n    kind=\"box\",\n    height=3.6,\n    aspect=1.0,\n    sharey=True,\n)\ng.set_axis_labels(\"Test preparation\", \"Math score\")\ng.set_titles(\"Group {col_name}\")\ng.fig.suptitle(\"Math score by test prep, repeated by group\", y=1.02)\n\nshow_and_save_mpl(g.fig)  # figures/07_004.png\n\nSaved PNG → figures/07_004.png",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Multi-Panel Figures and Layouts</span>"
+    ]
+  },
+  {
+    "objectID": "07-multi-panel-and-layouts.html#plotly-facets-for-interactive-multi-panel-comparison",
+    "href": "07-multi-panel-and-layouts.html#plotly-facets-for-interactive-multi-panel-comparison",
+    "title": "Multi-Panel Figures and Layouts",
+    "section": "Plotly: facets for interactive multi-panel comparison",
+    "text": "Plotly: facets for interactive multi-panel comparison\nPlotly facets are great when you want the learner to: - hover points - zoom into a panel - toggle legend groups\nIn CDI publishing, we export a static PNG snapshot for consistency.\n\nimport plotly.express as px\n\nfig = px.scatter(\n    df,\n    x=\"study_hours\",\n    y=\"math_score\",\n    color=\"test_prep\",\n    facet_col=\"group\",\n    title=\"Study Hours vs Math Score (Faceted by Group)\",\n)\n\n# Center title by default; keep export stable\ncdi_theme(fig)\n\nshow_and_save_plotly(fig, show=False)  # figures/07_005.png\n\nSaved PNG → figures/07_005.png",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Multi-Panel Figures and Layouts</span>"
+    ]
+  },
+  {
+    "objectID": "07-multi-panel-and-layouts.html#a-simple-layout-checklist",
+    "href": "07-multi-panel-and-layouts.html#a-simple-layout-checklist",
+    "title": "Multi-Panel Figures and Layouts",
+    "section": "A simple layout checklist",
+    "text": "A simple layout checklist\nWhen building multi-panel figures, check these every time:\n\nShared scales when comparing groups\nConsistent labels across panels\nShort panel titles (avoid full sentences)\nOne main title (figure-level), then small panel titles\nWhitespace: use tight_layout() or controlled margins\nAvoid legends inside panels if they block data",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Multi-Panel Figures and Layouts</span>"
+    ]
+  },
+  {
+    "objectID": "07-multi-panel-and-layouts.html#key-takeaways",
+    "href": "07-multi-panel-and-layouts.html#key-takeaways",
+    "title": "Multi-Panel Figures and Layouts",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nMulti-panel figures support disciplined comparison.\nMatplotlib gives full control over layout and publication style.\nSeaborn makes small multiples quick for exploration.\nPlotly facets add interactivity during development and sharing.\nExport all figures to PNG for stable Quarto book builds.",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Multi-Panel Figures and Layouts</span>"
+    ]
+  },
+  {
+    "objectID": "07-multi-panel-and-layouts.html#exercises",
+    "href": "07-multi-panel-and-layouts.html#exercises",
+    "title": "Multi-Panel Figures and Layouts",
+    "section": "Exercises",
+    "text": "Exercises\n\n\nCreate a 2×2 Matplotlib grid showing: math, reading, writing distributions, plus one scatter plot.\n\nRepeat a scatter plot by test_prep using Seaborn facets (row= or col=).\n\nBuild a Plotly faceted histogram of math_score by group and export the PNG.\n\nIn a small multiple figure, intentionally remove sharey=True and observe how it changes interpretation.",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Multi-Panel Figures and Layouts</span>"
+    ]
+  },
+  {
+    "objectID": "08-annotations-and-figure-polish.html",
+    "href": "08-annotations-and-figure-polish.html",
+    "title": "Annotations and Figure Polish",
+    "section": "",
+    "text": "Setup\nMost “professional” plots are not about fancy chart types.\nThey are about clarity:\nIn this lesson you will learn how to polish figures using:\nAll outputs are exported to figures/ using CDI helpers.\nimport warnings\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\nfrom cdi_viz.theme import (\n    cdi_notebook_init,\n    show_and_save_mpl,\n)\n\nwarnings.filterwarnings(\"ignore\")\n\ncdi_notebook_init(chapter=\"08\")\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\nprint(df.head())\n\n     group  test_prep  study_hours  math_score  reading_score  writing_score\n0  Group B  completed          3.9          58             64             51\n1  Group A       none          7.7          67             85             61\n2  Group A       none          9.3          83             65             73\n3  Group A       none          3.9          60             67             48\n4  Group A       none          8.3          68             63             47",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Annotations and Figure Polish</span>"
+    ]
+  },
+  {
+    "objectID": "08-annotations-and-figure-polish.html#matplotlib-highlight-a-key-region",
+    "href": "08-annotations-and-figure-polish.html#matplotlib-highlight-a-key-region",
+    "title": "Annotations and Figure Polish",
+    "section": "Matplotlib: highlight a key region",
+    "text": "Matplotlib: highlight a key region\nA simple but effective technique: highlight the region where a decision threshold matters.\nExample: mark the “strong outcome” zone for math score.\n\nfig, ax = plt.subplots(figsize=(7.6, 4.6))\n\nax.scatter(df[\"study_hours\"], df[\"math_score\"], alpha=0.6)\n\nax.set_title(\"Study hours vs math score\")\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\n# Reference band\nax.axhspan(80, 100, alpha=0.12)\nax.text(\n    x=df[\"study_hours\"].min() + 0.2,\n    y=96,\n    s=\"Strong outcomes (≥ 80)\",\n    fontsize=11,\n)\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig)  # figures/08_001.png\n\nSaved PNG → figures/08_001.png",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Annotations and Figure Polish</span>"
+    ]
+  },
+  {
+    "objectID": "08-annotations-and-figure-polish.html#matplotlib-label-a-specific-point",
+    "href": "08-annotations-and-figure-polish.html#matplotlib-label-a-specific-point",
+    "title": "Annotations and Figure Polish",
+    "section": "Matplotlib: label a specific point",
+    "text": "Matplotlib: label a specific point\nIf a single point drives your interpretation, label it.\n\n# Find the top math score (one example point)\ntop_idx = df[\"math_score\"].idxmax()\npt = df.loc[top_idx]\n\nfig, ax = plt.subplots(figsize=(7.6, 4.6))\nax.scatter(df[\"study_hours\"], df[\"math_score\"], alpha=0.55)\nax.scatter([pt[\"study_hours\"]], [pt[\"math_score\"]], s=80)\n\nax.set_title(\"Labeling the top-scoring student\")\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\nax.annotate(\n    \"Highest score\",\n    xy=(pt[\"study_hours\"], pt[\"math_score\"]),\n    xytext=(pt[\"study_hours\"] + 2, pt[\"math_score\"] - 8),\n    arrowprops=dict(arrowstyle=\"-&gt;\"),\n)\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig)  # figures/08_002.png\n\nSaved PNG → figures/08_002.png\n\n\n\n\n\n\n\n\n\nTip: avoid labeling too many points. If everything is labeled, nothing is emphasized.",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Annotations and Figure Polish</span>"
+    ]
+  },
+  {
+    "objectID": "08-annotations-and-figure-polish.html#seaborn-add-a-reference-line-mean",
+    "href": "08-annotations-and-figure-polish.html#seaborn-add-a-reference-line-mean",
+    "title": "Annotations and Figure Polish",
+    "section": "Seaborn: add a reference line (mean)",
+    "text": "Seaborn: add a reference line (mean)\nReference lines help readers orient quickly.\n\nfig, ax = plt.subplots(figsize=(7.6, 4.6))\n\nsns.scatterplot(data=df, x=\"study_hours\", y=\"math_score\", hue=\"test_prep\", alpha=0.7, ax=ax)\n\nmean_score = df[\"math_score\"].mean()\nax.axhline(mean_score, linestyle=\"--\", linewidth=1)\n\nax.set_title(\"Study hours vs math score, with mean reference\")\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\nax.text(\n    x=df[\"study_hours\"].min() + 0.2,\n    y=mean_score + 1.5,\n    s=f\"Mean math score ≈ {mean_score:.1f}\",\n    fontsize=11,\n)\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig)  # figures/08_003.png\n\nSaved PNG → figures/08_003.png",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Annotations and Figure Polish</span>"
+    ]
+  },
+  {
+    "objectID": "08-annotations-and-figure-polish.html#seaborn-annotate-group-summaries",
+    "href": "08-annotations-and-figure-polish.html#seaborn-annotate-group-summaries",
+    "title": "Annotations and Figure Polish",
+    "section": "Seaborn: annotate group summaries",
+    "text": "Seaborn: annotate group summaries\nWhen using box plots, add the summary as text only if it improves the message.\nHere we add medians above each group.\n\nfig, ax = plt.subplots(figsize=(7.0, 4.6))\n\nsns.boxplot(data=df, x=\"test_prep\", y=\"math_score\", ax=ax)\n\nax.set_title(\"Math score by test preparation\")\nax.set_xlabel(\"Test preparation\")\nax.set_ylabel(\"Math score\")\n\n# Add median labels\nmedians = df.groupby(\"test_prep\")[\"math_score\"].median()\nfor i, cat in enumerate(medians.index):\n    ax.text(\n        i,\n        medians[cat] + 1.5,\n        f\"Median: {medians[cat]:.0f}\",\n        ha=\"center\",\n        fontsize=11,\n        color=\"#dbe2f0\",  # light grey (CDI-friendly)\n    )\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig)\n\nSaved PNG → figures/08_004.png",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Annotations and Figure Polish</span>"
+    ]
+  },
+  {
+    "objectID": "08-annotations-and-figure-polish.html#plotly-annotations-for-interactive-exploration",
+    "href": "08-annotations-and-figure-polish.html#plotly-annotations-for-interactive-exploration",
+    "title": "Annotations and Figure Polish",
+    "section": "Plotly: annotations for interactive exploration",
+    "text": "Plotly: annotations for interactive exploration\nPlotly is useful for exploration because you can inspect points. But you can also add annotations to guide the reader.\n\nimport plotly.express as px\nfrom cdi_viz.theme import cdi_theme, show_and_save_plotly\n\nfig = px.scatter(\n    df,\n    x=\"study_hours\",\n    y=\"math_score\",\n    color=\"test_prep\",\n    hover_data=[\"group\", \"reading_score\", \"writing_score\"],\n    title=\"Study hours vs math score (with annotation)\",\n)\n\n# Add an annotation near the mean\nmean_score = df[\"math_score\"].mean()\nfig.add_hline(y=mean_score, line_dash=\"dash\")\nfig.add_annotation(\n    x=df[\"study_hours\"].median(),\n    y=mean_score,\n    text=f\"Mean ≈ {mean_score:.1f}\",\n    showarrow=True,\n    arrowhead=2,\n    ay=-35,\n)\n\ncdi_theme(fig)\n\nshow_and_save_plotly(fig, show=False)  # figures/08_005.png\n\nSaved PNG → figures/08_005.png",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Annotations and Figure Polish</span>"
+    ]
+  },
+  {
+    "objectID": "08-annotations-and-figure-polish.html#a-polish-checklist",
+    "href": "08-annotations-and-figure-polish.html#a-polish-checklist",
+    "title": "Annotations and Figure Polish",
+    "section": "A polish checklist",
+    "text": "A polish checklist\nBefore you export a figure, check:\n\nDoes the title answer a question, not just name variables?\nAre axis labels readable and specific?\nIs there unnecessary legend clutter?\nIs the key comparison highlighted?\nAre annotations minimal and purposeful?\nWould a reader understand the plot without you speaking?",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Annotations and Figure Polish</span>"
+    ]
+  },
+  {
+    "objectID": "08-annotations-and-figure-polish.html#key-takeaways",
+    "href": "08-annotations-and-figure-polish.html#key-takeaways",
+    "title": "Annotations and Figure Polish",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nAnnotations turn plots into explanations.\nUse reference lines and bands to show thresholds.\nLabel only the points that matter.\nAdd summaries only when they improve the message.\nKeep the figure readable without narration.",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Annotations and Figure Polish</span>"
+    ]
+  },
+  {
+    "objectID": "08-annotations-and-figure-polish.html#exercises",
+    "href": "08-annotations-and-figure-polish.html#exercises",
+    "title": "Annotations and Figure Polish",
+    "section": "Exercises",
+    "text": "Exercises\n\n\nAdd a threshold band to a histogram (choose a meaningful cutoff).\n\nLabel one extreme point (max or min) on a scatter plot.\n\nAdd median labels on a box plot for reading_score by test_prep.\n\nIn Plotly, add a vertical line at the median of study_hours and annotate it.",
+    "crumbs": [
+      "Expanding Your Visualization Skills",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Annotations and Figure Polish</span>"
+    ]
+  },
+  {
+    "objectID": "09-export-and-reproducible-workflows.html",
+    "href": "09-export-and-reproducible-workflows.html",
+    "title": "Exporting and Reproducible Figure Workflows",
+    "section": "",
+    "text": "Setup\nProfessional visualization is not only about creating figures. It is about exporting them consistently and reproducibly.\nIn this lesson you will:\nAll figures are exported to figures/ using CDI helpers.\nimport warnings\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nimport plotly.express as px\n\nfrom cdi_viz.theme import (\n    cdi_notebook_init,\n    cdi_theme,\n    show_and_save_mpl,\n    show_and_save_plotly,\n)\n\nwarnings.filterwarnings(\"ignore\")\n\ncdi_notebook_init(chapter=\"09\")\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\n\nprint(\"First rows:\")\nprint(df.head())\n\nFirst rows:\n     group  test_prep  study_hours  math_score  reading_score  writing_score\n0  Group B  completed          3.9          58             64             51\n1  Group A       none          7.7          67             85             61\n2  Group A       none          9.3          83             65             73\n3  Group A       none          3.9          60             67             48\n4  Group A       none          8.3          68             63             47",
+    "crumbs": [
+      "Professional Workflow",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Exporting and Reproducible Figure Workflows</span>"
+    ]
+  },
+  {
+    "objectID": "09-export-and-reproducible-workflows.html#static-export-matplotlib-high-resolution",
+    "href": "09-export-and-reproducible-workflows.html#static-export-matplotlib-high-resolution",
+    "title": "Exporting and Reproducible Figure Workflows",
+    "section": "Static Export: Matplotlib (High Resolution)",
+    "text": "Static Export: Matplotlib (High Resolution)\n\nfig, ax = plt.subplots(figsize=(7.6, 4.6))\n\nax.scatter(df[\"study_hours\"], df[\"math_score\"], alpha=0.6)\n\nax.set_title(\"Study hours vs math score\")\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig, dpi=300)  # figures/09_001.png\n\nSaved PNG → figures/09_001.png",
+    "crumbs": [
+      "Professional Workflow",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Exporting and Reproducible Figure Workflows</span>"
+    ]
+  },
+  {
+    "objectID": "09-export-and-reproducible-workflows.html#controlling-figure-size",
+    "href": "09-export-and-reproducible-workflows.html#controlling-figure-size",
+    "title": "Exporting and Reproducible Figure Workflows",
+    "section": "Controlling Figure Size",
+    "text": "Controlling Figure Size\n\nfig, ax = plt.subplots(figsize=(9, 5))\n\nsns.histplot(df[\"math_score\"], bins=25, ax=ax)\n\nax.set_title(\"Distribution of math scores\")\nax.set_xlabel(\"Math score\")\nax.set_ylabel(\"Count\")\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig, dpi=300)  # figures/09_002.png\n\nSaved PNG → figures/09_002.png",
+    "crumbs": [
+      "Professional Workflow",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Exporting and Reproducible Figure Workflows</span>"
+    ]
+  },
+  {
+    "objectID": "09-export-and-reproducible-workflows.html#plotly-static-snapshot-export",
+    "href": "09-export-and-reproducible-workflows.html#plotly-static-snapshot-export",
+    "title": "Exporting and Reproducible Figure Workflows",
+    "section": "Plotly: Static Snapshot Export",
+    "text": "Plotly: Static Snapshot Export\n\nfig = px.scatter(\n    df,\n    x=\"study_hours\",\n    y=\"math_score\",\n    color=\"test_prep\",\n    title=\"Study hours vs math score (Plotly)\",\n)\n\ncdi_theme(fig)\n\nshow_and_save_plotly(fig, show=False)  # figures/09_003.png\n\nSaved PNG → figures/09_003.png",
+    "crumbs": [
+      "Professional Workflow",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Exporting and Reproducible Figure Workflows</span>"
+    ]
+  },
+  {
+    "objectID": "09-export-and-reproducible-workflows.html#project-structure-discipline",
+    "href": "09-export-and-reproducible-workflows.html#project-structure-discipline",
+    "title": "Exporting and Reproducible Figure Workflows",
+    "section": "Project Structure Discipline",
+    "text": "Project Structure Discipline\nA clean visualization project should look like this:\nproject-root/ │ ├── data/ ├── figures/ ├── cdi_viz/ ├── 01-preface-and-setup.qmd ├── 02-story-driven-visualization.qmd …\nRules:\n\nNever manually rename exported figures\nLet the chapter counter manage numbering\nKeep figure filenames deterministic",
+    "crumbs": [
+      "Professional Workflow",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Exporting and Reproducible Figure Workflows</span>"
+    ]
+  },
+  {
+    "objectID": "09-export-and-reproducible-workflows.html#key-takeaways",
+    "href": "09-export-and-reproducible-workflows.html#key-takeaways",
+    "title": "Exporting and Reproducible Figure Workflows",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nProfessional visualization requires export discipline.\nUse consistent figure sizes.\nControl DPI intentionally.\nKeep project structure clean.\nUse CDI helpers to standardize outputs.",
+    "crumbs": [
+      "Professional Workflow",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Exporting and Reproducible Figure Workflows</span>"
+    ]
+  },
+  {
+    "objectID": "09-export-and-reproducible-workflows.html#exercises",
+    "href": "09-export-and-reproducible-workflows.html#exercises",
+    "title": "Exporting and Reproducible Figure Workflows",
+    "section": "Exercises",
+    "text": "Exercises\n\n\nExport the same scatter plot at 150 DPI and 300 DPI. Compare clarity.\nChange figure size to (12, 6) and evaluate readability.\nCreate a Plotly histogram and export a static snapshot.\nInspect your figures/ folder and confirm numbering consistency.",
+    "crumbs": [
+      "Professional Workflow",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Exporting and Reproducible Figure Workflows</span>"
+    ]
+  },
+  {
+    "objectID": "10-visual-design-and-color-discipline.html",
+    "href": "10-visual-design-and-color-discipline.html",
+    "title": "Visual Design Principles and Color Discipline",
+    "section": "",
+    "text": "Setup\nGood visualization is not decoration.\nIt is controlled hierarchy.\nIn this lesson you will learn:\nimport warnings\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\nfrom cdi_viz.theme import (\n    cdi_notebook_init,\n    show_and_save_mpl,\n)\n\nwarnings.filterwarnings(\"ignore\")\n\ncdi_notebook_init(chapter=\"10\")\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\n\nprint(\"First rows:\")\nprint(df.head())\n\nFirst rows:\n     group  test_prep  study_hours  math_score  reading_score  writing_score\n0  Group B  completed          3.9          58             64             51\n1  Group A       none          7.7          67             85             61\n2  Group A       none          9.3          83             65             73\n3  Group A       none          3.9          60             67             48\n4  Group A       none          8.3          68             63             47",
+    "crumbs": [
+      "Professional Workflow",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Visual Design Principles and Color Discipline</span>"
+    ]
+  },
+  {
+    "objectID": "11-common-visualization-mistakes.html",
+    "href": "11-common-visualization-mistakes.html",
+    "title": "Common Visualization Mistakes and How to Avoid Them",
+    "section": "",
+    "text": "Setup\nProfessional visualization is not only about creating good figures.\nIt is about recognizing bad ones.\nIn this lesson, you will learn to identify and correct common mistakes:\nimport warnings\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\nfrom cdi_viz.theme import (\n    cdi_notebook_init,\n    show_and_save_mpl,\n)\n\nwarnings.filterwarnings(\"ignore\")\n\ncdi_notebook_init(chapter=\"11\")\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\n\nprint(\"First rows:\")\nprint(df.head())\n\nFirst rows:\n     group  test_prep  study_hours  math_score  reading_score  writing_score\n0  Group B  completed          3.9          58             64             51\n1  Group A       none          7.7          67             85             61\n2  Group A       none          9.3          83             65             73\n3  Group A       none          3.9          60             67             48\n4  Group A       none          8.3          68             63             47",
+    "crumbs": [
+      "Professional Workflow",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Common Visualization Mistakes and How to Avoid Them</span>"
+    ]
+  },
+  {
+    "objectID": "12-mini-capstone-visual-report.html",
+    "href": "12-mini-capstone-visual-report.html",
+    "title": "Mini Capstone: Building a Structured Visual Report",
+    "section": "",
+    "text": "Setup\nThis mini capstone brings everything together.\nYou will build a short, structured visual report using:\nThe goal is not to produce many plots.\nThe goal is to produce a small number of clear, defensible figures.\nimport warnings\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nimport plotly.express as px\n\nfrom cdi_viz.theme import (\n    cdi_notebook_init,\n    set_cdi_theme,\n    show_and_save_mpl,\n    show_and_save_plotly,\n)\n\nwarnings.filterwarnings(\"ignore\")\n\ncdi_notebook_init(chapter=\"12\")\n\ndf = pd.read_csv(\"data/cdi-student-outcomes.csv\")\n\nprint(\"First rows:\")\nprint(df.head())\n\nFirst rows:\n     group  test_prep  study_hours  math_score  reading_score  writing_score\n0  Group B  completed          3.9          58             64             51\n1  Group A       none          7.7          67             85             61\n2  Group A       none          9.3          83             65             73\n3  Group A       none          3.9          60             67             48\n4  Group A       none          8.3          68             63             47",
+    "crumbs": [
+      "Capstone",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Mini Capstone: Building a Structured Visual Report</span>"
+    ]
+  },
+  {
+    "objectID": "12-mini-capstone-visual-report.html#is-test-preparation-associated-with-higher-math-scores",
+    "href": "12-mini-capstone-visual-report.html#is-test-preparation-associated-with-higher-math-scores",
+    "title": "Mini Capstone: Building a Structured Visual Report",
+    "section": "Is test preparation associated with higher math scores?",
+    "text": "Is test preparation associated with higher math scores?\n\nFigure 1: Distribution comparison\n\nfig, ax = plt.subplots(figsize=(7.6, 4.6))\n\nsns.boxplot(data=df, x=\"test_prep\", y=\"math_score\", ax=ax)\n\nax.set_title(\"Test preparation is associated with higher math scores\")\nax.set_xlabel(\"Test preparation\")\nax.set_ylabel(\"Math score\")\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig)  # figures/12_001.png\n\nSaved PNG → figures/12_001.png\n\n\n\n\n\n\n\n\n\nInterpretation:\n\nCompare medians.\nCompare spread.\nLook for overlap.",
+    "crumbs": [
+      "Capstone",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Mini Capstone: Building a Structured Visual Report</span>"
+    ]
+  },
+  {
+    "objectID": "12-mini-capstone-visual-report.html#does-study-time-relate-to-performance",
+    "href": "12-mini-capstone-visual-report.html#does-study-time-relate-to-performance",
+    "title": "Mini Capstone: Building a Structured Visual Report",
+    "section": "Does study time relate to performance?",
+    "text": "Does study time relate to performance?\n\nFigure 2: Scatter with reference line\n\nfig, ax = plt.subplots(figsize=(7.6, 4.6))\n\nsns.scatterplot(data=df, x=\"study_hours\", y=\"math_score\", alpha=0.6, ax=ax)\n\nmean_score = df[\"math_score\"].mean()\nax.axhline(mean_score, linestyle=\"--\", linewidth=1)\n\nax.set_title(\"Higher study time is associated with higher math scores\")\nax.set_xlabel(\"Study hours per week\")\nax.set_ylabel(\"Math score\")\n\nfig.tight_layout()\n\nshow_and_save_mpl(fig)  # figures/12_002.png\n\nSaved PNG → figures/12_002.png\n\n\n\n\n\n\n\n\n\nInterpretation:\n\nIs there visible trend structure?\nAre there diminishing returns?\nAre there extreme outliers?",
+    "crumbs": [
+      "Capstone",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Mini Capstone: Building a Structured Visual Report</span>"
+    ]
+  },
+  {
+    "objectID": "12-mini-capstone-visual-report.html#do-patterns-differ-by-group",
+    "href": "12-mini-capstone-visual-report.html#do-patterns-differ-by-group",
+    "title": "Mini Capstone: Building a Structured Visual Report",
+    "section": "Do patterns differ by group?",
+    "text": "Do patterns differ by group?\n\nFigure 3: Multi-panel comparison\n\ngroups = sorted(df[\"group\"].unique())\n\nfig, axes = plt.subplots(ncols=len(groups), figsize=(11, 4), sharey=True)\n\nfor ax, g in zip(axes, groups):\n    sub = df[df[\"group\"] == g]\n    ax.scatter(sub[\"study_hours\"], sub[\"math_score\"], alpha=0.6)\n    ax.set_title(f\"Group {g}\")\n    ax.set_xlabel(\"Study hours\")\n\naxes[0].set_ylabel(\"Math score\")\nfig.suptitle(\"Study hours vs math score by group\", y=1.02)\nfig.tight_layout()\n\nshow_and_save_mpl(fig)  # figures/12_003.png\n\nSaved PNG → figures/12_003.png\n\n\n\n\n\n\n\n\n\nInterpretation:\n\nAre slopes visually similar?\nDoes one group show greater spread?\nAre patterns consistent?",
+    "crumbs": [
+      "Capstone",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Mini Capstone: Building a Structured Visual Report</span>"
+    ]
+  },
+  {
+    "objectID": "99-appendix.html",
+    "href": "99-appendix.html",
+    "title": "Appendix",
+    "section": "",
+    "text": "ID: VISPY-APP\nType: Lesson\nAudience: Public\nTheme: Troubleshooting and extra notes\n\n\nContent coming soon.\n\nNext: TBD",
+    "crumbs": [
+      "Appendix",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "99-references.html",
+    "href": "99-references.html",
+    "title": "References",
+    "section": "",
+    "text": "ID: VISPY-REF\nType: Lesson\nAudience: Public\nTheme: Sources and recommended reading\n\n\nContent coming soon.\n\nNext: TBD",
+    "crumbs": [
+      "Appendix",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>References</span>"
+    ]
+  }
+]
