@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -295,17 +330,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
-  <li><a href="#the-grammar-of-graphics" id="toc-the-grammar-of-graphics" class="nav-link" data-scroll-target="#the-grammar-of-graphics">The Grammar of Graphics</a></li>
-  <li><a href="#data-aesthetics-and-geometries" id="toc-data-aesthetics-and-geometries" class="nav-link" data-scroll-target="#data-aesthetics-and-geometries">Data, Aesthetics, and Geometries</a></li>
-  <li><a href="#statistical-transformations" id="toc-statistical-transformations" class="nav-link" data-scroll-target="#statistical-transformations">Statistical Transformations</a></li>
-  <li><a href="#scales-and-coordinate-systems" id="toc-scales-and-coordinate-systems" class="nav-link" data-scroll-target="#scales-and-coordinate-systems">Scales and Coordinate Systems</a></li>
-  <li><a href="#facets-and-themes" id="toc-facets-and-themes" class="nav-link" data-scroll-target="#facets-and-themes">Facets and Themes</a></li>
-  <li><a href="#layering-evidence-and-annotations" id="toc-layering-evidence-and-annotations" class="nav-link" data-scroll-target="#layering-evidence-and-annotations">Layering Evidence and Annotations</a></li>
-  <li><a href="#reusable-plot-specifications" id="toc-reusable-plot-specifications" class="nav-link" data-scroll-target="#reusable-plot-specifications">Reusable Plot Specifications</a></li>
-  <li><a href="#when-to-choose-plotnine" id="toc-when-to-choose-plotnine" class="nav-link" data-scroll-target="#when-to-choose-plotnine">When to Choose Plotnine</a></li>
-  <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter Practice</a></li>
-  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#a-graphic-as-a-specification" id="toc-a-graphic-as-a-specification" class="nav-link" data-scroll-target="#a-graphic-as-a-specification">A graphic as a specification</a></li>
+  <li><a href="#mapped-versus-fixed-properties" id="toc-mapped-versus-fixed-properties" class="nav-link" data-scroll-target="#mapped-versus-fixed-properties">Mapped versus fixed properties</a></li>
+  <li><a href="#construct-a-volcano-plot" id="toc-construct-a-volcano-plot" class="nav-link" data-scroll-target="#construct-a-volcano-plot">Construct a volcano plot</a></li>
+  <li><a href="#statistics-and-geoms" id="toc-statistics-and-geoms" class="nav-link" data-scroll-target="#statistics-and-geoms">Statistics and geoms</a></li>
+  <li><a href="#facets-as-small-multiples" id="toc-facets-as-small-multiples" class="nav-link" data-scroll-target="#facets-as-small-multiples">Facets as small multiples</a></li>
+  <li><a href="#scales-coordinates-and-themes" id="toc-scales-coordinates-and-themes" class="nav-link" data-scroll-target="#scales-coordinates-and-themes">Scales, coordinates, and themes</a></li>
+  <li><a href="#save-the-specification" id="toc-save-the-specification" class="nav-link" data-scroll-target="#save-the-specification">Save the specification</a></li>
+  <li><a href="#reproduce-the-chapter" id="toc-reproduce-the-chapter" class="nav-link" data-scroll-target="#reproduce-the-chapter">Reproduce the chapter</a></li>
+  <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter practice</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key takeaways</a></li>
   </ul>
 </nav>
     </div>
@@ -314,7 +349,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-matplotlib-foundations.html">Core Visualization Libraries</a></li><li class="breadcrumb-item"><a href="./05-grammar-of-graphics-with-plotnine.html"><span class="chapter-title">Grammar of Graphics with Plotnine</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-plotnine" class="quarto-section-identifier"><span class="chapter-title">Grammar of Graphics with Plotnine</span></span></h1>
+<h1 class="title"><span id="sec-grammar-of-graphics-with-plotnine" class="quarto-section-identifier"><span class="chapter-title">Grammar of Graphics with Plotnine</span></span></h1>
 </div>
 
 
@@ -339,44 +374,137 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="cdi-message">
 <ul>
-<li><strong>ID:</strong> DVP-005</li>
-<li><strong>Type:</strong> Core Skills</li>
+<li><strong>ID:</strong> DVP-L05</li>
+<li><strong>Type:</strong> Core visualization</li>
 <li><strong>Audience:</strong> Intermediate</li>
-<li><strong>Theme:</strong> Declarative and layered visualization</li>
+<li><strong>Theme:</strong> Compose graphics from data, mappings, marks, scales, and facets</li>
 </ul>
 </div>
+<p>Plotnine brings a grammar-of-graphics approach to Python. Rather than selecting a finished chart type, you build a graphic from compatible components. This chapter develops a differential-expression display to show how mappings, geoms, scales, statistics, coordinates, facets, and themes form one coherent specification.</p>
 <section id="learning-objectives" class="level2">
-<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h2>
+<p>By the end of this chapter, you should be able to:</p>
+<ul>
+<li>describe the main components of a grammar of graphics;</li>
+<li>distinguish mapped aesthetics from fixed properties;</li>
+<li>layer geoms without duplicating data preparation;</li>
+<li>control scales, guides, facets, and themes;</li>
+<li>recognize implicit statistical transformations; and</li>
+<li>save a Plotnine graphic reproducibly.</li>
+</ul>
 </section>
-<section id="the-grammar-of-graphics" class="level2">
-<h2 class="anchored" data-anchor-id="the-grammar-of-graphics">The Grammar of Graphics</h2>
+<section id="a-graphic-as-a-specification" class="level2">
+<h2 class="anchored" data-anchor-id="a-graphic-as-a-specification">A graphic as a specification</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> aes, geom_point, ggplot</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    ggplot(data, aes(x<span class="op">=</span><span class="st">"log2_fold_change"</span>, y<span class="op">=</span><span class="st">"minus_log10_p"</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_point()</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The data supplies variables; <code>aes()</code> maps them to visual channels; a geom draws marks. Additional layers can add thresholds, summaries, labels, and models while preserving a shared coordinate system.</p>
 </section>
-<section id="data-aesthetics-and-geometries" class="level2">
-<h2 class="anchored" data-anchor-id="data-aesthetics-and-geometries">Data, Aesthetics, and Geometries</h2>
+<section id="mapped-versus-fixed-properties" class="level2">
+<h2 class="anchored" data-anchor-id="mapped-versus-fixed-properties">Mapped versus fixed properties</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mapped: status determines point color</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>geom_point(aes(color<span class="op">=</span><span class="st">"status"</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># fixed: every point uses the same color</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>geom_point(color<span class="op">=</span><span class="st">"#2563EB"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Putting a literal color inside <code>aes()</code> creates a category and usually an unwanted legend. This distinction is one of the most important habits in grammar-based plotting.</p>
 </section>
-<section id="statistical-transformations" class="level2">
-<h2 class="anchored" data-anchor-id="statistical-transformations">Statistical Transformations</h2>
+<section id="construct-a-volcano-plot" class="level2">
+<h2 class="anchored" data-anchor-id="construct-a-volcano-plot">Construct a volcano plot</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> geom_hline, labs, scale_color_manual, theme_minimal</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/processed/05-differential-expression.csv"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"minus_log10_p"</span>] <span class="op">=</span> <span class="op">-</span>np.log10(data[<span class="st">"adjusted_p"</span>])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    ggplot(data, aes(<span class="st">"log2_fold_change"</span>, <span class="st">"minus_log10_p"</span>, color<span class="op">=</span><span class="st">"status"</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_point(alpha<span class="op">=</span><span class="fl">0.72</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_hline(yintercept<span class="op">=-</span>np.log10(<span class="fl">0.05</span>), linetype<span class="op">=</span><span class="st">"dashed"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_color_manual(values<span class="op">=</span>{</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Down"</span>: <span class="st">"#2563EB"</span>, <span class="st">"Not significant"</span>: <span class="st">"#94A3B8"</span>, <span class="st">"Up"</span>: <span class="st">"#DC2626"</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> labs(x<span class="op">=</span><span class="st">"log2 fold change"</span>, y<span class="op">=</span><span class="st">"-log10 adjusted p"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme_minimal()</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-plotnine-volcano" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Points show effect size against statistical evidence, colored as up, down, or not significant.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plotnine-volcano-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/05-volcano-grammar.png" class="img-fluid figure-img" alt="Points show effect size against statistical evidence, colored as up, down, or not significant.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotnine-volcano-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.1: A layered differential-expression volcano plot.
+</figcaption>
+</figure>
+</div>
+<p>The horizontal rule encodes the adjusted-p threshold. The status classification also requires an effect-size threshold, so the legend communicates a derived analytical rule rather than a raw field.</p>
 </section>
-<section id="scales-and-coordinate-systems" class="level2">
-<h2 class="anchored" data-anchor-id="scales-and-coordinate-systems">Scales and Coordinate Systems</h2>
+<section id="statistics-and-geoms" class="level2">
+<h2 class="anchored" data-anchor-id="statistics-and-geoms">Statistics and geoms</h2>
+<p>Many geoms apply an implicit statistic. A bar chart may count rows; a boxplot calculates quartiles; a smoother fits a model. Make that transformation explicit in your interpretation.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> geom_smooth</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">+</span> geom_smooth(method<span class="op">=</span><span class="st">"lowess"</span>, se<span class="op">=</span><span class="va">False</span>, color<span class="op">=</span><span class="st">"#0F172A"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A smoother reveals broad structure but can distract from thresholds in a volcano plot. Layers are easy to add; that does not mean every layer strengthens the argument.</p>
 </section>
-<section id="facets-and-themes" class="level2">
-<h2 class="anchored" data-anchor-id="facets-and-themes">Facets and Themes</h2>
+<section id="facets-as-small-multiples" class="level2">
+<h2 class="anchored" data-anchor-id="facets-as-small-multiples">Facets as small multiples</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> facet_wrap</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">+</span> facet_wrap(<span class="st">"~pathway"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-plotnine-facets" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three aligned panels show differential-expression evidence for immune, cell-cycle, and metabolism pathways.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plotnine-facets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/05-volcano-faceted.png" class="img-fluid figure-img" alt="Three aligned panels show differential-expression evidence for immune, cell-cycle, and metabolism pathways.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotnine-facets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.2: The same mappings repeated across three pathway facets.
+</figcaption>
+</figure>
+</div>
+<p>Faceting preserves the visual grammar while partitioning the data. Fixed scales support direct comparison; free scales reveal within-panel structure but weaken cross-panel magnitude comparisons.</p>
 </section>
-<section id="layering-evidence-and-annotations" class="level2">
-<h2 class="anchored" data-anchor-id="layering-evidence-and-annotations">Layering Evidence and Annotations</h2>
+<section id="scales-coordinates-and-themes" class="level2">
+<h2 class="anchored" data-anchor-id="scales-coordinates-and-themes">Scales, coordinates, and themes</h2>
+<p>Scales translate data values into visual values and create axes or legends. Coordinates determine how positions are displayed. Themes govern non-data ink.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> coord_cartesian, theme</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">+</span> coord_cartesian(xlim<span class="op">=</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>)) <span class="op">+</span> theme(legend_position<span class="op">=</span><span class="st">"right"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>coord_cartesian()</code> zooms without discarding observations before statistical calculations. Filtering the data or setting destructive scale limits can change computed summaries.</p>
 </section>
-<section id="reusable-plot-specifications" class="level2">
-<h2 class="anchored" data-anchor-id="reusable-plot-specifications">Reusable Plot Specifications</h2>
+<section id="save-the-specification" class="level2">
+<h2 class="anchored" data-anchor-id="save-the-specification">Save the specification</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>p.save(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"results/figures/05-volcano-grammar.png"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="fl">8.5</span>, height<span class="op">=</span><span class="fl">5.2</span>, dpi<span class="op">=</span><span class="dv">300</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Pin package versions in <code>requirements.txt</code>; grammar implementations evolve, and a reproducible figure depends on software as well as data and code.</p>
 </section>
-<section id="when-to-choose-plotnine" class="level2">
-<h2 class="anchored" data-anchor-id="when-to-choose-plotnine">When to Choose Plotnine</h2>
+<section id="reproduce-the-chapter" class="level2">
+<h2 class="anchored" data-anchor-id="reproduce-the-chapter">Reproduce the chapter</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/bash/05-generate-plotnine-visualizations.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The script writes 240 gene records, two figures, and <code>results/05-plotnine-figure-manifest.csv</code>.</p>
 </section>
 <section id="chapter-practice" class="level2">
-<h2 class="anchored" data-anchor-id="chapter-practice">Chapter Practice</h2>
+<h2 class="anchored" data-anchor-id="chapter-practice">Chapter practice</h2>
+<ol type="1">
+<li>Add direct labels for the five strongest significant genes.</li>
+<li>Compare fixed and free facet scales, and explain which claim each supports.</li>
+<li>Replace color-only status encoding with an accessible redundant encoding.</li>
+</ol>
 </section>
 <section id="key-takeaways" class="level2">
-<h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<h2 class="anchored" data-anchor-id="key-takeaways">Key takeaways</h2>
+<ul>
+<li>Think in composable layers rather than finished chart types.</li>
+<li>Keep mapped aesthetics separate from fixed properties.</li>
+<li>Understand the statistical transformation performed by every layer.</li>
+<li>Use facets to repeat one visual argument across meaningful subsets.</li>
+</ul>
 
 
 </section>

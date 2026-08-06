@@ -504,29 +504,62 @@
     "href": "03-matplotlib-foundations.html",
     "title": "Matplotlib Foundations",
     "section": "",
-    "text": "Learning Objectives",
+    "text": "Learning objectives\nMatplotlib is Python’s foundational plotting library. Its real strength is not a gallery of chart types, but an explicit object model that gives you control over layout, scales, annotations, and export. This chapter uses a reproducible gene-expression dataset to build figures that remain readable in notebooks, reports, and publications.\nBy the end of this chapter, you should be able to:",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
     ]
   },
   {
-    "objectID": "03-matplotlib-foundations.html#figure-and-axes-objects",
-    "href": "03-matplotlib-foundations.html#figure-and-axes-objects",
+    "objectID": "03-matplotlib-foundations.html#learning-objectives",
+    "href": "03-matplotlib-foundations.html#learning-objectives",
     "title": "Matplotlib Foundations",
-    "section": "Figure and Axes Objects",
-    "text": "Figure and Axes Objects",
+    "section": "",
+    "text": "distinguish a Figure from an Axes;\ndraw lines, points, bars, and uncertainty marks;\ncontrol labels, ticks, scales, legends, and panels;\nannotate evidence without cluttering the display;\ndefine a reusable visual style; and\nexport deterministic PNG, SVG, and PDF figures.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
     ]
   },
   {
-    "objectID": "03-matplotlib-foundations.html#lines-points-bars-and-areas",
-    "href": "03-matplotlib-foundations.html#lines-points-bars-and-areas",
+    "objectID": "03-matplotlib-foundations.html#the-figureaxes-model",
+    "href": "03-matplotlib-foundations.html#the-figureaxes-model",
     "title": "Matplotlib Foundations",
-    "section": "Lines, Points, Bars, and Areas",
-    "text": "Lines, Points, Bars, and Areas",
+    "section": "The figure–axes model",
+    "text": "The figure–axes model\nA Figure is the complete canvas. An Axes is one plotting region inside it.\nimport matplotlib.pyplot as plt\n\nfig, ax = plt.subplots(figsize=(8, 5))\nax.set_title(\"A deliberate plotting surface\")\nUse the object-oriented interface (ax.plot, ax.scatter, and ax.set) in reusable work. It makes the target of each instruction explicit and scales naturally to multi-panel layouts.",
+    "crumbs": [
+      "Core Visualization Libraries",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
+    ]
+  },
+  {
+    "objectID": "03-matplotlib-foundations.html#prepare-the-data",
+    "href": "03-matplotlib-foundations.html#prepare-the-data",
+    "title": "Matplotlib Foundations",
+    "section": "Prepare the data",
+    "text": "Prepare the data\nThe generator creates 72 observations: six genes, two conditions, and six replicates.\nimport pandas as pd\n\nexpression = pd.read_csv(\"data/processed/03-gene-expression.csv\")\nexpression.groupby([\"gene\", \"condition\"]).log2_expression.agg([\"mean\", \"std\"])\nEach point is a biological replicate. Keeping these points visible prevents a mean bar from hiding within-group variation.",
+    "crumbs": [
+      "Core Visualization Libraries",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
+    ]
+  },
+  {
+    "objectID": "03-matplotlib-foundations.html#encode-observations-with-marks",
+    "href": "03-matplotlib-foundations.html#encode-observations-with-marks",
+    "title": "Matplotlib Foundations",
+    "section": "Encode observations with marks",
+    "text": "Encode observations with marks\nChoose marks according to the analytical question:\n\n\n\nMark\nBest use\nMain caution\n\n\n\n\npoint\nindividual observations\noverplotting\n\n\nline\nordered change\nimplies continuity\n\n\nbar\nmagnitude from a baseline\nnormally requires zero\n\n\narea\ncumulative magnitude\ncomparison can be difficult\n\n\n\nThe replicate view uses position for gene and expression, color for condition, and slight horizontal displacement to reduce overlap.\n\n\n\n\n\n\nFigure 5.1: Replicate-level expression values by gene and condition.",
+    "crumbs": [
+      "Core Visualization Libraries",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
+    ]
+  },
+  {
+    "objectID": "03-matplotlib-foundations.html#summaries-and-uncertainty",
+    "href": "03-matplotlib-foundations.html#summaries-and-uncertainty",
+    "title": "Matplotlib Foundations",
+    "section": "Summaries and uncertainty",
+    "text": "Summaries and uncertainty\nA summary should state what its uncertainty mark represents. Here the bar height is the mean and the error bar is one sample standard deviation—not a confidence interval.\n\n\n\n\n\n\nFigure 5.2: Mean expression with one-standard-deviation error bars.\n\n\n\nUse raw observations whenever practical. Add summaries to clarify a pattern, not to replace the evidence that supports it.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
@@ -536,63 +569,52 @@
     "objectID": "03-matplotlib-foundations.html#labels-scales-ticks-and-legends",
     "href": "03-matplotlib-foundations.html#labels-scales-ticks-and-legends",
     "title": "Matplotlib Foundations",
-    "section": "Labels, Scales, Ticks, and Legends",
-    "text": "Labels, Scales, Ticks, and Legends",
+    "section": "Labels, scales, ticks, and legends",
+    "text": "Labels, scales, ticks, and legends\nWrite labels that expose units and transformations:\nax.set(\n    xlabel=\"Gene\",\n    ylabel=\"log2 expression\",\n    title=\"Expression by condition and replicate\",\n)\nax.legend(title=\"Condition\", frameon=False)\nA logarithmic scale is appropriate for multiplicative change, but transformed measurements such as log2_expression should not be logged again. Treat axis limits as analytical decisions: clipping points or truncating a bar-chart baseline can distort the claim.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
     ]
   },
   {
-    "objectID": "03-matplotlib-foundations.html#multiple-panels-and-layouts",
-    "href": "03-matplotlib-foundations.html#multiple-panels-and-layouts",
+    "objectID": "03-matplotlib-foundations.html#multiple-panels",
+    "href": "03-matplotlib-foundations.html#multiple-panels",
     "title": "Matplotlib Foundations",
-    "section": "Multiple Panels and Layouts",
-    "text": "Multiple Panels and Layouts",
+    "section": "Multiple panels",
+    "text": "Multiple panels\nUse panels when views share a question and benefit from aligned scales.\nfig, axes = plt.subplots(1, 2, figsize=(12, 4.5), sharey=True)\nfor ax, condition in zip(axes, [\"Control\", \"Treatment\"]):\n    subset = expression.query(\"condition == @condition\")\n    ax.scatter(subset[\"gene\"], subset[\"log2_expression\"])\n    ax.set_title(condition)\nAvoid panels that merely place unrelated charts beside one another. Shared axes should mean shared measurement.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
     ]
   },
   {
-    "objectID": "03-matplotlib-foundations.html#annotations-and-reference-lines",
-    "href": "03-matplotlib-foundations.html#annotations-and-reference-lines",
+    "objectID": "03-matplotlib-foundations.html#annotation-and-reference-lines",
+    "href": "03-matplotlib-foundations.html#annotation-and-reference-lines",
     "title": "Matplotlib Foundations",
-    "section": "Annotations and Reference Lines",
-    "text": "Annotations and Reference Lines",
+    "section": "Annotation and reference lines",
+    "text": "Annotation and reference lines\nReference lines should represent a meaningful threshold or baseline.\nax.axhline(0, color=\"#475569\", linewidth=1, linestyle=\"--\")\nax.annotate(\"expected baseline\", xy=(0, 0), xytext=(12, 18),\n            textcoords=\"offset points\", arrowprops={\"arrowstyle\": \"-&gt;\"})\nDirect labels often outperform legends when only a few series are present. Annotate conclusions sparingly; the chart should still reveal the evidence.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
     ]
   },
   {
-    "objectID": "03-matplotlib-foundations.html#styles-and-reusable-themes",
-    "href": "03-matplotlib-foundations.html#styles-and-reusable-themes",
+    "objectID": "03-matplotlib-foundations.html#reusable-style-and-export",
+    "href": "03-matplotlib-foundations.html#reusable-style-and-export",
     "title": "Matplotlib Foundations",
-    "section": "Styles and Reusable Themes",
-    "text": "Styles and Reusable Themes",
+    "section": "Reusable style and export",
+    "text": "Reusable style and export\nplt.rcParams.update({\"axes.spines.top\": False, \"axes.spines.right\": False})\nfig.savefig(\"results/figures/figure.png\", dpi=300, bbox_inches=\"tight\")\nfig.savefig(\"results/figures/figure.svg\", bbox_inches=\"tight\")\nPNG is dependable for screens, SVG is ideal for editable vector graphics, and PDF is common in publication workflows. Always set physical size and inspect text at the final display size.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
     ]
   },
   {
-    "objectID": "03-matplotlib-foundations.html#exporting-png-svg-and-pdf",
-    "href": "03-matplotlib-foundations.html#exporting-png-svg-and-pdf",
+    "objectID": "03-matplotlib-foundations.html#reproduce-the-chapter",
+    "href": "03-matplotlib-foundations.html#reproduce-the-chapter",
     "title": "Matplotlib Foundations",
-    "section": "Exporting PNG, SVG, and PDF",
-    "text": "Exporting PNG, SVG, and PDF",
-    "crumbs": [
-      "Core Visualization Libraries",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
-    ]
-  },
-  {
-    "objectID": "03-matplotlib-foundations.html#building-a-publication-ready-figure",
-    "href": "03-matplotlib-foundations.html#building-a-publication-ready-figure",
-    "title": "Matplotlib Foundations",
-    "section": "Building a Publication-Ready Figure",
-    "text": "Building a Publication-Ready Figure",
+    "section": "Reproduce the chapter",
+    "text": "Reproduce the chapter\nbash scripts/bash/03-generate-matplotlib-visualizations.sh\nThe script writes the dataset, two figures, and results/03-matplotlib-figure-manifest.csv.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
@@ -602,8 +624,8 @@
     "objectID": "03-matplotlib-foundations.html#chapter-practice",
     "href": "03-matplotlib-foundations.html#chapter-practice",
     "title": "Matplotlib Foundations",
-    "section": "Chapter Practice",
-    "text": "Chapter Practice",
+    "section": "Chapter practice",
+    "text": "Chapter practice\n\nReplace standard deviations with 95% confidence intervals and label them accurately.\nBuild a two-panel figure that separates up-regulated and down-regulated genes.\nExport the same figure as PNG and SVG, then compare file size and text sharpness.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
@@ -613,8 +635,8 @@
     "objectID": "03-matplotlib-foundations.html#key-takeaways",
     "href": "03-matplotlib-foundations.html#key-takeaways",
     "title": "Matplotlib Foundations",
-    "section": "Key Takeaways",
-    "text": "Key Takeaways",
+    "section": "Key takeaways",
+    "text": "Key takeaways\n\nBuild figures through explicit Figure and Axes objects.\nKeep replicate-level evidence visible when summaries could conceal variation.\nTreat scales, limits, labels, and uncertainty definitions as part of the claim.\nExport with explicit dimensions and resolution so results are reproducible.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Matplotlib Foundations</span>"
@@ -625,62 +647,51 @@
     "href": "04-statistical-visualization-with-seaborn.html",
     "title": "Statistical Visualization with Seaborn",
     "section": "",
-    "text": "Learning Objectives",
+    "text": "Learning objectives\nSeaborn adds semantic mappings and statistical summaries to Matplotlib. Its concise interface is especially useful for exploring distributions, group differences, and multivariate structure. This chapter uses simulated single-cell marker measurements to show how high-level convenience and statistical care work together.\nBy the end of this chapter, you should be able to:",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
     ]
   },
   {
-    "objectID": "04-statistical-visualization-with-seaborn.html#figure-level-and-axes-level-functions",
-    "href": "04-statistical-visualization-with-seaborn.html#figure-level-and-axes-level-functions",
+    "objectID": "04-statistical-visualization-with-seaborn.html#learning-objectives",
+    "href": "04-statistical-visualization-with-seaborn.html#learning-objectives",
     "title": "Statistical Visualization with Seaborn",
-    "section": "Figure-Level and Axes-Level Functions",
-    "text": "Figure-Level and Axes-Level Functions",
+    "section": "",
+    "text": "select axes-level or figure-level Seaborn functions;\ncompare distributions without hiding sample structure;\nmap variables consistently to color, style, and facets;\ninterpret regression and uncertainty displays cautiously;\nconstruct correlation heatmaps; and\nrefine Seaborn output through Matplotlib.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
     ]
   },
   {
-    "objectID": "04-statistical-visualization-with-seaborn.html#distributions-and-empirical-patterns",
-    "href": "04-statistical-visualization-with-seaborn.html#distributions-and-empirical-patterns",
+    "objectID": "04-statistical-visualization-with-seaborn.html#prepare-tidy-marker-data",
+    "href": "04-statistical-visualization-with-seaborn.html#prepare-tidy-marker-data",
     "title": "Statistical Visualization with Seaborn",
-    "section": "Distributions and Empirical Patterns",
-    "text": "Distributions and Empirical Patterns",
+    "section": "Prepare tidy marker data",
+    "text": "Prepare tidy marker data\nimport pandas as pd\n\ncells = pd.read_csv(\"data/processed/04-cell-markers.csv\")\nlong = cells.melt(\n    id_vars=[\"cell_type\", \"cell_id\"],\n    var_name=\"marker\",\n    value_name=\"expression\",\n)\nThe wide table is convenient for correlations; the long table is convenient for semantic plotting. Reshaping is part of chart preparation, not a cosmetic afterthought.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
     ]
   },
   {
-    "objectID": "04-statistical-visualization-with-seaborn.html#categorical-comparisons",
-    "href": "04-statistical-visualization-with-seaborn.html#categorical-comparisons",
+    "objectID": "04-statistical-visualization-with-seaborn.html#axes-level-and-figure-level-functions",
+    "href": "04-statistical-visualization-with-seaborn.html#axes-level-and-figure-level-functions",
     "title": "Statistical Visualization with Seaborn",
-    "section": "Categorical Comparisons",
-    "text": "Categorical Comparisons",
+    "section": "Axes-level and figure-level functions",
+    "text": "Axes-level and figure-level functions\nAxes-level functions such as scatterplot() and boxplot() draw on a supplied Axes. Figure-level functions such as relplot(), displot(), and catplot() manage their own figure and can create facets.\nimport seaborn as sns\n\nsns.scatterplot(data=cells, x=\"CD3D\", y=\"MS4A1\", hue=\"cell_type\")\n\ng = sns.catplot(\n    data=long, x=\"marker\", y=\"expression\",\n    hue=\"cell_type\", kind=\"violin\", inner=\"quart\", cut=0,\n)\nUse axes-level functions when composing a custom Matplotlib layout. Use figure-level functions when faceting is central to the design.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
     ]
   },
   {
-    "objectID": "04-statistical-visualization-with-seaborn.html#relationships-and-regression-views",
-    "href": "04-statistical-visualization-with-seaborn.html#relationships-and-regression-views",
+    "objectID": "04-statistical-visualization-with-seaborn.html#compare-full-distributions",
+    "href": "04-statistical-visualization-with-seaborn.html#compare-full-distributions",
     "title": "Statistical Visualization with Seaborn",
-    "section": "Relationships and Regression Views",
-    "text": "Relationships and Regression Views",
-    "crumbs": [
-      "Core Visualization Libraries",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
-    ]
-  },
-  {
-    "objectID": "04-statistical-visualization-with-seaborn.html#faceting-and-small-multiples",
-    "href": "04-statistical-visualization-with-seaborn.html#faceting-and-small-multiples",
-    "title": "Statistical Visualization with Seaborn",
-    "section": "Faceting and Small Multiples",
-    "text": "Faceting and Small Multiples",
+    "section": "Compare full distributions",
+    "text": "Compare full distributions\n\n\n\n\n\n\nFigure 6.1: Violin plots compare marker-expression distributions across cell types.\n\n\n\nThe width of a violin represents estimated density, not observation count. Quartile lines summarize location and spread. With small samples, show raw points or prefer boxplots because a smooth density can suggest more precision than the data support.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
@@ -690,30 +701,52 @@
     "objectID": "04-statistical-visualization-with-seaborn.html#semantic-mappings",
     "href": "04-statistical-visualization-with-seaborn.html#semantic-mappings",
     "title": "Statistical Visualization with Seaborn",
-    "section": "Semantic Mappings",
-    "text": "Semantic Mappings",
+    "section": "Semantic mappings",
+    "text": "Semantic mappings\nSeaborn can map columns to hue, style, and size. Use redundant mappings selectively: color plus marker shape can improve accessibility, but too many channels make a plot harder to decode.\nsns.scatterplot(\n    data=cells,\n    x=\"CD3D\", y=\"MS4A1\",\n    hue=\"cell_type\", style=\"cell_type\",\n    palette=\"colorblind\",\n)\nKeep category colors stable across figures. The same cell type should not silently change color from one plot to the next.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
     ]
   },
   {
-    "objectID": "04-statistical-visualization-with-seaborn.html#themes-palettes-and-context",
-    "href": "04-statistical-visualization-with-seaborn.html#themes-palettes-and-context",
+    "objectID": "04-statistical-visualization-with-seaborn.html#regression-displays-are-model-displays",
+    "href": "04-statistical-visualization-with-seaborn.html#regression-displays-are-model-displays",
     "title": "Statistical Visualization with Seaborn",
-    "section": "Themes, Palettes, and Context",
-    "text": "Themes, Palettes, and Context",
+    "section": "Regression displays are model displays",
+    "text": "Regression displays are model displays\nsns.lmplot(data=cells, x=\"LYZ\", y=\"MKI67\", hue=\"cell_type\", ci=95)\nThe fitted line assumes a model; the shaded band summarizes uncertainty under that model. It does not prove causation, and it does not describe the range of future observations. Inspect residuals and group structure before treating a trend as evidence.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
     ]
   },
   {
-    "objectID": "04-statistical-visualization-with-seaborn.html#avoiding-statistical-misrepresentation",
-    "href": "04-statistical-visualization-with-seaborn.html#avoiding-statistical-misrepresentation",
+    "objectID": "04-statistical-visualization-with-seaborn.html#correlation-heatmaps",
+    "href": "04-statistical-visualization-with-seaborn.html#correlation-heatmaps",
     "title": "Statistical Visualization with Seaborn",
-    "section": "Avoiding Statistical Misrepresentation",
-    "text": "Avoiding Statistical Misrepresentation",
+    "section": "Correlation heatmaps",
+    "text": "Correlation heatmaps\ncorr = cells[[\"CD3D\", \"MS4A1\", \"LYZ\", \"MKI67\"]].corr()\nsns.heatmap(corr, annot=True, cmap=\"vlag\", center=0, vmin=-1, vmax=1)\n\n\n\n\n\n\nFigure 6.2: Correlation matrix for the four marker measurements.\n\n\n\nA correlation matrix compresses many pairwise relationships, but it can conceal nonlinearity, clusters, and outliers. Follow important cells with scatter plots. Remember that mixing distinct cell populations can create correlations driven by group separation.",
+    "crumbs": [
+      "Core Visualization Libraries",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
+    ]
+  },
+  {
+    "objectID": "04-statistical-visualization-with-seaborn.html#refine-the-result-with-matplotlib",
+    "href": "04-statistical-visualization-with-seaborn.html#refine-the-result-with-matplotlib",
+    "title": "Statistical Visualization with Seaborn",
+    "section": "Refine the result with Matplotlib",
+    "text": "Refine the result with Matplotlib\nSeaborn returns Matplotlib objects, so finishing work remains available:\nax = sns.boxplot(data=long, x=\"marker\", y=\"expression\", hue=\"cell_type\")\nax.set_title(\"Marker expression by annotated cell type\")\nax.legend(title=\"Cell type\", frameon=False, bbox_to_anchor=(1.02, 1))\nax.figure.tight_layout()",
+    "crumbs": [
+      "Core Visualization Libraries",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
+    ]
+  },
+  {
+    "objectID": "04-statistical-visualization-with-seaborn.html#reproduce-the-chapter",
+    "href": "04-statistical-visualization-with-seaborn.html#reproduce-the-chapter",
+    "title": "Statistical Visualization with Seaborn",
+    "section": "Reproduce the chapter",
+    "text": "Reproduce the chapter\nbash scripts/bash/04-generate-seaborn-visualizations.sh\nThe script writes 120 cell records, two figures, and results/04-seaborn-figure-manifest.csv.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
@@ -723,8 +756,8 @@
     "objectID": "04-statistical-visualization-with-seaborn.html#chapter-practice",
     "href": "04-statistical-visualization-with-seaborn.html#chapter-practice",
     "title": "Statistical Visualization with Seaborn",
-    "section": "Chapter Practice",
-    "text": "Chapter Practice",
+    "section": "Chapter practice",
+    "text": "Chapter practice\n\nOverlay jittered observations on a boxplot without obscuring quartiles.\nFacet the marker distributions by cell type instead of using hue.\nInvestigate the strongest absolute correlation with a scatter plot and group-specific fits.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
@@ -734,8 +767,8 @@
     "objectID": "04-statistical-visualization-with-seaborn.html#key-takeaways",
     "href": "04-statistical-visualization-with-seaborn.html#key-takeaways",
     "title": "Statistical Visualization with Seaborn",
-    "section": "Key Takeaways",
-    "text": "Key Takeaways",
+    "section": "Key takeaways",
+    "text": "Key takeaways\n\nUse tidy data to make semantic mappings explicit.\nChoose distribution views based on sample size and the question being asked.\nTreat regression lines and uncertainty bands as statistical assumptions, not decoration.\nUse heatmaps as indexes to relationships that deserve deeper inspection.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Statistical Visualization with Seaborn</span>"
@@ -746,95 +779,106 @@
     "href": "05-grammar-of-graphics-with-plotnine.html",
     "title": "Grammar of Graphics with Plotnine",
     "section": "",
-    "text": "Learning Objectives",
+    "text": "Learning objectives\nPlotnine brings a grammar-of-graphics approach to Python. Rather than selecting a finished chart type, you build a graphic from compatible components. This chapter develops a differential-expression display to show how mappings, geoms, scales, statistics, coordinates, facets, and themes form one coherent specification.\nBy the end of this chapter, you should be able to:",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
     ]
   },
   {
-    "objectID": "05-grammar-of-graphics-with-plotnine.html#the-grammar-of-graphics",
-    "href": "05-grammar-of-graphics-with-plotnine.html#the-grammar-of-graphics",
+    "objectID": "05-grammar-of-graphics-with-plotnine.html#learning-objectives",
+    "href": "05-grammar-of-graphics-with-plotnine.html#learning-objectives",
     "title": "Grammar of Graphics with Plotnine",
-    "section": "The Grammar of Graphics",
-    "text": "The Grammar of Graphics",
+    "section": "",
+    "text": "describe the main components of a grammar of graphics;\ndistinguish mapped aesthetics from fixed properties;\nlayer geoms without duplicating data preparation;\ncontrol scales, guides, facets, and themes;\nrecognize implicit statistical transformations; and\nsave a Plotnine graphic reproducibly.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
     ]
   },
   {
-    "objectID": "05-grammar-of-graphics-with-plotnine.html#data-aesthetics-and-geometries",
-    "href": "05-grammar-of-graphics-with-plotnine.html#data-aesthetics-and-geometries",
+    "objectID": "05-grammar-of-graphics-with-plotnine.html#a-graphic-as-a-specification",
+    "href": "05-grammar-of-graphics-with-plotnine.html#a-graphic-as-a-specification",
     "title": "Grammar of Graphics with Plotnine",
-    "section": "Data, Aesthetics, and Geometries",
-    "text": "Data, Aesthetics, and Geometries",
+    "section": "A graphic as a specification",
+    "text": "A graphic as a specification\nfrom plotnine import aes, geom_point, ggplot\n\np = (\n    ggplot(data, aes(x=\"log2_fold_change\", y=\"minus_log10_p\"))\n    + geom_point()\n)\nThe data supplies variables; aes() maps them to visual channels; a geom draws marks. Additional layers can add thresholds, summaries, labels, and models while preserving a shared coordinate system.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
     ]
   },
   {
-    "objectID": "05-grammar-of-graphics-with-plotnine.html#statistical-transformations",
-    "href": "05-grammar-of-graphics-with-plotnine.html#statistical-transformations",
+    "objectID": "05-grammar-of-graphics-with-plotnine.html#mapped-versus-fixed-properties",
+    "href": "05-grammar-of-graphics-with-plotnine.html#mapped-versus-fixed-properties",
     "title": "Grammar of Graphics with Plotnine",
-    "section": "Statistical Transformations",
-    "text": "Statistical Transformations",
+    "section": "Mapped versus fixed properties",
+    "text": "Mapped versus fixed properties\n# mapped: status determines point color\ngeom_point(aes(color=\"status\"))\n\n# fixed: every point uses the same color\ngeom_point(color=\"#2563EB\")\nPutting a literal color inside aes() creates a category and usually an unwanted legend. This distinction is one of the most important habits in grammar-based plotting.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
     ]
   },
   {
-    "objectID": "05-grammar-of-graphics-with-plotnine.html#scales-and-coordinate-systems",
-    "href": "05-grammar-of-graphics-with-plotnine.html#scales-and-coordinate-systems",
+    "objectID": "05-grammar-of-graphics-with-plotnine.html#construct-a-volcano-plot",
+    "href": "05-grammar-of-graphics-with-plotnine.html#construct-a-volcano-plot",
     "title": "Grammar of Graphics with Plotnine",
-    "section": "Scales and Coordinate Systems",
-    "text": "Scales and Coordinate Systems",
+    "section": "Construct a volcano plot",
+    "text": "Construct a volcano plot\nimport numpy as np\nimport pandas as pd\nfrom plotnine import geom_hline, labs, scale_color_manual, theme_minimal\n\ndata = pd.read_csv(\"data/processed/05-differential-expression.csv\")\ndata[\"minus_log10_p\"] = -np.log10(data[\"adjusted_p\"])\n\np = (\n    ggplot(data, aes(\"log2_fold_change\", \"minus_log10_p\", color=\"status\"))\n    + geom_point(alpha=0.72)\n    + geom_hline(yintercept=-np.log10(0.05), linetype=\"dashed\")\n    + scale_color_manual(values={\n        \"Down\": \"#2563EB\", \"Not significant\": \"#94A3B8\", \"Up\": \"#DC2626\"\n    })\n    + labs(x=\"log2 fold change\", y=\"-log10 adjusted p\")\n    + theme_minimal()\n)\n\n\n\n\n\n\nFigure 7.1: A layered differential-expression volcano plot.\n\n\n\nThe horizontal rule encodes the adjusted-p threshold. The status classification also requires an effect-size threshold, so the legend communicates a derived analytical rule rather than a raw field.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
     ]
   },
   {
-    "objectID": "05-grammar-of-graphics-with-plotnine.html#facets-and-themes",
-    "href": "05-grammar-of-graphics-with-plotnine.html#facets-and-themes",
+    "objectID": "05-grammar-of-graphics-with-plotnine.html#statistics-and-geoms",
+    "href": "05-grammar-of-graphics-with-plotnine.html#statistics-and-geoms",
     "title": "Grammar of Graphics with Plotnine",
-    "section": "Facets and Themes",
-    "text": "Facets and Themes",
+    "section": "Statistics and geoms",
+    "text": "Statistics and geoms\nMany geoms apply an implicit statistic. A bar chart may count rows; a boxplot calculates quartiles; a smoother fits a model. Make that transformation explicit in your interpretation.\nfrom plotnine import geom_smooth\n\np + geom_smooth(method=\"lowess\", se=False, color=\"#0F172A\")\nA smoother reveals broad structure but can distract from thresholds in a volcano plot. Layers are easy to add; that does not mean every layer strengthens the argument.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
     ]
   },
   {
-    "objectID": "05-grammar-of-graphics-with-plotnine.html#layering-evidence-and-annotations",
-    "href": "05-grammar-of-graphics-with-plotnine.html#layering-evidence-and-annotations",
+    "objectID": "05-grammar-of-graphics-with-plotnine.html#facets-as-small-multiples",
+    "href": "05-grammar-of-graphics-with-plotnine.html#facets-as-small-multiples",
     "title": "Grammar of Graphics with Plotnine",
-    "section": "Layering Evidence and Annotations",
-    "text": "Layering Evidence and Annotations",
+    "section": "Facets as small multiples",
+    "text": "Facets as small multiples\nfrom plotnine import facet_wrap\n\np + facet_wrap(\"~pathway\")\n\n\n\n\n\n\nFigure 7.2: The same mappings repeated across three pathway facets.\n\n\n\nFaceting preserves the visual grammar while partitioning the data. Fixed scales support direct comparison; free scales reveal within-panel structure but weaken cross-panel magnitude comparisons.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
     ]
   },
   {
-    "objectID": "05-grammar-of-graphics-with-plotnine.html#reusable-plot-specifications",
-    "href": "05-grammar-of-graphics-with-plotnine.html#reusable-plot-specifications",
+    "objectID": "05-grammar-of-graphics-with-plotnine.html#scales-coordinates-and-themes",
+    "href": "05-grammar-of-graphics-with-plotnine.html#scales-coordinates-and-themes",
     "title": "Grammar of Graphics with Plotnine",
-    "section": "Reusable Plot Specifications",
-    "text": "Reusable Plot Specifications",
+    "section": "Scales, coordinates, and themes",
+    "text": "Scales, coordinates, and themes\nScales translate data values into visual values and create axes or legends. Coordinates determine how positions are displayed. Themes govern non-data ink.\nfrom plotnine import coord_cartesian, theme\n\np + coord_cartesian(xlim=(-4, 4)) + theme(legend_position=\"right\")\ncoord_cartesian() zooms without discarding observations before statistical calculations. Filtering the data or setting destructive scale limits can change computed summaries.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
     ]
   },
   {
-    "objectID": "05-grammar-of-graphics-with-plotnine.html#when-to-choose-plotnine",
-    "href": "05-grammar-of-graphics-with-plotnine.html#when-to-choose-plotnine",
+    "objectID": "05-grammar-of-graphics-with-plotnine.html#save-the-specification",
+    "href": "05-grammar-of-graphics-with-plotnine.html#save-the-specification",
     "title": "Grammar of Graphics with Plotnine",
-    "section": "When to Choose Plotnine",
-    "text": "When to Choose Plotnine",
+    "section": "Save the specification",
+    "text": "Save the specification\np.save(\n    \"results/figures/05-volcano-grammar.png\",\n    width=8.5, height=5.2, dpi=300,\n)\nPin package versions in requirements.txt; grammar implementations evolve, and a reproducible figure depends on software as well as data and code.",
+    "crumbs": [
+      "Core Visualization Libraries",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
+    ]
+  },
+  {
+    "objectID": "05-grammar-of-graphics-with-plotnine.html#reproduce-the-chapter",
+    "href": "05-grammar-of-graphics-with-plotnine.html#reproduce-the-chapter",
+    "title": "Grammar of Graphics with Plotnine",
+    "section": "Reproduce the chapter",
+    "text": "Reproduce the chapter\nbash scripts/bash/05-generate-plotnine-visualizations.sh\nThe script writes 240 gene records, two figures, and results/05-plotnine-figure-manifest.csv.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
@@ -844,8 +888,8 @@
     "objectID": "05-grammar-of-graphics-with-plotnine.html#chapter-practice",
     "href": "05-grammar-of-graphics-with-plotnine.html#chapter-practice",
     "title": "Grammar of Graphics with Plotnine",
-    "section": "Chapter Practice",
-    "text": "Chapter Practice",
+    "section": "Chapter practice",
+    "text": "Chapter practice\n\nAdd direct labels for the five strongest significant genes.\nCompare fixed and free facet scales, and explain which claim each supports.\nReplace color-only status encoding with an accessible redundant encoding.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
@@ -855,8 +899,8 @@
     "objectID": "05-grammar-of-graphics-with-plotnine.html#key-takeaways",
     "href": "05-grammar-of-graphics-with-plotnine.html#key-takeaways",
     "title": "Grammar of Graphics with Plotnine",
-    "section": "Key Takeaways",
-    "text": "Key Takeaways",
+    "section": "Key takeaways",
+    "text": "Key takeaways\n\nThink in composable layers rather than finished chart types.\nKeep mapped aesthetics separate from fixed properties.\nUnderstand the statistical transformation performed by every layer.\nUse facets to repeat one visual argument across meaningful subsets.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Grammar of Graphics with Plotnine</span>"
@@ -867,95 +911,106 @@
     "href": "06-interactive-visualization-with-plotly.html",
     "title": "Interactive Visualization with Plotly",
     "section": "",
-    "text": "Learning Objectives",
+    "text": "Learning objectives\nPlotly produces browser-native graphics with hover, zoom, pan, legend filtering, and export controls. Interactivity is valuable when it helps a reader inspect detail or test a focused question. This chapter uses longitudinal biomarker measurements to build interactive subject trajectories and cohort summaries, with static fallbacks for non-interactive formats.\nBy the end of this chapter, you should be able to:",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"
     ]
   },
   {
-    "objectID": "06-interactive-visualization-with-plotly.html#interactivity-with-purpose",
-    "href": "06-interactive-visualization-with-plotly.html#interactivity-with-purpose",
+    "objectID": "06-interactive-visualization-with-plotly.html#learning-objectives",
+    "href": "06-interactive-visualization-with-plotly.html#learning-objectives",
     "title": "Interactive Visualization with Plotly",
-    "section": "Interactivity with Purpose",
-    "text": "Interactivity with Purpose",
+    "section": "",
+    "text": "build interactive figures with Plotly Express;\nrefine figures through the graph-object API;\ndesign concise, useful hover content;\nadd uncertainty without overwhelming the display;\nexport self-contained or CDN-backed HTML;\nprovide static fallbacks; and\ndecide when interaction is analytically justified.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"
     ]
   },
   {
-    "objectID": "06-interactive-visualization-with-plotly.html#plotly-express-and-graph-objects",
-    "href": "06-interactive-visualization-with-plotly.html#plotly-express-and-graph-objects",
+    "objectID": "06-interactive-visualization-with-plotly.html#prepare-longitudinal-data",
+    "href": "06-interactive-visualization-with-plotly.html#prepare-longitudinal-data",
     "title": "Interactive Visualization with Plotly",
-    "section": "Plotly Express and Graph Objects",
-    "text": "Plotly Express and Graph Objects",
+    "section": "Prepare longitudinal data",
+    "text": "Prepare longitudinal data\nimport pandas as pd\n\nbiomarkers = pd.read_csv(\"data/processed/06-longitudinal-biomarkers.csv\")\nbiomarkers.head()\nEach row represents one subject at one study week. subject determines line grouping, cohort determines comparison color, and biomarker supplies vertical position.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"
     ]
   },
   {
-    "objectID": "06-interactive-visualization-with-plotly.html#hover-selection-zoom-and-filtering",
-    "href": "06-interactive-visualization-with-plotly.html#hover-selection-zoom-and-filtering",
+    "objectID": "06-interactive-visualization-with-plotly.html#build-quickly-with-plotly-express",
+    "href": "06-interactive-visualization-with-plotly.html#build-quickly-with-plotly-express",
     "title": "Interactive Visualization with Plotly",
-    "section": "Hover, Selection, Zoom, and Filtering",
-    "text": "Hover, Selection, Zoom, and Filtering",
+    "section": "Build quickly with Plotly Express",
+    "text": "Build quickly with Plotly Express\nimport plotly.express as px\n\nfig = px.line(\n    biomarkers,\n    x=\"week\", y=\"biomarker\",\n    color=\"cohort\", line_group=\"subject\",\n    markers=True,\n    hover_data=[\"subject\"],\n    title=\"Longitudinal biomarker trajectories\",\n)\nfig.update_layout(template=\"plotly_white\")\nfig.show()\nHover reveals subject identity and exact values without permanently labeling every point. Legend clicks allow cohort filtering. Zoom supports local inspection, but the initial view must still communicate the overall structure.\n\n\n\n\n\n\n\nFigure 8.1: Static fallback for the interactive subject trajectories.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"
     ]
   },
   {
-    "objectID": "06-interactive-visualization-with-plotly.html#interactive-subplots",
-    "href": "06-interactive-visualization-with-plotly.html#interactive-subplots",
+    "objectID": "06-interactive-visualization-with-plotly.html#refine-hover-and-layout",
+    "href": "06-interactive-visualization-with-plotly.html#refine-hover-and-layout",
     "title": "Interactive Visualization with Plotly",
-    "section": "Interactive Subplots",
-    "text": "Interactive Subplots",
+    "section": "Refine hover and layout",
+    "text": "Refine hover and layout\nfig.update_traces(\n    hovertemplate=(\n        \"Subject: %{customdata[0]}&lt;br&gt;\"\n        \"Week: %{x}&lt;br&gt;Biomarker: %{y:.2f}&lt;extra&gt;&lt;/extra&gt;\"\n    )\nfig.update_layout(\n    xaxis_title=\"Study week\",\n    yaxis_title=\"Biomarker level\",\n    legend_title=\"Cohort\",\n    hovermode=\"closest\",\n)\nTooltips should provide identity, units, and values needed for interpretation. Avoid dumping every column into the hover box.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"
     ]
   },
   {
-    "objectID": "06-interactive-visualization-with-plotly.html#animation-and-transitions",
-    "href": "06-interactive-visualization-with-plotly.html#animation-and-transitions",
+    "objectID": "06-interactive-visualization-with-plotly.html#summaries-and-uncertainty",
+    "href": "06-interactive-visualization-with-plotly.html#summaries-and-uncertainty",
     "title": "Interactive Visualization with Plotly",
-    "section": "Animation and Transitions",
-    "text": "Animation and Transitions",
+    "section": "Summaries and uncertainty",
+    "text": "Summaries and uncertainty\nsummary = (\n    biomarkers.groupby([\"cohort\", \"week\"], as_index=False)\n    .biomarker.agg(mean=\"mean\", sd=\"std\")\n)\n\nsummary_fig = px.line(\n    summary, x=\"week\", y=\"mean\", color=\"cohort\",\n    markers=True, error_y=\"sd\",\n)\n\n\n\n\n\n\n\nFigure 8.2: Static fallback for cohort means and standard deviations.\n\n\n\nThese error bars describe subject variability, not uncertainty in the mean. State the definition in the chart or surrounding text.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"
     ]
   },
   {
-    "objectID": "06-interactive-visualization-with-plotly.html#custom-data-and-tooltips",
-    "href": "06-interactive-visualization-with-plotly.html#custom-data-and-tooltips",
+    "objectID": "06-interactive-visualization-with-plotly.html#use-graph-objects-for-precise-control",
+    "href": "06-interactive-visualization-with-plotly.html#use-graph-objects-for-precise-control",
     "title": "Interactive Visualization with Plotly",
-    "section": "Custom Data and Tooltips",
-    "text": "Custom Data and Tooltips",
+    "section": "Use graph objects for precise control",
+    "text": "Use graph objects for precise control\nPlotly Express returns a regular Figure, so you can add shapes and annotations through graph objects:\nfig.add_hline(\n    y=7.5, line_dash=\"dash\", line_color=\"#475569\",\n    annotation_text=\"review threshold\",\n)\nUse controls only when they answer a plausible question. A range slider may help dense time series; a dropdown may help compare biomarkers; neither belongs by default.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"
     ]
   },
   {
-    "objectID": "06-interactive-visualization-with-plotly.html#exporting-and-embedding-interactive-figures",
-    "href": "06-interactive-visualization-with-plotly.html#exporting-and-embedding-interactive-figures",
+    "objectID": "06-interactive-visualization-with-plotly.html#export-and-portability",
+    "href": "06-interactive-visualization-with-plotly.html#export-and-portability",
     "title": "Interactive Visualization with Plotly",
-    "section": "Exporting and Embedding Interactive Figures",
-    "text": "Exporting and Embedding Interactive Figures",
+    "section": "Export and portability",
+    "text": "Export and portability\nfig.write_html(\n    \"results/figures/06-biomarker-trajectories.html\",\n    include_plotlyjs=\"cdn\",\n)\nfig.write_image(\"results/figures/06-biomarker-trajectories.png\", scale=2)\nCDN-backed HTML is smaller but needs network access. Use include_plotlyjs=True for a larger self-contained file. Static image export requires Kaleido and supports formats where JavaScript cannot run.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"
     ]
   },
   {
-    "objectID": "06-interactive-visualization-with-plotly.html#performance-and-accessibility-tradeoffs",
-    "href": "06-interactive-visualization-with-plotly.html#performance-and-accessibility-tradeoffs",
+    "objectID": "06-interactive-visualization-with-plotly.html#accessibility-and-graceful-fallback",
+    "href": "06-interactive-visualization-with-plotly.html#accessibility-and-graceful-fallback",
     "title": "Interactive Visualization with Plotly",
-    "section": "Performance and Accessibility Tradeoffs",
-    "text": "Performance and Accessibility Tradeoffs",
+    "section": "Accessibility and graceful fallback",
+    "text": "Accessibility and graceful fallback\n\nWrite a meaningful title and adjacent interpretation.\nUse color palettes with sufficient contrast.\nAvoid color as the only important distinction when possible.\nProvide a static image for PDF and offline reading.\nProvide a table or downloadable data when exact values matter.\nTest keyboard behavior and the chart at narrow widths.",
+    "crumbs": [
+      "Core Visualization Libraries",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"
+    ]
+  },
+  {
+    "objectID": "06-interactive-visualization-with-plotly.html#reproduce-the-chapter",
+    "href": "06-interactive-visualization-with-plotly.html#reproduce-the-chapter",
+    "title": "Interactive Visualization with Plotly",
+    "section": "Reproduce the chapter",
+    "text": "Reproduce the chapter\nbash scripts/bash/06-generate-plotly-visualizations.sh\nThe script writes 168 observations, two interactive HTML charts, two PNG fallbacks, and results/06-plotly-figure-manifest.csv.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"
@@ -965,8 +1020,8 @@
     "objectID": "06-interactive-visualization-with-plotly.html#chapter-practice",
     "href": "06-interactive-visualization-with-plotly.html#chapter-practice",
     "title": "Interactive Visualization with Plotly",
-    "section": "Chapter Practice",
-    "text": "Chapter Practice",
+    "section": "Chapter practice",
+    "text": "Chapter practice\n\nAdd a dropdown that filters the display to one cohort or both cohorts.\nReplace standard-deviation bars with a clearly labeled confidence interval.\nCompare CDN-backed and self-contained HTML exports.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"
@@ -976,8 +1031,8 @@
     "objectID": "06-interactive-visualization-with-plotly.html#key-takeaways",
     "href": "06-interactive-visualization-with-plotly.html#key-takeaways",
     "title": "Interactive Visualization with Plotly",
-    "section": "Key Takeaways",
-    "text": "Key Takeaways",
+    "section": "Key takeaways",
+    "text": "Key takeaways\n\nAdd interaction to support inspection or comparison, not novelty.\nDesign hover content as carefully as visible labels.\nState exactly what summaries and uncertainty marks mean.\nShip static fallbacks so the analytical message survives every output format.",
     "crumbs": [
       "Core Visualization Libraries",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Interactive Visualization with Plotly</span>"

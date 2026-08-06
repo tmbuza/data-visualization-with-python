@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -295,17 +330,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
-  <li><a href="#figure-level-and-axes-level-functions" id="toc-figure-level-and-axes-level-functions" class="nav-link" data-scroll-target="#figure-level-and-axes-level-functions">Figure-Level and Axes-Level Functions</a></li>
-  <li><a href="#distributions-and-empirical-patterns" id="toc-distributions-and-empirical-patterns" class="nav-link" data-scroll-target="#distributions-and-empirical-patterns">Distributions and Empirical Patterns</a></li>
-  <li><a href="#categorical-comparisons" id="toc-categorical-comparisons" class="nav-link" data-scroll-target="#categorical-comparisons">Categorical Comparisons</a></li>
-  <li><a href="#relationships-and-regression-views" id="toc-relationships-and-regression-views" class="nav-link" data-scroll-target="#relationships-and-regression-views">Relationships and Regression Views</a></li>
-  <li><a href="#faceting-and-small-multiples" id="toc-faceting-and-small-multiples" class="nav-link" data-scroll-target="#faceting-and-small-multiples">Faceting and Small Multiples</a></li>
-  <li><a href="#semantic-mappings" id="toc-semantic-mappings" class="nav-link" data-scroll-target="#semantic-mappings">Semantic Mappings</a></li>
-  <li><a href="#themes-palettes-and-context" id="toc-themes-palettes-and-context" class="nav-link" data-scroll-target="#themes-palettes-and-context">Themes, Palettes, and Context</a></li>
-  <li><a href="#avoiding-statistical-misrepresentation" id="toc-avoiding-statistical-misrepresentation" class="nav-link" data-scroll-target="#avoiding-statistical-misrepresentation">Avoiding Statistical Misrepresentation</a></li>
-  <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter Practice</a></li>
-  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#prepare-tidy-marker-data" id="toc-prepare-tidy-marker-data" class="nav-link" data-scroll-target="#prepare-tidy-marker-data">Prepare tidy marker data</a></li>
+  <li><a href="#axes-level-and-figure-level-functions" id="toc-axes-level-and-figure-level-functions" class="nav-link" data-scroll-target="#axes-level-and-figure-level-functions">Axes-level and figure-level functions</a></li>
+  <li><a href="#compare-full-distributions" id="toc-compare-full-distributions" class="nav-link" data-scroll-target="#compare-full-distributions">Compare full distributions</a></li>
+  <li><a href="#semantic-mappings" id="toc-semantic-mappings" class="nav-link" data-scroll-target="#semantic-mappings">Semantic mappings</a></li>
+  <li><a href="#regression-displays-are-model-displays" id="toc-regression-displays-are-model-displays" class="nav-link" data-scroll-target="#regression-displays-are-model-displays">Regression displays are model displays</a></li>
+  <li><a href="#correlation-heatmaps" id="toc-correlation-heatmaps" class="nav-link" data-scroll-target="#correlation-heatmaps">Correlation heatmaps</a></li>
+  <li><a href="#refine-the-result-with-matplotlib" id="toc-refine-the-result-with-matplotlib" class="nav-link" data-scroll-target="#refine-the-result-with-matplotlib">Refine the result with Matplotlib</a></li>
+  <li><a href="#reproduce-the-chapter" id="toc-reproduce-the-chapter" class="nav-link" data-scroll-target="#reproduce-the-chapter">Reproduce the chapter</a></li>
+  <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter practice</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key takeaways</a></li>
   </ul>
 </nav>
     </div>
@@ -314,7 +349,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-matplotlib-foundations.html">Core Visualization Libraries</a></li><li class="breadcrumb-item"><a href="./04-statistical-visualization-with-seaborn.html"><span class="chapter-title">Statistical Visualization with Seaborn</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-seaborn" class="quarto-section-identifier"><span class="chapter-title">Statistical Visualization with Seaborn</span></span></h1>
+<h1 class="title"><span id="sec-statistical-visualization-with-seaborn" class="quarto-section-identifier"><span class="chapter-title">Statistical Visualization with Seaborn</span></span></h1>
 </div>
 
 
@@ -339,44 +374,125 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="cdi-message">
 <ul>
-<li><strong>ID:</strong> DVP-004</li>
-<li><strong>Type:</strong> Core Skills</li>
+<li><strong>ID:</strong> DVP-L04</li>
+<li><strong>Type:</strong> Core visualization</li>
 <li><strong>Audience:</strong> Beginner / Intermediate</li>
-<li><strong>Theme:</strong> Clear statistical graphics with semantic mappings</li>
+<li><strong>Theme:</strong> Distribution-aware statistical graphics</li>
 </ul>
 </div>
+<p>Seaborn adds semantic mappings and statistical summaries to Matplotlib. Its concise interface is especially useful for exploring distributions, group differences, and multivariate structure. This chapter uses simulated single-cell marker measurements to show how high-level convenience and statistical care work together.</p>
 <section id="learning-objectives" class="level2">
-<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h2>
+<p>By the end of this chapter, you should be able to:</p>
+<ul>
+<li>select axes-level or figure-level Seaborn functions;</li>
+<li>compare distributions without hiding sample structure;</li>
+<li>map variables consistently to color, style, and facets;</li>
+<li>interpret regression and uncertainty displays cautiously;</li>
+<li>construct correlation heatmaps; and</li>
+<li>refine Seaborn output through Matplotlib.</li>
+</ul>
 </section>
-<section id="figure-level-and-axes-level-functions" class="level2">
-<h2 class="anchored" data-anchor-id="figure-level-and-axes-level-functions">Figure-Level and Axes-Level Functions</h2>
+<section id="prepare-tidy-marker-data" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-tidy-marker-data">Prepare tidy marker data</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cells <span class="op">=</span> pd.read_csv(<span class="st">"data/processed/04-cell-markers.csv"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">long</span> <span class="op">=</span> cells.melt(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    id_vars<span class="op">=</span>[<span class="st">"cell_type"</span>, <span class="st">"cell_id"</span>],</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span><span class="st">"marker"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    value_name<span class="op">=</span><span class="st">"expression"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The wide table is convenient for correlations; the long table is convenient for semantic plotting. Reshaping is part of chart preparation, not a cosmetic afterthought.</p>
 </section>
-<section id="distributions-and-empirical-patterns" class="level2">
-<h2 class="anchored" data-anchor-id="distributions-and-empirical-patterns">Distributions and Empirical Patterns</h2>
+<section id="axes-level-and-figure-level-functions" class="level2">
+<h2 class="anchored" data-anchor-id="axes-level-and-figure-level-functions">Axes-level and figure-level functions</h2>
+<p>Axes-level functions such as <code>scatterplot()</code> and <code>boxplot()</code> draw on a supplied <code>Axes</code>. Figure-level functions such as <code>relplot()</code>, <code>displot()</code>, and <code>catplot()</code> manage their own figure and can create facets.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>cells, x<span class="op">=</span><span class="st">"CD3D"</span>, y<span class="op">=</span><span class="st">"MS4A1"</span>, hue<span class="op">=</span><span class="st">"cell_type"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.catplot(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span><span class="bu">long</span>, x<span class="op">=</span><span class="st">"marker"</span>, y<span class="op">=</span><span class="st">"expression"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    hue<span class="op">=</span><span class="st">"cell_type"</span>, kind<span class="op">=</span><span class="st">"violin"</span>, inner<span class="op">=</span><span class="st">"quart"</span>, cut<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use axes-level functions when composing a custom Matplotlib layout. Use figure-level functions when faceting is central to the design.</p>
 </section>
-<section id="categorical-comparisons" class="level2">
-<h2 class="anchored" data-anchor-id="categorical-comparisons">Categorical Comparisons</h2>
-</section>
-<section id="relationships-and-regression-views" class="level2">
-<h2 class="anchored" data-anchor-id="relationships-and-regression-views">Relationships and Regression Views</h2>
-</section>
-<section id="faceting-and-small-multiples" class="level2">
-<h2 class="anchored" data-anchor-id="faceting-and-small-multiples">Faceting and Small Multiples</h2>
+<section id="compare-full-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="compare-full-distributions">Compare full distributions</h2>
+<div id="fig-seaborn-distributions" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four violin groups show marker expression distributions for T cells, B cells, and monocytes.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seaborn-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/04-marker-distributions.png" class="img-fluid figure-img" alt="Four violin groups show marker expression distributions for T cells, B cells, and monocytes.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seaborn-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: Violin plots compare marker-expression distributions across cell types.
+</figcaption>
+</figure>
+</div>
+<p>The width of a violin represents estimated density, not observation count. Quartile lines summarize location and spread. With small samples, show raw points or prefer boxplots because a smooth density can suggest more precision than the data support.</p>
 </section>
 <section id="semantic-mappings" class="level2">
-<h2 class="anchored" data-anchor-id="semantic-mappings">Semantic Mappings</h2>
+<h2 class="anchored" data-anchor-id="semantic-mappings">Semantic mappings</h2>
+<p>Seaborn can map columns to <code>hue</code>, <code>style</code>, and <code>size</code>. Use redundant mappings selectively: color plus marker shape can improve accessibility, but too many channels make a plot harder to decode.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>cells,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"CD3D"</span>, y<span class="op">=</span><span class="st">"MS4A1"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    hue<span class="op">=</span><span class="st">"cell_type"</span>, style<span class="op">=</span><span class="st">"cell_type"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span><span class="st">"colorblind"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Keep category colors stable across figures. The same cell type should not silently change color from one plot to the next.</p>
 </section>
-<section id="themes-palettes-and-context" class="level2">
-<h2 class="anchored" data-anchor-id="themes-palettes-and-context">Themes, Palettes, and Context</h2>
+<section id="regression-displays-are-model-displays" class="level2">
+<h2 class="anchored" data-anchor-id="regression-displays-are-model-displays">Regression displays are model displays</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sns.lmplot(data<span class="op">=</span>cells, x<span class="op">=</span><span class="st">"LYZ"</span>, y<span class="op">=</span><span class="st">"MKI67"</span>, hue<span class="op">=</span><span class="st">"cell_type"</span>, ci<span class="op">=</span><span class="dv">95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The fitted line assumes a model; the shaded band summarizes uncertainty under that model. It does not prove causation, and it does not describe the range of future observations. Inspect residuals and group structure before treating a trend as evidence.</p>
 </section>
-<section id="avoiding-statistical-misrepresentation" class="level2">
-<h2 class="anchored" data-anchor-id="avoiding-statistical-misrepresentation">Avoiding Statistical Misrepresentation</h2>
+<section id="correlation-heatmaps" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-heatmaps">Correlation heatmaps</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> cells[[<span class="st">"CD3D"</span>, <span class="st">"MS4A1"</span>, <span class="st">"LYZ"</span>, <span class="st">"MKI67"</span>]].corr()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sns.heatmap(corr, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">"vlag"</span>, center<span class="op">=</span><span class="dv">0</span>, vmin<span class="op">=-</span><span class="dv">1</span>, vmax<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-seaborn-correlation" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A diverging heatmap displays pairwise correlations among four expression markers.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seaborn-correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/04-marker-correlation.png" class="img-fluid figure-img" alt="A diverging heatmap displays pairwise correlations among four expression markers.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seaborn-correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: Correlation matrix for the four marker measurements.
+</figcaption>
+</figure>
+</div>
+<p>A correlation matrix compresses many pairwise relationships, but it can conceal nonlinearity, clusters, and outliers. Follow important cells with scatter plots. Remember that mixing distinct cell populations can create correlations driven by group separation.</p>
+</section>
+<section id="refine-the-result-with-matplotlib" class="level2">
+<h2 class="anchored" data-anchor-id="refine-the-result-with-matplotlib">Refine the result with Matplotlib</h2>
+<p>Seaborn returns Matplotlib objects, so finishing work remains available:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.boxplot(data<span class="op">=</span><span class="bu">long</span>, x<span class="op">=</span><span class="st">"marker"</span>, y<span class="op">=</span><span class="st">"expression"</span>, hue<span class="op">=</span><span class="st">"cell_type"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Marker expression by annotated cell type"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ax.legend(title<span class="op">=</span><span class="st">"Cell type"</span>, frameon<span class="op">=</span><span class="va">False</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.02</span>, <span class="dv">1</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ax.figure.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="reproduce-the-chapter" class="level2">
+<h2 class="anchored" data-anchor-id="reproduce-the-chapter">Reproduce the chapter</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/bash/04-generate-seaborn-visualizations.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The script writes 120 cell records, two figures, and <code>results/04-seaborn-figure-manifest.csv</code>.</p>
 </section>
 <section id="chapter-practice" class="level2">
-<h2 class="anchored" data-anchor-id="chapter-practice">Chapter Practice</h2>
+<h2 class="anchored" data-anchor-id="chapter-practice">Chapter practice</h2>
+<ol type="1">
+<li>Overlay jittered observations on a boxplot without obscuring quartiles.</li>
+<li>Facet the marker distributions by cell type instead of using hue.</li>
+<li>Investigate the strongest absolute correlation with a scatter plot and group-specific fits.</li>
+</ol>
 </section>
 <section id="key-takeaways" class="level2">
-<h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<h2 class="anchored" data-anchor-id="key-takeaways">Key takeaways</h2>
+<ul>
+<li>Use tidy data to make semantic mappings explicit.</li>
+<li>Choose distribution views based on sample size and the question being asked.</li>
+<li>Treat regression lines and uncertainty bands as statistical assumptions, not decoration.</li>
+<li>Use heatmaps as indexes to relationships that deserve deeper inspection.</li>
+</ul>
 
 
 </section>

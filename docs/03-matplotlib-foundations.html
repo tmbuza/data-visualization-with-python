@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -295,17 +330,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
-  <li><a href="#figure-and-axes-objects" id="toc-figure-and-axes-objects" class="nav-link" data-scroll-target="#figure-and-axes-objects">Figure and Axes Objects</a></li>
-  <li><a href="#lines-points-bars-and-areas" id="toc-lines-points-bars-and-areas" class="nav-link" data-scroll-target="#lines-points-bars-and-areas">Lines, Points, Bars, and Areas</a></li>
-  <li><a href="#labels-scales-ticks-and-legends" id="toc-labels-scales-ticks-and-legends" class="nav-link" data-scroll-target="#labels-scales-ticks-and-legends">Labels, Scales, Ticks, and Legends</a></li>
-  <li><a href="#multiple-panels-and-layouts" id="toc-multiple-panels-and-layouts" class="nav-link" data-scroll-target="#multiple-panels-and-layouts">Multiple Panels and Layouts</a></li>
-  <li><a href="#annotations-and-reference-lines" id="toc-annotations-and-reference-lines" class="nav-link" data-scroll-target="#annotations-and-reference-lines">Annotations and Reference Lines</a></li>
-  <li><a href="#styles-and-reusable-themes" id="toc-styles-and-reusable-themes" class="nav-link" data-scroll-target="#styles-and-reusable-themes">Styles and Reusable Themes</a></li>
-  <li><a href="#exporting-png-svg-and-pdf" id="toc-exporting-png-svg-and-pdf" class="nav-link" data-scroll-target="#exporting-png-svg-and-pdf">Exporting PNG, SVG, and PDF</a></li>
-  <li><a href="#building-a-publication-ready-figure" id="toc-building-a-publication-ready-figure" class="nav-link" data-scroll-target="#building-a-publication-ready-figure">Building a Publication-Ready Figure</a></li>
-  <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter Practice</a></li>
-  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#the-figureaxes-model" id="toc-the-figureaxes-model" class="nav-link" data-scroll-target="#the-figureaxes-model">The figure–axes model</a></li>
+  <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link" data-scroll-target="#prepare-the-data">Prepare the data</a></li>
+  <li><a href="#encode-observations-with-marks" id="toc-encode-observations-with-marks" class="nav-link" data-scroll-target="#encode-observations-with-marks">Encode observations with marks</a></li>
+  <li><a href="#summaries-and-uncertainty" id="toc-summaries-and-uncertainty" class="nav-link" data-scroll-target="#summaries-and-uncertainty">Summaries and uncertainty</a></li>
+  <li><a href="#labels-scales-ticks-and-legends" id="toc-labels-scales-ticks-and-legends" class="nav-link" data-scroll-target="#labels-scales-ticks-and-legends">Labels, scales, ticks, and legends</a></li>
+  <li><a href="#multiple-panels" id="toc-multiple-panels" class="nav-link" data-scroll-target="#multiple-panels">Multiple panels</a></li>
+  <li><a href="#annotation-and-reference-lines" id="toc-annotation-and-reference-lines" class="nav-link" data-scroll-target="#annotation-and-reference-lines">Annotation and reference lines</a></li>
+  <li><a href="#reusable-style-and-export" id="toc-reusable-style-and-export" class="nav-link" data-scroll-target="#reusable-style-and-export">Reusable style and export</a></li>
+  <li><a href="#reproduce-the-chapter" id="toc-reproduce-the-chapter" class="nav-link" data-scroll-target="#reproduce-the-chapter">Reproduce the chapter</a></li>
+  <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter practice</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key takeaways</a></li>
   </ul>
 </nav>
     </div>
@@ -339,44 +375,161 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="cdi-message">
 <ul>
-<li><strong>ID:</strong> DVP-003</li>
-<li><strong>Type:</strong> Core Skills</li>
+<li><strong>ID:</strong> DVP-L03</li>
+<li><strong>Type:</strong> Core visualization</li>
 <li><strong>Audience:</strong> Beginner / Intermediate</li>
 <li><strong>Theme:</strong> Precise, composable static graphics</li>
 </ul>
 </div>
+<p>Matplotlib is Python’s foundational plotting library. Its real strength is not a gallery of chart types, but an explicit object model that gives you control over layout, scales, annotations, and export. This chapter uses a reproducible gene-expression dataset to build figures that remain readable in notebooks, reports, and publications.</p>
 <section id="learning-objectives" class="level2">
-<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h2>
+<p>By the end of this chapter, you should be able to:</p>
+<ul>
+<li>distinguish a <code>Figure</code> from an <code>Axes</code>;</li>
+<li>draw lines, points, bars, and uncertainty marks;</li>
+<li>control labels, ticks, scales, legends, and panels;</li>
+<li>annotate evidence without cluttering the display;</li>
+<li>define a reusable visual style; and</li>
+<li>export deterministic PNG, SVG, and PDF figures.</li>
+</ul>
 </section>
-<section id="figure-and-axes-objects" class="level2">
-<h2 class="anchored" data-anchor-id="figure-and-axes-objects">Figure and Axes Objects</h2>
+<section id="the-figureaxes-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-figureaxes-model">The figure–axes model</h2>
+<p>A <code>Figure</code> is the complete canvas. An <code>Axes</code> is one plotting region inside it.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"A deliberate plotting surface"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use the object-oriented interface (<code>ax.plot</code>, <code>ax.scatter</code>, and <code>ax.set</code>) in reusable work. It makes the target of each instruction explicit and scales naturally to multi-panel layouts.</p>
 </section>
-<section id="lines-points-bars-and-areas" class="level2">
-<h2 class="anchored" data-anchor-id="lines-points-bars-and-areas">Lines, Points, Bars, and Areas</h2>
+<section id="prepare-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-the-data">Prepare the data</h2>
+<p>The generator creates 72 observations: six genes, two conditions, and six replicates.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>expression <span class="op">=</span> pd.read_csv(<span class="st">"data/processed/03-gene-expression.csv"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>expression.groupby([<span class="st">"gene"</span>, <span class="st">"condition"</span>]).log2_expression.agg([<span class="st">"mean"</span>, <span class="st">"std"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each point is a biological replicate. Keeping these points visible prevents a mean bar from hiding within-group variation.</p>
+</section>
+<section id="encode-observations-with-marks" class="level2">
+<h2 class="anchored" data-anchor-id="encode-observations-with-marks">Encode observations with marks</h2>
+<p>Choose marks according to the analytical question:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Mark</th>
+<th>Best use</th>
+<th>Main caution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>point</td>
+<td>individual observations</td>
+<td>overplotting</td>
+</tr>
+<tr class="even">
+<td>line</td>
+<td>ordered change</td>
+<td>implies continuity</td>
+</tr>
+<tr class="odd">
+<td>bar</td>
+<td>magnitude from a baseline</td>
+<td>normally requires zero</td>
+</tr>
+<tr class="even">
+<td>area</td>
+<td>cumulative magnitude</td>
+<td>comparison can be difficult</td>
+</tr>
+</tbody>
+</table>
+<p>The replicate view uses position for gene and expression, color for condition, and slight horizontal displacement to reduce overlap.</p>
+<div id="fig-matplotlib-replicates" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Points show log2 expression for six genes under control and treatment conditions.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-matplotlib-replicates-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/03-expression-replicates.png" class="img-fluid figure-img" alt="Points show log2 expression for six genes under control and treatment conditions.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-matplotlib-replicates-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: Replicate-level expression values by gene and condition.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="summaries-and-uncertainty" class="level2">
+<h2 class="anchored" data-anchor-id="summaries-and-uncertainty">Summaries and uncertainty</h2>
+<p>A summary should state what its uncertainty mark represents. Here the bar height is the mean and the error bar is one sample standard deviation—not a confidence interval.</p>
+<div id="fig-matplotlib-summary" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Grouped bars compare mean gene expression, with error bars showing replicate standard deviations.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-matplotlib-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/03-expression-summary.png" class="img-fluid figure-img" alt="Grouped bars compare mean gene expression, with error bars showing replicate standard deviations.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-matplotlib-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.2: Mean expression with one-standard-deviation error bars.
+</figcaption>
+</figure>
+</div>
+<p>Use raw observations whenever practical. Add summaries to clarify a pattern, not to replace the evidence that supports it.</p>
 </section>
 <section id="labels-scales-ticks-and-legends" class="level2">
-<h2 class="anchored" data-anchor-id="labels-scales-ticks-and-legends">Labels, Scales, Ticks, and Legends</h2>
+<h2 class="anchored" data-anchor-id="labels-scales-ticks-and-legends">Labels, scales, ticks, and legends</h2>
+<p>Write labels that expose units and transformations:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">"Gene"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">"log2 expression"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Expression by condition and replicate"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ax.legend(title<span class="op">=</span><span class="st">"Condition"</span>, frameon<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A logarithmic scale is appropriate for multiplicative change, but transformed measurements such as <code>log2_expression</code> should not be logged again. Treat axis limits as analytical decisions: clipping points or truncating a bar-chart baseline can distort the claim.</p>
 </section>
-<section id="multiple-panels-and-layouts" class="level2">
-<h2 class="anchored" data-anchor-id="multiple-panels-and-layouts">Multiple Panels and Layouts</h2>
+<section id="multiple-panels" class="level2">
+<h2 class="anchored" data-anchor-id="multiple-panels">Multiple panels</h2>
+<p>Use panels when views share a question and benefit from aligned scales.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="fl">4.5</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, condition <span class="kw">in</span> <span class="bu">zip</span>(axes, [<span class="st">"Control"</span>, <span class="st">"Treatment"</span>]):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> expression.query(<span class="st">"condition == @condition"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    ax.scatter(subset[<span class="st">"gene"</span>], subset[<span class="st">"log2_expression"</span>])</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    ax.set_title(condition)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Avoid panels that merely place unrelated charts beside one another. Shared axes should mean shared measurement.</p>
 </section>
-<section id="annotations-and-reference-lines" class="level2">
-<h2 class="anchored" data-anchor-id="annotations-and-reference-lines">Annotations and Reference Lines</h2>
+<section id="annotation-and-reference-lines" class="level2">
+<h2 class="anchored" data-anchor-id="annotation-and-reference-lines">Annotation and reference lines</h2>
+<p>Reference lines should represent a meaningful threshold or baseline.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#475569"</span>, linewidth<span class="op">=</span><span class="dv">1</span>, linestyle<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ax.annotate(<span class="st">"expected baseline"</span>, xy<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>), xytext<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">18</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            textcoords<span class="op">=</span><span class="st">"offset points"</span>, arrowprops<span class="op">=</span>{<span class="st">"arrowstyle"</span>: <span class="st">"-&gt;"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Direct labels often outperform legends when only a few series are present. Annotate conclusions sparingly; the chart should still reveal the evidence.</p>
 </section>
-<section id="styles-and-reusable-themes" class="level2">
-<h2 class="anchored" data-anchor-id="styles-and-reusable-themes">Styles and Reusable Themes</h2>
+<section id="reusable-style-and-export" class="level2">
+<h2 class="anchored" data-anchor-id="reusable-style-and-export">Reusable style and export</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">"axes.spines.top"</span>: <span class="va">False</span>, <span class="st">"axes.spines.right"</span>: <span class="va">False</span>})</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">"results/figures/figure.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">"results/figures/figure.svg"</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>PNG is dependable for screens, SVG is ideal for editable vector graphics, and PDF is common in publication workflows. Always set physical size and inspect text at the final display size.</p>
 </section>
-<section id="exporting-png-svg-and-pdf" class="level2">
-<h2 class="anchored" data-anchor-id="exporting-png-svg-and-pdf">Exporting PNG, SVG, and PDF</h2>
-</section>
-<section id="building-a-publication-ready-figure" class="level2">
-<h2 class="anchored" data-anchor-id="building-a-publication-ready-figure">Building a Publication-Ready Figure</h2>
+<section id="reproduce-the-chapter" class="level2">
+<h2 class="anchored" data-anchor-id="reproduce-the-chapter">Reproduce the chapter</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/bash/03-generate-matplotlib-visualizations.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The script writes the dataset, two figures, and <code>results/03-matplotlib-figure-manifest.csv</code>.</p>
 </section>
 <section id="chapter-practice" class="level2">
-<h2 class="anchored" data-anchor-id="chapter-practice">Chapter Practice</h2>
+<h2 class="anchored" data-anchor-id="chapter-practice">Chapter practice</h2>
+<ol type="1">
+<li>Replace standard deviations with 95% confidence intervals and label them accurately.</li>
+<li>Build a two-panel figure that separates up-regulated and down-regulated genes.</li>
+<li>Export the same figure as PNG and SVG, then compare file size and text sharpness.</li>
+</ol>
 </section>
 <section id="key-takeaways" class="level2">
-<h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<h2 class="anchored" data-anchor-id="key-takeaways">Key takeaways</h2>
+<ul>
+<li>Build figures through explicit <code>Figure</code> and <code>Axes</code> objects.</li>
+<li>Keep replicate-level evidence visible when summaries could conceal variation.</li>
+<li>Treat scales, limits, labels, and uncertainty definitions as part of the claim.</li>
+<li>Export with explicit dimensions and resolution so results are reproducible.</li>
+</ul>
 
 
 </section>
