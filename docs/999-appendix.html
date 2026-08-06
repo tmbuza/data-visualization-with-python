@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -249,7 +284,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dashboards and Linked Views</span></a>
+  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Service Operations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -295,15 +330,72 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#chart-selection-matrix" id="toc-chart-selection-matrix" class="nav-link active" data-scroll-target="#chart-selection-matrix">Chart Selection Matrix</a></li>
-  <li><a href="#library-selection-matrix" id="toc-library-selection-matrix" class="nav-link" data-scroll-target="#library-selection-matrix">Library Selection Matrix</a></li>
-  <li><a href="#color-and-accessibility-checklist" id="toc-color-and-accessibility-checklist" class="nav-link" data-scroll-target="#color-and-accessibility-checklist">Color and Accessibility Checklist</a></li>
-  <li><a href="#static-export-checklist" id="toc-static-export-checklist" class="nav-link" data-scroll-target="#static-export-checklist">Static Export Checklist</a></li>
-  <li><a href="#interactive-visualization-checklist" id="toc-interactive-visualization-checklist" class="nav-link" data-scroll-target="#interactive-visualization-checklist">Interactive Visualization Checklist</a></li>
-  <li><a href="#figure-review-checklist" id="toc-figure-review-checklist" class="nav-link" data-scroll-target="#figure-review-checklist">Figure Review Checklist</a></li>
-  <li><a href="#suggested-repository-structure" id="toc-suggested-repository-structure" class="nav-link" data-scroll-target="#suggested-repository-structure">Suggested Repository Structure</a></li>
-  <li><a href="#troubleshooting-guide" id="toc-troubleshooting-guide" class="nav-link" data-scroll-target="#troubleshooting-guide">Troubleshooting Guide</a></li>
-  <li><a href="#further-practice" id="toc-further-practice" class="nav-link" data-scroll-target="#further-practice">Further Practice</a></li>
+  <li><a href="#environment-setup" id="toc-environment-setup" class="nav-link active" data-scroll-target="#environment-setup">Environment setup</a></li>
+  <li><a href="#repository-map" id="toc-repository-map" class="nav-link" data-scroll-target="#repository-map">Repository map</a></li>
+  <li><a href="#reproducible-figure-anatomy" id="toc-reproducible-figure-anatomy" class="nav-link" data-scroll-target="#reproducible-figure-anatomy">Reproducible figure anatomy</a></li>
+  <li><a href="#chart-selection-reference" id="toc-chart-selection-reference" class="nav-link" data-scroll-target="#chart-selection-reference">Chart-selection reference</a></li>
+  <li><a href="#visual-encoding-hierarchy" id="toc-visual-encoding-hierarchy" class="nav-link" data-scroll-target="#visual-encoding-hierarchy">Visual-encoding hierarchy</a></li>
+  <li><a href="#data-preparation-checklist" id="toc-data-preparation-checklist" class="nav-link" data-scroll-target="#data-preparation-checklist">Data preparation checklist</a></li>
+  <li><a href="#matplotlib-quick-reference" id="toc-matplotlib-quick-reference" class="nav-link" data-scroll-target="#matplotlib-quick-reference">Matplotlib quick reference</a>
+  <ul class="collapse">
+  <li><a href="#object-oriented-pattern" id="toc-object-oriented-pattern" class="nav-link" data-scroll-target="#object-oriented-pattern">Object-oriented pattern</a></li>
+  <li><a href="#multiple-panels" id="toc-multiple-panels" class="nav-link" data-scroll-target="#multiple-panels">Multiple panels</a></li>
+  </ul></li>
+  <li><a href="#seaborn-quick-reference" id="toc-seaborn-quick-reference" class="nav-link" data-scroll-target="#seaborn-quick-reference">Seaborn quick reference</a></li>
+  <li><a href="#plotnine-quick-reference" id="toc-plotnine-quick-reference" class="nav-link" data-scroll-target="#plotnine-quick-reference">plotnine quick reference</a></li>
+  <li><a href="#plotly-quick-reference" id="toc-plotly-quick-reference" class="nav-link" data-scroll-target="#plotly-quick-reference">Plotly quick reference</a></li>
+  <li><a href="#altair-quick-reference" id="toc-altair-quick-reference" class="nav-link" data-scroll-target="#altair-quick-reference">Altair quick reference</a></li>
+  <li><a href="#time-series-reference" id="toc-time-series-reference" class="nav-link" data-scroll-target="#time-series-reference">Time-series reference</a></li>
+  <li><a href="#geospatial-reference" id="toc-geospatial-reference" class="nav-link" data-scroll-target="#geospatial-reference">Geospatial reference</a></li>
+  <li><a href="#uncertainty-and-statistical-evidence" id="toc-uncertainty-and-statistical-evidence" class="nav-link" data-scroll-target="#uncertainty-and-statistical-evidence">Uncertainty and statistical evidence</a></li>
+  <li><a href="#color-and-accessibility" id="toc-color-and-accessibility" class="nav-link" data-scroll-target="#color-and-accessibility">Color and accessibility</a>
+  <ul class="collapse">
+  <li><a href="#color-checklist" id="toc-color-checklist" class="nav-link" data-scroll-target="#color-checklist">Color checklist</a></li>
+  <li><a href="#beyond-color" id="toc-beyond-color" class="nav-link" data-scroll-target="#beyond-color">Beyond color</a></li>
+  <li><a href="#text-and-structure" id="toc-text-and-structure" class="nav-link" data-scroll-target="#text-and-structure">Text and structure</a></li>
+  </ul></li>
+  <li><a href="#annotation-reference" id="toc-annotation-reference" class="nav-link" data-scroll-target="#annotation-reference">Annotation reference</a></li>
+  <li><a href="#export-settings" id="toc-export-settings" class="nav-link" data-scroll-target="#export-settings">Export settings</a></li>
+  <li><a href="#naming-conventions" id="toc-naming-conventions" class="nav-link" data-scroll-target="#naming-conventions">Naming conventions</a></li>
+  <li><a href="#figure-manifests-and-provenance" id="toc-figure-manifests-and-provenance" class="nav-link" data-scroll-target="#figure-manifests-and-provenance">Figure manifests and provenance</a></li>
+  <li><a href="#quarto-figure-patterns" id="toc-quarto-figure-patterns" class="nav-link" data-scroll-target="#quarto-figure-patterns">Quarto figure patterns</a>
+  <ul class="collapse">
+  <li><a href="#cross-reference-an-existing-image" id="toc-cross-reference-an-existing-image" class="nav-link" data-scroll-target="#cross-reference-an-existing-image">Cross-reference an existing image</a></li>
+  <li><a href="#executable-python-cell" id="toc-executable-python-cell" class="nav-link" data-scroll-target="#executable-python-cell">Executable Python cell</a></li>
+  </ul></li>
+  <li><a href="#dashboard-quality-checklist" id="toc-dashboard-quality-checklist" class="nav-link" data-scroll-target="#dashboard-quality-checklist">Dashboard quality checklist</a></li>
+  <li><a href="#visual-review-checklist" id="toc-visual-review-checklist" class="nav-link" data-scroll-target="#visual-review-checklist">Visual-review checklist</a>
+  <ul class="collapse">
+  <li><a href="#analytical-integrity" id="toc-analytical-integrity" class="nav-link" data-scroll-target="#analytical-integrity">Analytical integrity</a></li>
+  <li><a href="#perceptual-clarity" id="toc-perceptual-clarity" class="nav-link" data-scroll-target="#perceptual-clarity">Perceptual clarity</a></li>
+  <li><a href="#accessibility-and-delivery" id="toc-accessibility-and-delivery" class="nav-link" data-scroll-target="#accessibility-and-delivery">Accessibility and delivery</a></li>
+  </ul></li>
+  <li><a href="#automated-validation-ideas" id="toc-automated-validation-ideas" class="nav-link" data-scroll-target="#automated-validation-ideas">Automated validation ideas</a></li>
+  <li><a href="#reproduction-checklist" id="toc-reproduction-checklist" class="nav-link" data-scroll-target="#reproduction-checklist">Reproduction checklist</a>
+  <ul class="collapse">
+  <li><a href="#before-generation" id="toc-before-generation" class="nav-link" data-scroll-target="#before-generation">Before generation</a></li>
+  <li><a href="#during-generation" id="toc-during-generation" class="nav-link" data-scroll-target="#during-generation">During generation</a></li>
+  <li><a href="#after-generation" id="toc-after-generation" class="nav-link" data-scroll-target="#after-generation">After generation</a></li>
+  </ul></li>
+  <li><a href="#troubleshooting-guide" id="toc-troubleshooting-guide" class="nav-link" data-scroll-target="#troubleshooting-guide">Troubleshooting guide</a>
+  <ul class="collapse">
+  <li><a href="#the-virtual-environment-is-active-but-imports-fail" id="toc-the-virtual-environment-is-active-but-imports-fail" class="nav-link" data-scroll-target="#the-virtual-environment-is-active-but-imports-fail">The virtual environment is active, but imports fail</a></li>
+  <li><a href="#a-figure-is-blank" id="toc-a-figure-is-blank" class="nav-link" data-scroll-target="#a-figure-is-blank">A figure is blank</a></li>
+  <li><a href="#a-figure-is-clipped" id="toc-a-figure-is-clipped" class="nav-link" data-scroll-target="#a-figure-is-clipped">A figure is clipped</a></li>
+  <li><a href="#categories-appear-in-the-wrong-order" id="toc-categories-appear-in-the-wrong-order" class="nav-link" data-scroll-target="#categories-appear-in-the-wrong-order">Categories appear in the wrong order</a></li>
+  <li><a href="#dates-are-spaced-or-sorted-incorrectly" id="toc-dates-are-spaced-or-sorted-incorrectly" class="nav-link" data-scroll-target="#dates-are-spaced-or-sorted-incorrectly">Dates are spaced or sorted incorrectly</a></li>
+  <li><a href="#points-overlap-heavily" id="toc-points-overlap-heavily" class="nav-link" data-scroll-target="#points-overlap-heavily">Points overlap heavily</a></li>
+  <li><a href="#colors-differ-across-figures" id="toc-colors-differ-across-figures" class="nav-link" data-scroll-target="#colors-differ-across-figures">Colors differ across figures</a></li>
+  <li><a href="#static-image-export-fails-for-plotly" id="toc-static-image-export-fails-for-plotly" class="nav-link" data-scroll-target="#static-image-export-fails-for-plotly">Static image export fails for Plotly</a></li>
+  <li><a href="#altair-reports-too-many-rows" id="toc-altair-reports-too-many-rows" class="nav-link" data-scroll-target="#altair-reports-too-many-rows">Altair reports too many rows</a></li>
+  <li><a href="#geospatial-features-do-not-align" id="toc-geospatial-features-do-not-align" class="nav-link" data-scroll-target="#geospatial-features-do-not-align">Geospatial features do not align</a></li>
+  <li><a href="#an-interactive-chart-works-locally-but-not-in-the-rendered-book" id="toc-an-interactive-chart-works-locally-but-not-in-the-rendered-book" class="nav-link" data-scroll-target="#an-interactive-chart-works-locally-but-not-in-the-rendered-book">An interactive chart works locally but not in the rendered book</a></li>
+  <li><a href="#quarto-reports-an-unresolved-figure-reference" id="toc-quarto-reports-an-unresolved-figure-reference" class="nav-link" data-scroll-target="#quarto-reports-an-unresolved-figure-reference">Quarto reports an unresolved figure reference</a></li>
+  <li><a href="#a-script-succeeds-but-the-chapter-shows-an-old-figure" id="toc-a-script-succeeds-but-the-chapter-shows-an-old-figure" class="nav-link" data-scroll-target="#a-script-succeeds-but-the-chapter-shows-an-old-figure">A script succeeds but the chapter shows an old figure</a></li>
+  <li><a href="#fonts-change-in-ci-or-publication" id="toc-fonts-change-in-ci-or-publication" class="nav-link" data-scroll-target="#fonts-change-in-ci-or-publication">Fonts change in CI or publication</a></li>
+  </ul></li>
+  <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">Glossary</a></li>
+  <li><a href="#final-release-check" id="toc-final-release-check" class="nav-link" data-scroll-target="#final-release-check">Final release check</a></li>
   </ul>
 </nav>
     </div>
@@ -337,38 +429,920 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="cdi-message">
 <ul>
-<li><strong>ID:</strong> DVP-999A</li>
-<li><strong>Type:</strong> Reference</li>
-<li><strong>Audience:</strong> All readers</li>
-<li><strong>Theme:</strong> Reusable visualization references and checklists</li>
+<li><strong>ID:</strong> DVP-999</li>
+<li><strong>Type:</strong> Reference appendix</li>
+<li><strong>Audience:</strong> Data practitioners creating reproducible static, interactive, and publication-ready visualizations</li>
+<li><strong>Theme:</strong> Commands, conventions, chart selection, accessibility, export, quality assurance, and troubleshooting</li>
 </ul>
 </div>
-<section id="chart-selection-matrix" class="level2">
-<h2 class="anchored" data-anchor-id="chart-selection-matrix">Chart Selection Matrix</h2>
+<p>This appendix is the quick-reference companion to <em>Visualization with Python</em>. Use it when you need to set up the project, choose a chart, recall a library pattern, export a figure, review accessibility, reproduce an output, or diagnose a rendering problem. Run commands from the repository root unless a section says otherwise.</p>
+<section id="environment-setup" class="level2">
+<h2 class="anchored" data-anchor-id="environment-setup">Environment setup</h2>
+<p>Create and activate the repository-specific Python environment:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3.12</span> <span class="at">-m</span> venv .venv</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">--upgrade</span> pip</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>On Windows PowerShell:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">venv</span>\Scripts\Activate<span class="op">.</span><span class="fu">ps1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Confirm the expected tools and core packages:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">--version</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip <span class="at">--version</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> <span class="at">--version</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-c</span> <span class="st">"import matplotlib, seaborn, pandas; print('core imports: OK')"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Render the complete guide or only this appendix:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render 999-appendix.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Deactivate the environment when finished:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">deactivate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="library-selection-matrix" class="level2">
-<h2 class="anchored" data-anchor-id="library-selection-matrix">Library Selection Matrix</h2>
+<section id="repository-map" class="level2">
+<h2 class="anchored" data-anchor-id="repository-map">Repository map</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Path</th>
+<th>Purpose</th>
+<th>Version-control convention</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data/raw/</code></td>
+<td>Immutable source data or documented local samples</td>
+<td>Keep large, licensed, or sensitive data out of Git</td>
+</tr>
+<tr class="even">
+<td><code>data/processed/</code></td>
+<td>Clean, analysis-ready data</td>
+<td>Regenerate unless a small fixture is intentional</td>
+</tr>
+<tr class="odd">
+<td><code>scripts/python/</code></td>
+<td>Reproducible data preparation and figure scripts</td>
+<td>Track source code</td>
+</tr>
+<tr class="even">
+<td><code>scripts/bash/</code></td>
+<td>Repeatable command-line wrappers</td>
+<td>Track executable scripts</td>
+</tr>
+<tr class="odd">
+<td><code>notebooks/</code></td>
+<td>Exploration and visual prototyping</td>
+<td>Keep outputs intentional and reviewable</td>
+</tr>
+<tr class="even">
+<td><code>results/</code></td>
+<td>Tables, summaries, manifests, and validation evidence</td>
+<td>Track small, meaningful artifacts</td>
+</tr>
+<tr class="odd">
+<td><code>results/figures/</code></td>
+<td>Generated static figures</td>
+<td>Track publication-ready outputs when useful</td>
+</tr>
+<tr class="even">
+<td><code>results/html/</code></td>
+<td>Standalone interactive exports</td>
+<td>Track only intentional deliverables</td>
+</tr>
+<tr class="odd">
+<td><code>docs/</code></td>
+<td>Rendered Quarto book</td>
+<td>Generate with <code>quarto render</code></td>
+</tr>
+<tr class="even">
+<td><code>library/</code></td>
+<td>Bibliography and supporting reference files</td>
+<td>Track curated references</td>
+</tr>
+<tr class="odd">
+<td><code>.github/workflows/</code></td>
+<td>Continuous integration and publication</td>
+<td>Track workflow definitions</td>
+</tr>
+<tr class="even">
+<td><code>.githooks/</code></td>
+<td>Repository-specific Git hooks</td>
+<td>Track and activate locally</td>
+</tr>
+</tbody>
+</table>
+<p>Activate repository hooks after cloning when the project provides them:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config core.hooksPath .githooks</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--get</span> core.hooksPath</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="color-and-accessibility-checklist" class="level2">
-<h2 class="anchored" data-anchor-id="color-and-accessibility-checklist">Color and Accessibility Checklist</h2>
+<section id="reproducible-figure-anatomy" class="level2">
+<h2 class="anchored" data-anchor-id="reproducible-figure-anatomy">Reproducible figure anatomy</h2>
+<p>A dependable visualization script separates five concerns:</p>
+<ol type="1">
+<li><strong>Inputs</strong> — identify data files, parameters, and assumptions.</li>
+<li><strong>Preparation</strong> — clean, reshape, aggregate, and validate data.</li>
+<li><strong>Encoding</strong> — map variables to position, color, size, shape, or facets.</li>
+<li><strong>Presentation</strong> — apply labels, annotations, layout, and accessible styling.</li>
+<li><strong>Export</strong> — write deterministic outputs and record how they were created.</li>
+</ol>
+<p>Use a clear entry point and paths relative to the repository root:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>DATA_PATH <span class="op">=</span> Path(<span class="st">"data/processed/monthly-metrics.csv"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>FIGURE_PATH <span class="op">=</span> Path(<span class="st">"results/figures/999-example.png"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> main() <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.read_csv(DATA_PATH, parse_dates<span class="op">=</span>[<span class="st">"month"</span>])</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    required <span class="op">=</span> {<span class="st">"month"</span>, <span class="st">"value"</span>}</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    missing <span class="op">=</span> required.difference(data.columns)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> missing:</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Missing columns: </span><span class="sc">{</span><span class="bu">sorted</span>(missing)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    figure, axis <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    axis.plot(data[<span class="st">"month"</span>], data[<span class="st">"value"</span>], marker<span class="op">=</span><span class="st">"o"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    axis.<span class="bu">set</span>(</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Monthly metric"</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        xlabel<span class="op">=</span><span class="st">"Month"</span>,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        ylabel<span class="op">=</span><span class="st">"Value"</span>,</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    FIGURE_PATH.parent.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    figure.savefig(FIGURE_PATH, dpi<span class="op">=</span><span class="dv">180</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    plt.close(figure)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(main())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Avoid hidden dependencies on notebook state, the current working directory, a manually edited intermediate file, or an unrecorded plotting theme.</p>
 </section>
-<section id="static-export-checklist" class="level2">
-<h2 class="anchored" data-anchor-id="static-export-checklist">Static Export Checklist</h2>
+<section id="chart-selection-reference" class="level2">
+<h2 class="anchored" data-anchor-id="chart-selection-reference">Chart-selection reference</h2>
+<p>Begin with the analytical question, not a preferred library or chart type.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Strong first choice</th>
+<th>Useful alternatives</th>
+<th>Common mistake</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>How does a value change over ordered time?</td>
+<td>Line chart</td>
+<td>Dot plot, area chart, small multiples</td>
+<td>Treating dates as unordered categories</td>
+</tr>
+<tr class="even">
+<td>How do categories compare?</td>
+<td>Sorted bar or dot plot</td>
+<td>Lollipop chart, heatmap</td>
+<td>Using a pie chart for many categories</td>
+</tr>
+<tr class="odd">
+<td>What is the distribution?</td>
+<td>Histogram plus summary marks</td>
+<td>ECDF, box plot, violin plot</td>
+<td>Choosing bins that hide structure</td>
+</tr>
+<tr class="even">
+<td>How do two quantitative variables relate?</td>
+<td>Scatterplot</td>
+<td>Hexbin, density contours</td>
+<td>Ignoring overplotting</td>
+</tr>
+<tr class="odd">
+<td>How do several variables relate?</td>
+<td>Faceted plots or focused pair plot</td>
+<td>Correlation heatmap, parallel coordinates</td>
+<td>Encoding too many variables at once</td>
+</tr>
+<tr class="even">
+<td>How does a part relate to a whole?</td>
+<td>Stacked bar for a few parts</td>
+<td>100% stacked bar, treemap</td>
+<td>Comparing angles across many pies</td>
+</tr>
+<tr class="odd">
+<td>Where does a value occur?</td>
+<td>Appropriately projected map</td>
+<td>Ranked table, dot plot</td>
+<td>Mapping data when geography is irrelevant</td>
+</tr>
+<tr class="even">
+<td>How does flow move between stages?</td>
+<td>Sankey or alluvial diagram</td>
+<td>Network, chord, funnel</td>
+<td>Omitting totals or direction</td>
+</tr>
+<tr class="odd">
+<td>How uncertain is an estimate?</td>
+<td>Point estimate with interval</td>
+<td>Ribbon, fan chart, ensemble</td>
+<td>Showing only the central estimate</td>
+</tr>
+<tr class="even">
+<td>What text or category pattern matters?</td>
+<td>Ranked bars or dot plot</td>
+<td>Heatmap, annotated table</td>
+<td>Using a word cloud for precise comparison</td>
+</tr>
+</tbody>
+</table>
+<p>When several charts are plausible, choose the one that makes the important comparison easiest and the uncertainty hardest to overlook.</p>
 </section>
-<section id="interactive-visualization-checklist" class="level2">
-<h2 class="anchored" data-anchor-id="interactive-visualization-checklist">Interactive Visualization Checklist</h2>
+<section id="visual-encoding-hierarchy" class="level2">
+<h2 class="anchored" data-anchor-id="visual-encoding-hierarchy">Visual-encoding hierarchy</h2>
+<p>For precise quantitative comparison, prefer encodings roughly in this order:</p>
+<ol type="1">
+<li>position on a common scale;</li>
+<li>position on separate but aligned scales;</li>
+<li>length;</li>
+<li>angle or slope;</li>
+<li>area;</li>
+<li>color intensity or saturation.</li>
+</ol>
+<p>This is a design heuristic, not an inflexible law. Context, familiarity, accessibility, and the audience’s task still matter. Reserve area, color intensity, and animation for patterns that do not require exact reading.</p>
 </section>
-<section id="figure-review-checklist" class="level2">
-<h2 class="anchored" data-anchor-id="figure-review-checklist">Figure Review Checklist</h2>
+<section id="data-preparation-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation-checklist">Data preparation checklist</h2>
+<p>Before plotting, confirm:</p>
+<ul>
+<li>the row grain and unit of analysis;</li>
+<li>column names, data types, units, and category definitions;</li>
+<li>missing-value meaning and handling;</li>
+<li>duplicate keys and repeated measurements;</li>
+<li>time zone, date frequency, and interval boundaries;</li>
+<li>aggregation rules and denominators;</li>
+<li>category ordering;</li>
+<li>transformations such as percentages, rates, indexes, or logarithms;</li>
+<li>whether uncertainty is available and should be shown;</li>
+<li>whether sensitive values require suppression or aggregation.</li>
+</ul>
+<p>Do not use a chart to discover that the dataset has the wrong grain. Validate first:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>required <span class="op">=</span> {<span class="st">"group"</span>, <span class="st">"period"</span>, <span class="st">"estimate"</span>}</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> required <span class="op">&lt;=</span> <span class="bu">set</span>(data.columns)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> data[[<span class="st">"group"</span>, <span class="st">"period"</span>]].duplicated().<span class="bu">sum</span>() <span class="op">==</span> <span class="dv">0</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> data[<span class="st">"estimate"</span>].notna().<span class="bu">all</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Assertions are appropriate for internal invariants. For user-facing scripts, raise exceptions with actionable messages and include the failing field or condition.</p>
 </section>
-<section id="suggested-repository-structure" class="level2">
-<h2 class="anchored" data-anchor-id="suggested-repository-structure">Suggested Repository Structure</h2>
+<section id="matplotlib-quick-reference" class="level2">
+<h2 class="anchored" data-anchor-id="matplotlib-quick-reference">Matplotlib quick reference</h2>
+<section id="object-oriented-pattern" class="level3">
+<h3 class="anchored" data-anchor-id="object-oriented-pattern">Object-oriented pattern</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>figure, axis <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">4.5</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>axis.plot(x, y, color<span class="op">=</span><span class="st">"#2A6FBB"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>axis.<span class="bu">set</span>(title<span class="op">=</span><span class="st">"Descriptive title"</span>, xlabel<span class="op">=</span><span class="st">"Time"</span>, ylabel<span class="op">=</span><span class="st">"Outcome (units)"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>axis.spines[[<span class="st">"top"</span>, <span class="st">"right"</span>]].set_visible(<span class="va">False</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>figure.savefig(<span class="st">"results/figures/example.png"</span>, dpi<span class="op">=</span><span class="dv">180</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>plt.close(figure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Prefer the object-oriented interface when a figure has more than one axes, will be reused in a function, or requires precise control.</p>
+</section>
+<section id="multiple-panels" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-panels">Multiple panels</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>figure, axes <span class="op">=</span> plt.subplots(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    nrows<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    ncols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">4.5</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    sharey<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    constrained_layout<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(x, observed, label<span class="op">=</span><span class="st">"Observed"</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(x, forecast, label<span class="op">=</span><span class="st">"Forecast"</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> axis <span class="kw">in</span> axes:</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    axis.legend(frameon<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    axis.spines[[<span class="st">"top"</span>, <span class="st">"right"</span>]].set_visible(<span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Share scales only when the comparison benefits from a common frame. Never share an axis merely to save space if panels use different units.</p>
+</section>
+</section>
+<section id="seaborn-quick-reference" class="level2">
+<h2 class="anchored" data-anchor-id="seaborn-quick-reference">Seaborn quick reference</h2>
+<p>Use Seaborn for statistical summaries and consistent semantic mappings:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>, context<span class="op">=</span><span class="st">"notebook"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>axis <span class="op">=</span> sns.scatterplot(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>data,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"exposure"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">"outcome"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    hue<span class="op">=</span><span class="st">"group"</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    style<span class="op">=</span><span class="st">"group"</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">0.75</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>axis.<span class="bu">set</span>(title<span class="op">=</span><span class="st">"Outcome increases with exposure"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For figure-level faceting:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> sns.relplot(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>data,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"period"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">"value"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    col<span class="op">=</span><span class="st">"region"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    col_wrap<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    kind<span class="op">=</span><span class="st">"line"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    aspect<span class="op">=</span><span class="fl">1.2</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>grid.set_axis_labels(<span class="st">"Period"</span>, <span class="st">"Value"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>grid.set_titles(<span class="st">"</span><span class="sc">{col_name}</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Check whether the selected Seaborn function aggregates observations and draws uncertainty automatically. Make the estimator, error-bar method, and repeated-measure structure explicit when they affect interpretation.</p>
+</section>
+<section id="plotnine-quick-reference" class="level2">
+<h2 class="anchored" data-anchor-id="plotnine-quick-reference">plotnine quick reference</h2>
+<p>The grammar-of-graphics workflow builds a chart by combining data, mappings, geometric marks, scales, coordinates, facets, and a theme:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    aes,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    facet_wrap,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    geom_line,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    geom_point,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    ggplot,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    labs,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    theme_minimal,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>chart <span class="op">=</span> (</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    ggplot(data, aes(<span class="st">"period"</span>, <span class="st">"value"</span>, color<span class="op">=</span><span class="st">"group"</span>))</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_line(size<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_point(size<span class="op">=</span><span class="fl">1.8</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> facet_wrap(<span class="st">"region"</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> labs(title<span class="op">=</span><span class="st">"Change by group and region"</span>, x<span class="op">=</span><span class="st">"Period"</span>, y<span class="op">=</span><span class="st">"Value"</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme_minimal()</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>chart.save(<span class="st">"results/figures/example-plotnine.png"</span>, width<span class="op">=</span><span class="dv">10</span>, height<span class="op">=</span><span class="dv">6</span>, dpi<span class="op">=</span><span class="dv">180</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Keep repeated semantic mappings in <code>aes(...)</code>; use fixed presentation values outside it.</p>
+</section>
+<section id="plotly-quick-reference" class="level2">
+<h2 class="anchored" data-anchor-id="plotly-quick-reference">Plotly quick reference</h2>
+<p>Create interactive views when hover, filtering, zoom, animation, or linked exploration improves the task:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>figure <span class="op">=</span> px.scatter(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    data,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"exposure"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">"outcome"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"group"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    hover_data<span class="op">=</span>[<span class="st">"record_id"</span>, <span class="st">"period"</span>],</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>{<span class="st">"exposure"</span>: <span class="st">"Exposure (units)"</span>, <span class="st">"outcome"</span>: <span class="st">"Outcome (units)"</span>},</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Explore the exposure-outcome relationship"</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>figure.update_layout(legend_title_text<span class="op">=</span><span class="st">"Group"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>figure.write_html(</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"results/html/example-plotly.html"</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    include_plotlyjs<span class="op">=</span><span class="st">"cdn"</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    full_html<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For a portable offline file, set <code>include_plotlyjs=True</code>; the output will be larger. For static export, install the compatible Kaleido version and use <code>figure.write_image(...)</code>.</p>
+<p>Interactivity should reveal useful detail, not hide essential evidence behind hover. Put the main conclusion, units, and limitations in visible text.</p>
+</section>
+<section id="altair-quick-reference" class="level2">
+<h2 class="anchored" data-anchor-id="altair-quick-reference">Altair quick reference</h2>
+<p>Altair is effective for concise declarative charts and linked selections:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>selection <span class="op">=</span> alt.selection_point(fields<span class="op">=</span>[<span class="st">"group"</span>], bind<span class="op">=</span><span class="st">"legend"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>chart <span class="op">=</span> (</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    alt.Chart(data)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    .mark_circle(size<span class="op">=</span><span class="dv">70</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    .encode(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span>alt.X(<span class="st">"exposure:Q"</span>, title<span class="op">=</span><span class="st">"Exposure (units)"</span>),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span>alt.Y(<span class="st">"outcome:Q"</span>, title<span class="op">=</span><span class="st">"Outcome (units)"</span>),</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>alt.Color(<span class="st">"group:N"</span>, title<span class="op">=</span><span class="st">"Group"</span>),</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        opacity<span class="op">=</span>alt.condition(selection, alt.value(<span class="fl">0.9</span>), alt.value(<span class="fl">0.12</span>)),</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        tooltip<span class="op">=</span>[<span class="st">"record_id:N"</span>, <span class="st">"group:N"</span>, <span class="st">"exposure:Q"</span>, <span class="st">"outcome:Q"</span>],</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    .add_params(selection)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    .properties(title<span class="op">=</span><span class="st">"Select a group in the legend"</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>chart.save(<span class="st">"results/html/example-altair.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Large datasets may exceed the default row limit. Aggregate or sample deliberately before disabling safeguards, and disclose the reduction.</p>
+</section>
+<section id="time-series-reference" class="level2">
+<h2 class="anchored" data-anchor-id="time-series-reference">Time-series reference</h2>
+<p>Time-series charts require decisions that ordinary line charts can conceal:</p>
+<ul>
+<li>distinguish event time from processing time;</li>
+<li>preserve the intended time zone;</li>
+<li>state whether intervals are daily, weekly, monthly, or irregular;</li>
+<li>show gaps instead of silently connecting missing periods;</li>
+<li>distinguish level, change, seasonality, and trend;</li>
+<li>annotate interventions without implying causality;</li>
+<li>show forecast intervals and the forecast origin;</li>
+<li>avoid dual axes unless the relationship and scale are exceptionally clear.</li>
+</ul>
+<p>Use direct labels or annotations for important events, and place them near the affected interval. If smoothing is applied, retain the raw series or state the smoothing window prominently.</p>
+</section>
+<section id="geospatial-reference" class="level2">
+<h2 class="anchored" data-anchor-id="geospatial-reference">Geospatial reference</h2>
+<p>Before mapping, verify:</p>
+<ul>
+<li>the geographic unit and identifier system;</li>
+<li>the coordinate reference system;</li>
+<li>longitude-latitude order;</li>
+<li>joins between geometry and attributes;</li>
+<li>missing or unmatched regions;</li>
+<li>map projection suitability;</li>
+<li>whether counts should be normalized by population, area, or exposure;</li>
+<li>classification method and breakpoints;</li>
+<li>the treatment of small numbers and sensitive locations.</li>
+</ul>
+<p>Use choropleths for rates or normalized values, not raw counts when region sizes or populations differ materially. Add a non-map comparison when readers need precise ranking.</p>
+</section>
+<section id="uncertainty-and-statistical-evidence" class="level2">
+<h2 class="anchored" data-anchor-id="uncertainty-and-statistical-evidence">Uncertainty and statistical evidence</h2>
+<p>Match the display to the inferential object:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Evidence</th>
+<th>Recommended display</th>
+<th>Label explicitly</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Estimate and uncertainty</td>
+<td>Point with confidence or credible interval</td>
+<td>Interval level and method</td>
+</tr>
+<tr class="even">
+<td>Distribution across groups</td>
+<td>Raw points plus box/violin summary</td>
+<td>Sample size and summary definition</td>
+</tr>
+<tr class="odd">
+<td>Regression relationship</td>
+<td>Fitted line plus interval and observations</td>
+<td>Model, scale, and interval type</td>
+</tr>
+<tr class="even">
+<td>Forecast</td>
+<td>Central path plus prediction bands</td>
+<td>Horizon, origin, and coverage</td>
+</tr>
+<tr class="odd">
+<td>Simulation or ensemble</td>
+<td>Quantile ribbon, fan chart, or representative paths</td>
+<td>Number of draws and quantiles</td>
+</tr>
+<tr class="even">
+<td>Small counts</td>
+<td>Counts, rates, and compatible intervals</td>
+<td>Denominator and suppression rules</td>
+</tr>
+</tbody>
+</table>
+<p>Error bars are not self-explanatory. State whether they represent standard deviation, standard error, confidence intervals, credible intervals, prediction intervals, or another quantity.</p>
+</section>
+<section id="color-and-accessibility" class="level2">
+<h2 class="anchored" data-anchor-id="color-and-accessibility">Color and accessibility</h2>
+<section id="color-checklist" class="level3">
+<h3 class="anchored" data-anchor-id="color-checklist">Color checklist</h3>
+<ul>
+<li>Use color only when it encodes information or establishes hierarchy.</li>
+<li>Choose a sequential scale for low-to-high values.</li>
+<li>Choose a diverging scale only when a meaningful midpoint exists.</li>
+<li>Use a categorical palette for unordered groups.</li>
+<li>Limit the number of categorical colors.</li>
+<li>Avoid rainbow scales for ordered quantitative data.</li>
+<li>Do not rely on red versus green alone.</li>
+<li>Keep the same category-color mapping across related figures.</li>
+<li>Verify contrast against the actual background.</li>
+<li>Test the figure in grayscale and at its final display size.</li>
+</ul>
+</section>
+<section id="beyond-color" class="level3">
+<h3 class="anchored" data-anchor-id="beyond-color">Beyond color</h3>
+<p>Redundant encodings make charts more robust. Combine color with line style, marker shape, direct labels, facets, or spatial grouping. Avoid dense cross-hatching and excessive marker variation that creates new clutter.</p>
+</section>
+<section id="text-and-structure" class="level3">
+<h3 class="anchored" data-anchor-id="text-and-structure">Text and structure</h3>
+<ul>
+<li>Write a descriptive title that communicates the chart’s subject or conclusion.</li>
+<li>Label axes with units.</li>
+<li>Expand abbreviations on first use.</li>
+<li>Use sentence case consistently.</li>
+<li>Ensure tick labels remain legible without unnecessary rotation.</li>
+<li>Provide alt text or an adjacent narrative summary.</li>
+<li>Describe the main pattern, notable exceptions, and important uncertainty.</li>
+<li>Keep keyboard access and visible focus states for interactive controls.</li>
+</ul>
+<p>Example Quarto image with alt text:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="al">![Monthly completion rate rises from January through June, with a short decline in April.](results/figures/monthly-completion-rate.png)</span>{#fig-monthly-completion-rate}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Alt text should communicate the figure’s function and essential pattern, not reproduce every visible label.</p>
+</section>
+</section>
+<section id="annotation-reference" class="level2">
+<h2 class="anchored" data-anchor-id="annotation-reference">Annotation reference</h2>
+<p>Use annotations to direct attention, establish context, or explain a discontinuity. Effective annotations:</p>
+<ul>
+<li>sit close to the relevant mark;</li>
+<li>use short, specific language;</li>
+<li>preserve a clear reading order;</li>
+<li>distinguish observed events from inferred explanations;</li>
+<li>avoid covering data;</li>
+<li>remain legible in the final export.</li>
+</ul>
+<p>Prefer direct labels when they eliminate repeated legend lookup. Reserve arrows and callouts for evidence that needs interpretation; decorating every point weakens emphasis.</p>
+</section>
+<section id="export-settings" class="level2">
+<h2 class="anchored" data-anchor-id="export-settings">Export settings</h2>
+<p>Choose the output format for the delivery context:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Format</th>
+<th>Best use</th>
+<th>Important consideration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PNG</td>
+<td>Web pages, slides, raster previews</td>
+<td>Set dimensions and sufficient pixel density</td>
+</tr>
+<tr class="even">
+<td>SVG</td>
+<td>Web and scalable vector graphics</td>
+<td>Check fonts and complex mark counts</td>
+</tr>
+<tr class="odd">
+<td>PDF</td>
+<td>Print, reports, and vector publication</td>
+<td>Confirm embedded fonts and page size</td>
+</tr>
+<tr class="even">
+<td>HTML</td>
+<td>Interactive exploration</td>
+<td>Decide between CDN and self-contained assets</td>
+</tr>
+<tr class="odd">
+<td>JSON specification</td>
+<td>Reuse or validation of declarative charts</td>
+<td>Preserve data-access assumptions</td>
+</tr>
+</tbody>
+</table>
+<p>Static Matplotlib exports:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>figure.savefig(<span class="st">"results/figures/chart.png"</span>, dpi<span class="op">=</span><span class="dv">180</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>figure.savefig(<span class="st">"results/figures/chart.svg"</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>figure.savefig(<span class="st">"results/figures/chart.pdf"</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Set figure dimensions before export. Increasing DPI does not repair tiny text, poor spacing, or an unsuitable aspect ratio.</p>
+</section>
+<section id="naming-conventions" class="level2">
+<h2 class="anchored" data-anchor-id="naming-conventions">Naming conventions</h2>
+<p>Use stable, descriptive, lowercase filenames:</p>
+<pre class="text"><code>results/figures/09-monthly-trend.png
+results/figures/10-regional-rate-map.svg
+results/html/16-linked-dashboard.html
+results/17-figure-manifest.csv</code></pre>
+<p>A practical pattern is <code>&lt;chapter&gt;-&lt;subject&gt;-&lt;view&gt;.&lt;extension&gt;</code>. Avoid names such as <code>final.png</code>, <code>new-chart-2.png</code>, or timestamps when downstream documents reference a stable path.</p>
+</section>
+<section id="figure-manifests-and-provenance" class="level2">
+<h2 class="anchored" data-anchor-id="figure-manifests-and-provenance">Figure manifests and provenance</h2>
+<p>For important releases, record at least:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>figure_id</code></td>
+<td>Stable human-readable identifier</td>
+</tr>
+<tr class="even">
+<td><code>output_path</code></td>
+<td>Repository-relative artifact path</td>
+</tr>
+<tr class="odd">
+<td><code>script_path</code></td>
+<td>Producing script</td>
+</tr>
+<tr class="even">
+<td><code>source_path</code></td>
+<td>Primary data input</td>
+</tr>
+<tr class="odd">
+<td><code>created_at_utc</code></td>
+<td>Generation time</td>
+</tr>
+<tr class="even">
+<td><code>code_version</code></td>
+<td>Git commit or release tag</td>
+</tr>
+<tr class="odd">
+<td><code>data_version</code></td>
+<td>Checksum, snapshot, or documented version</td>
+</tr>
+<tr class="even">
+<td><code>width</code> / <code>height</code></td>
+<td>Intended dimensions</td>
+</tr>
+<tr class="odd">
+<td><code>format</code></td>
+<td>PNG, SVG, PDF, or HTML</td>
+</tr>
+<tr class="even">
+<td><code>status</code></td>
+<td>Draft, reviewed, approved, or retired</td>
+</tr>
+</tbody>
+</table>
+<p>The manifest supports reproduction and review; it does not replace readable titles, captions, or methods.</p>
+</section>
+<section id="quarto-figure-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="quarto-figure-patterns">Quarto figure patterns</h2>
+<section id="cross-reference-an-existing-image" class="level3">
+<h3 class="anchored" data-anchor-id="cross-reference-an-existing-image">Cross-reference an existing image</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="al">![Accessible description of the figure.](results/figures/09-monthly-trend.png)</span>{#fig-monthly-trend}</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>As shown in @fig-monthly-trend, the seasonal peak occurs in July.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="executable-python-cell" class="level3">
+<h3 class="anchored" data-anchor-id="executable-python-cell">Executable Python cell</h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Keep labels unique across the book. Use the <code>{#sec-*}</code> convention for section identifiers and <code>fig-*</code> for executable-cell labels or figure identifiers.</p>
+</section>
+</section>
+<section id="dashboard-quality-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="dashboard-quality-checklist">Dashboard quality checklist</h2>
+<p>Before releasing a dashboard, confirm:</p>
+<ul>
+<li>the audience and decision are explicit;</li>
+<li>the default view answers the most common question;</li>
+<li>filters have safe defaults and visible active states;</li>
+<li>summaries update consistently when filters change;</li>
+<li>units, denominators, and refresh times are visible;</li>
+<li>empty, loading, and error states are understandable;</li>
+<li>keyboard navigation and focus order work;</li>
+<li>color is not the only status signal;</li>
+<li>narrow-screen behavior is acceptable;</li>
+<li>downloads preserve filters and metadata;</li>
+<li>expensive queries or transformations are cached appropriately;</li>
+<li>the dashboard has an owner and review date.</li>
+</ul>
+<p>Do not force every finding into one screen. A dashboard is a task-oriented interface, not a gallery of unrelated charts.</p>
+</section>
+<section id="visual-review-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="visual-review-checklist">Visual-review checklist</h2>
+<p>Review each figure at the size and in the medium where readers will encounter it.</p>
+<section id="analytical-integrity" class="level3">
+<h3 class="anchored" data-anchor-id="analytical-integrity">Analytical integrity</h3>
+<ul>
+<li>Does the chart answer the stated question?</li>
+<li>Are the grain, denominator, units, and scale correct?</li>
+<li>Are missing values and exclusions disclosed?</li>
+<li>Is uncertainty represented appropriately?</li>
+<li>Could axis limits or transformations distort interpretation?</li>
+<li>Does the annotation distinguish observation from explanation?</li>
+</ul>
+</section>
+<section id="perceptual-clarity" class="level3">
+<h3 class="anchored" data-anchor-id="perceptual-clarity">Perceptual clarity</h3>
+<ul>
+<li>Is the most important comparison visually easiest?</li>
+<li>Is the reading order obvious?</li>
+<li>Are legends necessary, ordered, and close to the marks?</li>
+<li>Are categories sorted meaningfully?</li>
+<li>Is visual clutter removed without deleting context?</li>
+<li>Are facets comparable and consistently scaled where appropriate?</li>
+</ul>
+</section>
+<section id="accessibility-and-delivery" class="level3">
+<h3 class="anchored" data-anchor-id="accessibility-and-delivery">Accessibility and delivery</h3>
+<ul>
+<li>Are text and marks legible at final size?</li>
+<li>Does the palette remain interpretable with color-vision differences?</li>
+<li>Is information redundantly encoded where necessary?</li>
+<li>Is alt text or a narrative summary present?</li>
+<li>Does the exported format work in the target medium?</li>
+<li>Are interactive essentials available without hover alone?</li>
+</ul>
+</section>
+</section>
+<section id="automated-validation-ideas" class="level2">
+<h2 class="anchored" data-anchor-id="automated-validation-ideas">Automated validation ideas</h2>
+<p>Not every design choice can be tested automatically, but scripts can verify structural expectations:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">"results/figures/09-monthly-trend.png"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> path.exists(), <span class="ss">f"Missing figure: </span><span class="sc">{</span>path<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> path.stat().st_size <span class="op">&gt;</span> <span class="dv">10_000</span>, <span class="st">"Figure may be empty or incomplete"</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Image.<span class="bu">open</span>(path) <span class="im">as</span> image:</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    width, height <span class="op">=</span> image.size</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> width <span class="op">&gt;=</span> <span class="dv">1200</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> height <span class="op">&gt;=</span> <span class="dv">600</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Other useful checks include expected file counts, unique manifest identifiers, valid SVG/XML, nonempty HTML exports, required alt-text metadata, and clean Quarto cross-references. Automated checks complement visual inspection; they do not certify that a chart is truthful or understandable.</p>
+</section>
+<section id="reproduction-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="reproduction-checklist">Reproduction checklist</h2>
+<section id="before-generation" class="level3">
+<h3 class="anchored" data-anchor-id="before-generation">Before generation</h3>
+<ul>
+<li>Activate the repository environment.</li>
+<li>Confirm package versions and the Quarto version.</li>
+<li>Confirm that raw inputs are unchanged or correctly versioned.</li>
+<li>Verify required directories and configuration.</li>
+<li>Remove undocumented manual steps.</li>
+</ul>
+</section>
+<section id="during-generation" class="level3">
+<h3 class="anchored" data-anchor-id="during-generation">During generation</h3>
+<ul>
+<li>Set a random seed for sampling, jitter, layout, or simulation.</li>
+<li>Sort data before order-sensitive operations.</li>
+<li>Use deterministic category orders and color mappings.</li>
+<li>Write outputs to documented repository-relative paths.</li>
+<li>Fail loudly on missing fields and invalid values.</li>
+<li>Close figures after saving them in batch scripts.</li>
+</ul>
+</section>
+<section id="after-generation" class="level3">
+<h3 class="anchored" data-anchor-id="after-generation">After generation</h3>
+<ul>
+<li>Confirm all expected artifacts exist.</li>
+<li>Inspect figures visually at full and publication size.</li>
+<li>Compare manifests or checksums when exact stability is required.</li>
+<li>Render the book and review cross-references.</li>
+<li>Record code and data versions.</li>
+<li>Check that no confidential data appears in labels, tooltips, or exported HTML.</li>
+</ul>
+</section>
 </section>
 <section id="troubleshooting-guide" class="level2">
-<h2 class="anchored" data-anchor-id="troubleshooting-guide">Troubleshooting Guide</h2>
+<h2 class="anchored" data-anchor-id="troubleshooting-guide">Troubleshooting guide</h2>
+<section id="the-virtual-environment-is-active-but-imports-fail" class="level3">
+<h3 class="anchored" data-anchor-id="the-virtual-environment-is-active-but-imports-fail">The virtual environment is active, but imports fail</h3>
+<p>Confirm that <code>python</code> and <code>pip</code> resolve inside <code>.venv</code>, then install through that interpreter:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> python</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip <span class="at">--version</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="further-practice" class="level2">
-<h2 class="anchored" data-anchor-id="further-practice">Further Practice</h2>
+<section id="a-figure-is-blank" class="level3">
+<h3 class="anchored" data-anchor-id="a-figure-is-blank">A figure is blank</h3>
+<p>Check whether filters removed all rows, values became missing after conversion, axis limits exclude the data, or <code>savefig()</code> runs after the figure was cleared or closed. Print the row count and essential ranges immediately before plotting.</p>
+</section>
+<section id="a-figure-is-clipped" class="level3">
+<h3 class="anchored" data-anchor-id="a-figure-is-clipped">A figure is clipped</h3>
+<p>Increase the figure dimensions, use <code>constrained_layout=True</code>, shorten labels, or save with <code>bbox_inches="tight"</code>. Inspect the actual exported file; notebook display and saved output can differ.</p>
+</section>
+<section id="categories-appear-in-the-wrong-order" class="level3">
+<h3 class="anchored" data-anchor-id="categories-appear-in-the-wrong-order">Categories appear in the wrong order</h3>
+<p>Pass an explicit order or use an ordered categorical dtype. Do not rely on incidental input order:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>order <span class="op">=</span> [<span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span>]</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"level"</span>] <span class="op">=</span> pd.Categorical(data[<span class="st">"level"</span>], categories<span class="op">=</span>order, ordered<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="dates-are-spaced-or-sorted-incorrectly" class="level3">
+<h3 class="anchored" data-anchor-id="dates-are-spaced-or-sorted-incorrectly">Dates are spaced or sorted incorrectly</h3>
+<p>Parse them as dates, sort explicitly, and verify time zones:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"timestamp"</span>] <span class="op">=</span> pd.to_datetime(data[<span class="st">"timestamp"</span>], utc<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.sort_values(<span class="st">"timestamp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Strings that look like dates remain categorical labels and may sort lexicographically.</p>
+</section>
+<section id="points-overlap-heavily" class="level3">
+<h3 class="anchored" data-anchor-id="points-overlap-heavily">Points overlap heavily</h3>
+<p>Use smaller marks, transparency, jitter for genuinely discrete positions, faceting, hexagonal bins, density contours, or aggregation. Disclose sampling and aggregation. Do not use jitter when exact positions are analytically meaningful unless the displacement is clearly explained.</p>
+</section>
+<section id="colors-differ-across-figures" class="level3">
+<h3 class="anchored" data-anchor-id="colors-differ-across-figures">Colors differ across figures</h3>
+<p>Define one named mapping and reuse it:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>GROUP_COLORS <span class="op">=</span> {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Control"</span>: <span class="st">"#4C78A8"</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Treatment"</span>: <span class="st">"#F58518"</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Avoid assigning colors from the order in which categories happen to appear.</p>
+</section>
+<section id="static-image-export-fails-for-plotly" class="level3">
+<h3 class="anchored" data-anchor-id="static-image-export-fails-for-plotly">Static image export fails for Plotly</h3>
+<p>Confirm that Kaleido is installed in the active environment and compatible with the installed Plotly version. HTML export does not require Kaleido. Restart the Python process after changing visualization dependencies.</p>
+</section>
+<section id="altair-reports-too-many-rows" class="level3">
+<h3 class="anchored" data-anchor-id="altair-reports-too-many-rows">Altair reports too many rows</h3>
+<p>Aggregate, filter, or sample before plotting. If the full dataset is truly necessary, use an appropriate data transformer and understand where data will be embedded or served. Avoid disabling limits without considering page size and privacy.</p>
+</section>
+<section id="geospatial-features-do-not-align" class="level3">
+<h3 class="anchored" data-anchor-id="geospatial-features-do-not-align">Geospatial features do not align</h3>
+<p>Confirm the coordinate reference system of every layer, transform them to a shared CRS, and check longitude-latitude order. A plausible-looking misalignment can still be analytically wrong.</p>
+</section>
+<section id="an-interactive-chart-works-locally-but-not-in-the-rendered-book" class="level3">
+<h3 class="anchored" data-anchor-id="an-interactive-chart-works-locally-but-not-in-the-rendered-book">An interactive chart works locally but not in the rendered book</h3>
+<p>Check whether JavaScript assets were embedded or loaded from a network location, whether content-security rules block them, and whether relative paths remain valid under <code>docs/</code>. Test the rendered output through a local web server rather than opening the HTML file directly.</p>
+</section>
+<section id="quarto-reports-an-unresolved-figure-reference" class="level3">
+<h3 class="anchored" data-anchor-id="quarto-reports-an-unresolved-figure-reference">Quarto reports an unresolved figure reference</h3>
+<p>Confirm that the identifier exists, is unique, and matches exactly. For an existing image use <code>{#fig-name}</code> on the image; for an executable cell use <code>#| label: fig-name</code>. Refer to it as <code>@fig-name</code>.</p>
+</section>
+<section id="a-script-succeeds-but-the-chapter-shows-an-old-figure" class="level3">
+<h3 class="anchored" data-anchor-id="a-script-succeeds-but-the-chapter-shows-an-old-figure">A script succeeds but the chapter shows an old figure</h3>
+<p>Confirm the output path, file modification time, filename capitalization, Quarto cache or freeze settings, and the path referenced by the chapter. Remove only the relevant generated cache when necessary; do not delete unrelated user files.</p>
+</section>
+<section id="fonts-change-in-ci-or-publication" class="level3">
+<h3 class="anchored" data-anchor-id="fonts-change-in-ci-or-publication">Fonts change in CI or publication</h3>
+<p>Use fonts available in the build environment, declare fallbacks, or install fonts explicitly in CI. Review SVG and PDF font behavior in the final delivery application. A local system font is not automatically portable.</p>
+</section>
+</section>
+<section id="glossary" class="level2">
+<h2 class="anchored" data-anchor-id="glossary">Glossary</h2>
+<p><strong>Alt text</strong><br>
+A concise textual alternative that communicates an image’s purpose and essential content.</p>
+<p><strong>Aspect ratio</strong><br>
+The relationship between a figure’s width and height, which can affect perceived slopes, density, and layout.</p>
+<p><strong>Binning</strong><br>
+Grouping continuous values or spatial locations into intervals or cells for summarization.</p>
+<p><strong>Choropleth</strong><br>
+A map that shades geographic regions according to a quantitative value, usually a normalized rate or proportion.</p>
+<p><strong>Color scale</strong><br>
+A mapping from data values or categories to colors.</p>
+<p><strong>Confidence interval</strong><br>
+An interval produced by a frequentist procedure designed to achieve a stated long-run coverage rate under its assumptions.</p>
+<p><strong>Credible interval</strong><br>
+A Bayesian interval containing a stated posterior probability for a parameter under the model.</p>
+<p><strong>Dashboard</strong><br>
+A task-oriented interface that combines coordinated summaries, charts, controls, and contextual information.</p>
+<p><strong>Data provenance</strong><br>
+Recorded information about where data came from and how an output was produced.</p>
+<p><strong>Declarative visualization</strong><br>
+A specification of what data and encodings a chart should use, leaving much of the rendering procedure to the library.</p>
+<p><strong>Encoding</strong><br>
+A mapping from a variable to a visual property such as position, color, size, shape, or opacity.</p>
+<p><strong>Facet</strong><br>
+A repeated panel that shows subsets of the data using a consistent visual specification.</p>
+<p><strong>Figure manifest</strong><br>
+A structured inventory linking figure identifiers and output paths to producing code, data, versions, and review status.</p>
+<p><strong>Mark</strong><br>
+A graphical element such as a point, line, bar, area, or text label.</p>
+<p><strong>Overplotting</strong><br>
+The loss of visible detail when many marks occupy the same or nearby positions.</p>
+<p><strong>Projection</strong><br>
+A mathematical transformation from the curved surface of Earth to a flat map.</p>
+<p><strong>Scale</strong><br>
+A function mapping data values to visual values and defining guides such as axes or legends.</p>
+<p><strong>Small multiples</strong><br>
+A collection of similarly designed panels that enables comparison across subsets.</p>
+<p><strong>Uncertainty interval</strong><br>
+A general term for an interval representing uncertainty; its specific statistical meaning must be stated.</p>
+<p><strong>Visual hierarchy</strong><br>
+The ordering of attention created by position, size, contrast, spacing, and annotation.</p>
+</section>
+<section id="final-release-check" class="level2">
+<h2 class="anchored" data-anchor-id="final-release-check">Final release check</h2>
+<p>Run the relevant scripts, tests, and render from a clean environment:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pytest <span class="at">-q</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status <span class="at">--short</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Before publishing, confirm that:</p>
+<ul>
+<li>the book renders without unresolved citations or cross-references;</li>
+<li>every referenced figure exists at the expected path;</li>
+<li>generated figures and interactive exports are current;</li>
+<li>charts have meaningful titles, units, captions, and accessible descriptions;</li>
+<li>visual encodings are consistent across chapters;</li>
+<li>uncertainty and exclusions are disclosed;</li>
+<li>static and interactive outputs work in their target formats;</li>
+<li>scripts reproduce outputs without hidden notebook state;</li>
+<li>manifests or provenance records are current where required;</li>
+<li>no credentials, confidential data, local paths, or sensitive tooltips are published;</li>
+<li>all intentional source files are included in version control.</li>
+</ul>
+<p>The appendix is intentionally script-free: its examples are reusable reference patterns, and it produces no standalone plot. The only required DVP-999 repository artifact is this chapter file.</p>
 
 
 </section>

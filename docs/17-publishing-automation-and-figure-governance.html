@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -71,6 +106,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="assets/css/cdi.css">
 </head>
@@ -249,7 +313,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dashboards and Linked Views</span></a>
+  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Service Operations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -345,38 +409,218 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Theme:</strong> Reliable visual assets across reports, notebooks, and projects</li>
 </ul>
 </div>
+<p>Making a chart is not the end of a visualization workflow. The chart must also be exported at an appropriate size, named predictably, connected to its source data and code, checked for defects, and published without manual repair. This chapter treats figures as governed project assets rather than disposable screenshots.</p>
+<p>The practical example creates a small figure release containing a PNG, an SVG, the summarized data behind the chart, a metadata sidecar, a figure index, and a validation report. All outputs can be regenerated with one command.</p>
 <section id="learning-objectives" class="level2">
 <h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>After completing this chapter, you will be able to:</p>
+<ul>
+<li>select output formats for documents, web pages, presentations, and downstream editing;</li>
+<li>control dimensions, resolution, transparency, and typography at export time;</li>
+<li>design deterministic names and repository-relative output paths;</li>
+<li>record provenance, accessibility text, and technical properties in metadata;</li>
+<li>generate and validate a collection of figures in a batch;</li>
+<li>distinguish structural quality checks from visual regression tests; and</li>
+<li>publish governed figures through a Quarto project and an automated pipeline.</li>
+</ul>
 </section>
 <section id="static-interactive-and-document-outputs" class="level2">
 <h2 class="anchored" data-anchor-id="static-interactive-and-document-outputs">Static, Interactive, and Document Outputs</h2>
+<p>An output format is a delivery decision. Choose it from the needs of the final channel, not from the plotting library’s default.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Output</th>
+<th>Best use</th>
+<th>Strength</th>
+<th>Important limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PNG</td>
+<td>web pages, slides, raster-heavy plots</td>
+<td>predictable rendering</td>
+<td>becomes soft when enlarged</td>
+</tr>
+<tr class="even">
+<td>SVG</td>
+<td>web, diagrams, line and text-heavy charts</td>
+<td>scalable and editable</td>
+<td>very dense marks can create large files</td>
+</tr>
+<tr class="odd">
+<td>PDF</td>
+<td>print and archival documents</td>
+<td>scalable and page-oriented</td>
+<td>browser embedding varies</td>
+</tr>
+<tr class="even">
+<td>HTML</td>
+<td>interactive exploration</td>
+<td>tooltips, filtering, zoom</td>
+<td>requires JavaScript and an accessible fallback</td>
+</tr>
+</tbody>
+</table>
+<p>Interactive figures should have a static fallback when the publication may be printed, converted to PDF, viewed offline, or used with assistive technology. The fallback does not need to reproduce every interaction; it must preserve the main analytical claim. A nearby data table or download can expose values that are difficult to retrieve from marks alone.</p>
 </section>
 <section id="resolution-dimensions-and-file-formats" class="level2">
 <h2 class="anchored" data-anchor-id="resolution-dimensions-and-file-formats">Resolution, Dimensions, and File Formats</h2>
+<p>Pixels are determined by physical size and dots per inch:</p>
+<p><span class="math display">\[
+\text{pixels} = \text{inches} \times \text{DPI}.
+\]</span></p>
+<p>A <span class="math inline">\(7 \times 4\)</span> inch figure exported at 160 DPI is <span class="math inline">\(1120 \times 640\)</span> pixels. Set the physical dimensions first to establish composition and text scale, then select enough resolution for the target. Increasing DPI after a cramped layout does not repair overlapping labels.</p>
+<p>The example script centralizes export properties rather than scattering them across plotting calls:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>EXPORT <span class="op">=</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"width_inches"</span>: <span class="fl">8.0</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"height_inches"</span>: <span class="fl">4.8</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dpi"</span>: <span class="dv">160</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"background"</span>: <span class="st">"white"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use <code>bbox_inches="tight"</code> carefully. It is useful for preventing clipped labels, but it can produce slightly different canvas dimensions when labels change. Fixed canvases are preferable when visual regression comparisons require exact pixel geometry.</p>
 </section>
 <section id="reproducible-naming-and-output-paths" class="level2">
 <h2 class="anchored" data-anchor-id="reproducible-naming-and-output-paths">Reproducible Naming and Output Paths</h2>
+<p>A useful figure name communicates identity without encoding every implementation detail. This chapter uses:</p>
+<pre class="text"><code>results/figures/17-publishing-success-rate.png
+results/figures/17-publishing-success-rate.svg</code></pre>
+<p>The name has a chapter prefix and a stable semantic slug. It does not include <code>final</code>, <code>new</code>, or a date that changes on every run. Version history belongs in Git or in release metadata.</p>
+<p>Paths are resolved from the repository root, not from the caller’s current directory. Consequently, the same command works from a terminal, a task runner, or continuous integration:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/bash/17-run-publishing-governance.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Separate source data, generated figures, and machine-readable results. Generated files should never be silently written beside source code.</p>
 </section>
 <section id="figure-metadata-and-indexes" class="level2">
 <h2 class="anchored" data-anchor-id="figure-metadata-and-indexes">Figure Metadata and Indexes</h2>
+<p>A figure cannot explain its own provenance. A metadata sidecar can. The generated JSON records:</p>
+<ul>
+<li>a stable figure identifier and title;</li>
+<li>repository-relative paths to code, data, and outputs;</li>
+<li>dimensions, DPI, format, file size, and SHA-256 digest;</li>
+<li>generation time and relevant software versions;</li>
+<li>accessible alternative text; and</li>
+<li>the quality-check result.</li>
+</ul>
+<p>The CSV index provides one row per output format. This is intentionally easy to inspect, filter, and combine across chapters. A project-wide index can become the source for a gallery, release manifest, or documentation audit.</p>
+<p>Hashes are evidence that a particular artifact was produced; they do not prove that the chart is analytically correct. Regeneration may also change hashes when fonts, renderers, or compression libraries change. Record the environment alongside the digest and interpret differences deliberately.</p>
 </section>
 <section id="batch-generation-with-scripts" class="level2">
 <h2 class="anchored" data-anchor-id="batch-generation-with-scripts">Batch Generation with Scripts</h2>
+<p>The Python program in <code>scripts/python/17_generate_governed_figures.py</code> follows a small build pipeline:</p>
+<pre class="mermaid"><code>flowchart TD
+    A["Validate source records"] --&gt; B["Aggregate metrics"]
+    B --&gt; C["Render PNG and SVG"]
+    C --&gt; D["Write metadata and index"]
+    D --&gt; E["Run quality gates"]</code></pre>
+<p>The wrapper establishes a writable Matplotlib cache, invokes the generator, and prints the governed outputs. The generator writes files atomically where practical, uses a fixed category order, and removes time from the analytical data so that repeated runs produce the same marks.</p>
+<p>Run it with:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/bash/17-run-publishing-governance.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To verify without regenerating outputs:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/python/17_validate_figure_release.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="themes-templates-and-brand-consistency" class="level2">
 <h2 class="anchored" data-anchor-id="themes-templates-and-brand-consistency">Themes, Templates, and Brand Consistency</h2>
+<p>A theme should encode design decisions that ought to recur: font families, hierarchy, grid treatment, color roles, line weights, and export background. It should not prevent a chart from adapting to its analytical purpose.</p>
+<p>The example keeps theme values in one Python mapping and uses a restrained blue palette with direct percentage labels. For a larger repository, move shared settings into a module such as <code>scripts/python/visual_theme.py</code>. Pin fonts available in the publishing environment; font substitution can change wrapping and geometry even when the code and data are unchanged.</p>
+<p>Consistency is not sameness. A categorical comparison and a geospatial density map need different encodings, but their titles, captions, typography, accessible descriptions, and output contracts can still follow the same system.</p>
 </section>
 <section id="visual-regression-and-quality-checks" class="level2">
 <h2 class="anchored" data-anchor-id="visual-regression-and-quality-checks">Visual Regression and Quality Checks</h2>
+<p>Quality checks operate at several levels:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Level</th>
+<th>Example check</th>
+<th>Detects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Data</td>
+<td>rates lie between 0 and 1</td>
+<td>invalid analytical inputs</td>
+</tr>
+<tr class="even">
+<td>Structural</td>
+<td>expected files exist and are non-empty</td>
+<td>broken generation paths</td>
+</tr>
+<tr class="odd">
+<td>Technical</td>
+<td>PNG dimensions meet minimums; SVG has a root element</td>
+<td>unsuitable or corrupt exports</td>
+</tr>
+<tr class="even">
+<td>Governance</td>
+<td>metadata includes alt text, source, digest, and status</td>
+<td>incomplete provenance</td>
+</tr>
+<tr class="odd">
+<td>Visual regression</td>
+<td>rendered output differs from an approved baseline</td>
+<td>unexpected layout or style change</td>
+</tr>
+</tbody>
+</table>
+<p>Pixel-perfect comparison is often too brittle across operating systems. Prefer perceptual thresholds, normalized environments, or selected structural assertions. When a baseline changes, review the image and the analytical reason before accepting it. Never update a baseline merely to make a pipeline pass.</p>
+<p>The included validator checks the data summary, manifest paths, file digests, minimum raster dimensions, SVG structure, alternative text, and the declared status. Its result is written to <code>results/17-figure-validation.json</code>, making the check available to both people and automation.</p>
 </section>
 <section id="publishing-with-quarto" class="level2">
 <h2 class="anchored" data-anchor-id="publishing-with-quarto">Publishing with Quarto</h2>
+<p>Quarto should consume repository-relative assets that already satisfy the figure contract. The generated chart can be embedded as follows:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="al">![Publishing success rate by output channel. Bars compare Web, PDF, and Slides; Web is highest at 96%.](results/figures/17-publishing-success-rate.png)</span>{#fig-publishing-success-rate fig-alt="Horizontal bars show publishing success rates of 96% for Web, 91% for PDF, and 88% for Slides."}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-publishing-success-rate" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Horizontal bars show publishing success rates of 96 percent for Web, 91 percent for PDF, and 88 percent for Slides. Web has the highest rate.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-publishing-success-rate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/17-publishing-success-rate.png" class="img-fluid figure-img" style="width:90.0%" alt="Horizontal bars show publishing success rates of 96 percent for Web, 91 percent for PDF, and 88 percent for Slides. Web has the highest rate.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-publishing-success-rate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.1: Publishing success rate across three delivery channels.
+</figcaption>
+</figure>
+</div>
+<p>Figure <a href="#fig-publishing-success-rate" class="quarto-xref">Figure&nbsp;<span>19.1</span></a> is the governed raster output. The SVG version is available for scalable web use and downstream editing.</p>
+<p>A publishing pipeline should run generation and validation before <code>quarto render</code>. A minimal CI sequence is:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Generate governed figures</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">run</span><span class="kw">:</span><span class="at"> bash scripts/bash/17-run-publishing-governance.sh</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Render book</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">run</span><span class="kw">:</span><span class="at"> quarto render</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Decide whether generated figures are committed or built during publication. Committing them improves reviewability and allows rendering without the full analytical environment. Building them reduces repository churn. Either policy can work if it is explicit, enforced, and paired with traceable inputs.</p>
 </section>
 <section id="chapter-practice" class="level2">
 <h2 class="anchored" data-anchor-id="chapter-practice">Chapter Practice</h2>
+<ol type="1">
+<li>Run the batch wrapper and inspect the PNG, SVG, CSV, and JSON outputs.</li>
+<li>Change one success count in the source records, regenerate, and identify which digests change.</li>
+<li>Add a new delivery channel and confirm that ordering, labels, alt text, and validation still make sense.</li>
+<li>Introduce an empty alt-text value and verify that the validator fails.</li>
+<li>Extend the index with an <code>owner</code> and <code>review_status</code> field suitable for your project.</li>
+<li>Draft a repository policy stating when baselines may be updated and who reviews them.</li>
+</ol>
 </section>
 <section id="key-takeaways" class="level2">
 <h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Treat every published figure as a versioned asset with code, data, metadata, and a delivery target.</li>
+<li>Choose dimensions and formats from the publication context; DPI alone does not create a good layout.</li>
+<li>Stable semantic names and repository-relative paths make automation portable.</li>
+<li>Indexes and sidecars connect visual outputs to provenance, accessibility, and validation evidence.</li>
+<li>Combine data, structural, technical, governance, and visual checks; no single check establishes correctness.</li>
+<li>Generate and validate before publication so that a Quarto render consumes known-good assets.</li>
+</ul>
 
 
 </section>
@@ -785,8 +1029,8 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./16-dashboards-and-linked-views.html" class="pagination-link" aria-label="Dashboards and Linked Views">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Dashboards and Linked Views</span></span>
+      <a href="./16-dashboards-and-linked-views.html" class="pagination-link" aria-label="Service Operations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Service Operations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

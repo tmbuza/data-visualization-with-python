@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -71,6 +106,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="assets/css/cdi.css">
 </head>
@@ -249,7 +313,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dashboards and Linked Views</span></a>
+  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Service Operations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -297,14 +361,21 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
   <li><a href="#nodes-edges-and-graph-attributes" id="toc-nodes-edges-and-graph-attributes" class="nav-link" data-scroll-target="#nodes-edges-and-graph-attributes">Nodes, Edges, and Graph Attributes</a></li>
-  <li><a href="#building-graphs-with-networkx" id="toc-building-graphs-with-networkx" class="nav-link" data-scroll-target="#building-graphs-with-networkx">Building Graphs with NetworkX</a></li>
+  <li><a href="#building-graphs-with-networkx" id="toc-building-graphs-with-networkx" class="nav-link" data-scroll-target="#building-graphs-with-networkx">Building Graphs with NetworkX</a>
+  <ul class="collapse">
+  <li><a href="#validate-before-drawing" id="toc-validate-before-drawing" class="nav-link" data-scroll-target="#validate-before-drawing">Validate before drawing</a></li>
+  </ul></li>
   <li><a href="#layouts-and-visual-encodings" id="toc-layouts-and-visual-encodings" class="nav-link" data-scroll-target="#layouts-and-visual-encodings">Layouts and Visual Encodings</a></li>
   <li><a href="#communities-and-centrality" id="toc-communities-and-centrality" class="nav-link" data-scroll-target="#communities-and-centrality">Communities and Centrality</a></li>
   <li><a href="#directed-weighted-and-bipartite-networks" id="toc-directed-weighted-and-bipartite-networks" class="nav-link" data-scroll-target="#directed-weighted-and-bipartite-networks">Directed, Weighted, and Bipartite Networks</a></li>
   <li><a href="#sankey-and-alluvial-views" id="toc-sankey-and-alluvial-views" class="nav-link" data-scroll-target="#sankey-and-alluvial-views">Sankey and Alluvial Views</a></li>
   <li><a href="#hierarchies-and-treemaps" id="toc-hierarchies-and-treemaps" class="nav-link" data-scroll-target="#hierarchies-and-treemaps">Hierarchies and Treemaps</a></li>
   <li><a href="#avoiding-network-hairballs" id="toc-avoiding-network-hairballs" class="nav-link" data-scroll-target="#avoiding-network-hairballs">Avoiding Network Hairballs</a></li>
-  <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter Practice</a></li>
+  <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter Practice</a>
+  <ul class="collapse">
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#review-checklist" id="toc-review-checklist" class="nav-link" data-scroll-target="#review-checklist">Review checklist</a></li>
+  </ul></li>
   <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
   </ul>
 </nav>
@@ -347,36 +418,374 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <section id="learning-objectives" class="level2">
 <h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>distinguish node-link diagrams from flow and hierarchy views;</li>
+<li>construct attributed graphs with NetworkX;</li>
+<li>choose layouts and visual encodings that support a specific analytical question;</li>
+<li>interpret degree, betweenness, PageRank, and community membership;</li>
+<li>represent directed, weighted, and bipartite relationships;</li>
+<li>design Sankey and treemap views without overstating precision; and</li>
+<li>diagnose and redesign a dense, unreadable network.</li>
+</ul>
+<p>The examples use a small fictional distribution network. Products move from suppliers through processing and distribution facilities to markets. The data are intentionally compact enough to inspect, but the workflow scales to larger graphs when aggregation and filtering are applied first.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+A network view is an analytical model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A graph is not simply a table drawn with circles and lines. Decisions about what becomes a node, what becomes an edge, whether direction matters, and how repeated events are aggregated determine the claims the visualization can support.</p>
+</div>
+</div>
 </section>
 <section id="nodes-edges-and-graph-attributes" class="level2">
 <h2 class="anchored" data-anchor-id="nodes-edges-and-graph-attributes">Nodes, Edges, and Graph Attributes</h2>
+<p>A graph, <span class="math inline">\(G=(V,E)\)</span>, contains a set of <strong>nodes</strong> (or vertices), <span class="math inline">\(V\)</span>, and a set of <strong>edges</strong>, <span class="math inline">\(E\)</span>. Nodes represent entities; edges represent relationships or transactions between them.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Supply-network example</th>
+<th>Useful attributes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Node</td>
+<td>supplier, facility, or market</td>
+<td>stage, region, capacity</td>
+</tr>
+<tr class="even">
+<td>Edge</td>
+<td>product movement</td>
+<td>volume, cost, lead time</td>
+</tr>
+<tr class="odd">
+<td>Direction</td>
+<td>origin <span class="math inline">\(\rightarrow\)</span> destination</td>
+<td>source and target</td>
+</tr>
+<tr class="even">
+<td>Weight</td>
+<td>annual shipment volume</td>
+<td>edge width or opacity</td>
+</tr>
+</tbody>
+</table>
+<p>An edge list is usually the most convenient analytical form:</p>
+<div id="ca5e66d0" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>edges <span class="op">=</span> [</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Farm North"</span>, <span class="st">"Plant A"</span>, {<span class="st">"volume"</span>: <span class="dv">84</span>}),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Plant A"</span>, <span class="st">"Hub East"</span>, {<span class="st">"volume"</span>: <span class="dv">68</span>}),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Hub East"</span>, <span class="st">"Market Metro"</span>, {<span class="st">"volume"</span>: <span class="dv">51</span>}),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>An adjacency matrix is useful for algebra and heatmaps, while a node table keeps attributes separate from relationships. Preserve stable node identifiers in all three representations; labels can change, identifiers should not.</p>
 </section>
 <section id="building-graphs-with-networkx" class="level2">
 <h2 class="anchored" data-anchor-id="building-graphs-with-networkx">Building Graphs with NetworkX</h2>
+<p>NetworkX provides graph classes for common relationship structures:</p>
+<ul>
+<li><code>Graph</code>: undirected, with at most one edge per node pair;</li>
+<li><code>DiGraph</code>: directed, with at most one edge per ordered pair;</li>
+<li><code>MultiGraph</code> and <code>MultiDiGraph</code>: parallel edges are retained; and</li>
+<li>bipartite graphs: nodes belong to two disjoint sets and edges cross sets.</li>
+</ul>
+<div id="6b489ae8" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>graph <span class="op">=</span> nx.DiGraph()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>graph.add_node(<span class="st">"Plant A"</span>, stage<span class="op">=</span><span class="st">"processor"</span>, region<span class="op">=</span><span class="st">"North"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>graph.add_edge(<span class="st">"Farm North"</span>, <span class="st">"Plant A"</span>, volume<span class="op">=</span><span class="dv">84</span>, lead_days<span class="op">=</span><span class="fl">2.0</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> nx.is_directed(graph)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(graph.number_of_nodes(), graph.number_of_edges())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Choose the graph class before calculating metrics. Converting a directed graph to an undirected graph changes the meaning of degree and paths. Likewise, collapsing a multigraph can hide repeated transaction types unless their weights are aggregated deliberately.</p>
+<section id="validate-before-drawing" class="level3">
+<h3 class="anchored" data-anchor-id="validate-before-drawing">Validate before drawing</h3>
+<p>Useful checks include:</p>
+<div id="e472c067" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">all</span>(data[<span class="st">"volume"</span>] <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">for</span> <span class="op">*</span>_, data <span class="kw">in</span> graph.edges(data<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">not</span> <span class="bu">list</span>(nx.selfloop_edges(graph))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> nx.number_weakly_connected_components(graph) <span class="op">==</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Validation catches modeling errors while they are still recognizable in the data. A visually plausible graph can otherwise conceal duplicate entities, reversed edges, missing weights, or disconnected records.</p>
+</section>
 </section>
 <section id="layouts-and-visual-encodings" class="level2">
 <h2 class="anchored" data-anchor-id="layouts-and-visual-encodings">Layouts and Visual Encodings</h2>
+<p>A layout maps nodes to positions. Position usually reflects an algorithm, not geography or a measured coordinate.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layout</th>
+<th>Best suited to</th>
+<th>Important limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spring / force-directed</td>
+<td>exploring clusters and bridges</td>
+<td>stochastic unless seeded</td>
+</tr>
+<tr class="even">
+<td>Kamada–Kawai</td>
+<td>small graphs emphasizing graph distance</td>
+<td>slower on large graphs</td>
+</tr>
+<tr class="odd">
+<td>Circular</td>
+<td>comparing connections without implying rank</td>
+<td>crossings accumulate quickly</td>
+</tr>
+<tr class="even">
+<td>Multipartite</td>
+<td>stages, tiers, or ordered layers</td>
+<td>requires a meaningful subset attribute</td>
+</tr>
+<tr class="odd">
+<td>Geographic</td>
+<td>spatial infrastructure</td>
+<td>distance may dominate topology</td>
+</tr>
+</tbody>
+</table>
+<p>Use a fixed seed for reproducible force-directed layouts. Encode only a few attributes at once:</p>
+<ul>
+<li>node position: stage or structural proximity;</li>
+<li>node color: category or community;</li>
+<li>node size: centrality, capacity, or total volume;</li>
+<li>edge width: weight;</li>
+<li>arrow direction: movement; and</li>
+<li>labels: selected nodes, not necessarily every node.</li>
+</ul>
+<p>Area-based encodings require care. If a centrality value controls marker area, pass it as the node-size value directly; do not square it again. Apply sensible minimums so low-valued nodes remain visible.</p>
+<div id="fig-network-communities" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-network-communities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/12-network-communities.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-network-communities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.1: A layered network uses stage for position, node color for community, node size for betweenness, and edge width for shipment volume.
+</figcaption>
+</figure>
+</div>
+<p>Figure <a href="#fig-network-communities" class="quarto-xref">Figure&nbsp;<span>14.1</span></a> separates structural encodings. Because the horizontal tiers carry domain meaning, readers do not have to infer the supply chain solely from arrowheads.</p>
 </section>
 <section id="communities-and-centrality" class="level2">
 <h2 class="anchored" data-anchor-id="communities-and-centrality">Communities and Centrality</h2>
+<p>Centrality metrics answer different questions:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Question</th>
+<th>Caveat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>In/out-degree</td>
+<td>How many direct relationships enter or leave?</td>
+<td>ignores distant structure</td>
+</tr>
+<tr class="even">
+<td>Weighted degree</td>
+<td>How much total activity touches the node?</td>
+<td>large volume is not influence</td>
+</tr>
+<tr class="odd">
+<td>Betweenness</td>
+<td>Which nodes lie on many shortest paths?</td>
+<td>depends on the meaning of distance</td>
+</tr>
+<tr class="even">
+<td>PageRank</td>
+<td>Which nodes receive links from important nodes?</td>
+<td>sensitive to direction and damping</td>
+</tr>
+</tbody>
+</table>
+<p>For weighted shortest-path metrics, NetworkX interprets an edge weight as a <strong>distance or cost</strong>. Shipment volume is the opposite: a high volume often signals a strong connection. The accompanying script therefore calculates betweenness on unweighted topology. In another application, create a distance such as <code>1 / volume</code> only when that transformation has a defensible meaning.</p>
+<p>Community detection groups nodes with relatively dense internal connections. It is exploratory—not proof that real organizational or social groups exist. The script applies greedy modularity to an undirected projection, then uses the result as a categorical color encoding.</p>
+<div id="6d998758" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>undirected <span class="op">=</span> graph.to_undirected()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>communities <span class="op">=</span> nx.community.greedy_modularity_communities(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    undirected, weight<span class="op">=</span><span class="st">"volume"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>betweenness <span class="op">=</span> nx.betweenness_centrality(graph, normalized<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>pagerank <span class="op">=</span> nx.pagerank(graph, weight<span class="op">=</span><span class="st">"volume"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Report the graph transformation, algorithm, and weight semantics alongside the visual. Without them, the metrics are difficult to reproduce or audit.</p>
 </section>
 <section id="directed-weighted-and-bipartite-networks" class="level2">
 <h2 class="anchored" data-anchor-id="directed-weighted-and-bipartite-networks">Directed, Weighted, and Bipartite Networks</h2>
+<p>Direction is essential when edges represent movement, influence, citations, or dependencies. Weighted degree in a directed graph separates incoming and outgoing totals:</p>
+<div id="3e2bb543" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>in_volume <span class="op">=</span> <span class="bu">dict</span>(graph.in_degree(weight<span class="op">=</span><span class="st">"volume"</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>out_volume <span class="op">=</span> <span class="bu">dict</span>(graph.out_degree(weight<span class="op">=</span><span class="st">"volume"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>A bipartite graph represents relationships between two node types—for example, products and suppliers or authors and papers. A projected supplier network connects suppliers that share a product, but projection discards information. Retain the original bipartite graph and document whether projected edge weights count shared neighbors, transactions, or another quantity.</p>
+<p>For multigraphs, decide whether parallel edges are distinct events or should be aggregated. A defensible aggregation table might contain <code>source</code>, <code>target</code>, <code>total_volume</code>, <code>shipment_count</code>, and <code>median_lead_days</code>, preserving more information than a single summed weight.</p>
 </section>
 <section id="sankey-and-alluvial-views" class="level2">
 <h2 class="anchored" data-anchor-id="sankey-and-alluvial-views">Sankey and Alluvial Views</h2>
+<p>Node-link diagrams emphasize connectivity. <strong>Sankey diagrams</strong> emphasize the magnitude of flows between stages, with link width proportional to quantity. Alluvial diagrams are closely related and are often used to show changes in membership or composition across categorical dimensions.</p>
+<div id="63b71fb5" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>figure <span class="op">=</span> go.Figure(go.Sankey(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    node<span class="op">=</span>{<span class="st">"label"</span>: labels},</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    link<span class="op">=</span>{<span class="st">"source"</span>: source_ids, <span class="st">"target"</span>: target_ids, <span class="st">"value"</span>: volumes},</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>figure.update_layout(title<span class="op">=</span><span class="st">"Annual product flow"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>figure.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Before constructing the chart, map labels to integer indices and validate that all values are non-negative. Aggregate small flows when they obscure the main paths. If conservation is expected, test it: for an intermediate node, incoming flow should equal outgoing flow after accounting for inventory, loss, or transformation.</p>
+<div id="fig-stage-flow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-stage-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/12-stage-flow.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stage-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.2: Aggregated shipment volume across four supply-chain stages.
+</figcaption>
+</figure>
+</div>
+<p>The static flow view in <a href="#fig-stage-flow" class="quarto-xref">Figure&nbsp;<span>14.2</span></a> is designed for reports and print. The same aggregated values can drive an interactive Sankey chart when hover detail and path tracing add genuine value.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Flow width is quantitative
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not manually adjust link widths to improve appearance. If thin links are unreadable, aggregate, filter, annotate, or provide a companion table rather than distorting the quantities.</p>
+</div>
+</div>
 </section>
 <section id="hierarchies-and-treemaps" class="level2">
 <h2 class="anchored" data-anchor-id="hierarchies-and-treemaps">Hierarchies and Treemaps</h2>
+<p>Trees are graphs with one unique path between connected nodes. Common hierarchy views include:</p>
+<ul>
+<li>node-link trees for ancestry and reporting lines;</li>
+<li>dendrograms for merge sequences or clustering;</li>
+<li>treemaps for part-to-whole composition; and</li>
+<li>sunbursts for nested composition with explicit levels.</li>
+</ul>
+<p>A treemap encodes magnitude by rectangle area and hierarchy by enclosure. It is space-efficient but poor for precise comparison, especially among small or non-adjacent rectangles. Sort consistently, keep hierarchy depth modest, and provide numeric labels or tooltips. Use a bar chart when accurate ranking is the main task.</p>
+<p>Never force a general network into a tree: nodes with multiple parents or cycles will be misrepresented. Check the topology first with functions such as <code>nx.is_tree()</code> or <code>nx.is_directed_acyclic_graph()</code>.</p>
 </section>
 <section id="avoiding-network-hairballs" class="level2">
 <h2 class="anchored" data-anchor-id="avoiding-network-hairballs">Avoiding Network Hairballs</h2>
+<p>A network hairball contains so many overlapping nodes, edges, and labels that structure disappears. More pixels rarely solve the underlying analytical problem.</p>
+<p>Redesign in this order:</p>
+<ol type="1">
+<li>Restate the question: identify hubs, compare groups, trace a path, or measure flow.</li>
+<li>Filter to a relevant ego network, time window, edge type, or weight range.</li>
+<li>Aggregate nodes into defensible groups or flows between stages.</li>
+<li>Highlight a subgraph and mute context instead of labeling everything.</li>
+<li>Switch views: adjacency matrix for dense connectivity, Sankey for volume, bar chart for centrality, or table for exact values.</li>
+</ol>
+<p>Always disclose filtering thresholds. Removing low-weight edges can make a network appear more fragmented and centralize the remaining nodes.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Small multiples can beat interaction
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Faceting networks by time, region, or relationship type often makes structural change easier to compare than an animation. Keep node positions stable across panels so movement does not masquerade as topological change.</p>
+</div>
+</div>
 </section>
 <section id="chapter-practice" class="level2">
 <h2 class="anchored" data-anchor-id="chapter-practice">Chapter Practice</h2>
+<p>The reproducible practice script builds the fictional distribution network, computes community and centrality measures, aggregates stage-to-stage flows, and saves both figures and summary tables.</p>
+<p>Run it from the repository root:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/python/12-network-and-flow-visualization.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Expected outputs:</p>
+<ul>
+<li><code>results/figures/12-network-communities.png</code>;</li>
+<li><code>results/figures/12-stage-flow.png</code>;</li>
+<li><code>results/12-network-node-summary.csv</code>;</li>
+<li><code>results/12-stage-flow-summary.csv</code>; and</li>
+<li><code>results/12-network-figure-manifest.csv</code>.</li>
+</ul>
+<section id="exercises" class="level3">
+<h3 class="anchored" data-anchor-id="exercises">Exercises</h3>
+<ol type="1">
+<li>Replace node size with weighted in-degree. Which facilities become visually prominent, and why?</li>
+<li>Remove edges with volume below 20. Compare weak connectivity, community assignments, and betweenness before and after filtering.</li>
+<li>Add a second market and rebalance outgoing hub flows. Test conservation at every intermediate node.</li>
+<li>Build an interactive Sankey chart from the stage-flow summary. Add useful hover text without duplicating labels already visible.</li>
+<li>Create a bipartite product–supplier graph, project it onto suppliers, and explain exactly what information the projection loses.</li>
+</ol>
+</section>
+<section id="review-checklist" class="level3">
+<h3 class="anchored" data-anchor-id="review-checklist">Review checklist</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">Node and edge meanings are explicit.</label></li>
+<li><label><input type="checkbox">Direction and weight semantics match the phenomenon.</label></li>
+<li><label><input type="checkbox">Layout choice supports the question and is reproducible.</label></li>
+<li><label><input type="checkbox">Centrality metrics are named and interpreted narrowly.</label></li>
+<li><label><input type="checkbox">Visual encodings have legends or direct labels.</label></li>
+<li><label><input type="checkbox">Filtering and aggregation rules are disclosed.</label></li>
+<li><label><input type="checkbox">A simpler chart was considered.</label></li>
+</ul>
+</section>
 </section>
 <section id="key-takeaways" class="level2">
 <h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Model the relationship correctly before choosing a layout.</li>
+<li>Treat position in algorithmic layouts as structure, not measured geography.</li>
+<li>Use centrality and community algorithms as question-specific summaries, not universal rankings or discovered truth.</li>
+<li>Prefer Sankey views for quantities moving through stages and treemaps for compact hierarchical composition.</li>
+<li>Reduce, aggregate, or change the visual form when a network becomes a hairball.</li>
+<li>Keep graph construction, transformations, metrics, and figure generation in a reproducible script so the published visual can be audited.</li>
+</ul>
 
 
 </section>

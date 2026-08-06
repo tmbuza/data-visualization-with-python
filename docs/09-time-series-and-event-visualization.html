@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -249,7 +284,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dashboards and Linked Views</span></a>
+  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Service Operations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -304,6 +339,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#events-regimes-and-annotations" id="toc-events-regimes-and-annotations" class="nav-link" data-scroll-target="#events-regimes-and-annotations">Events, Regimes, and Annotations</a></li>
   <li><a href="#missing-time-and-irregular-intervals" id="toc-missing-time-and-irregular-intervals" class="nav-link" data-scroll-target="#missing-time-and-irregular-intervals">Missing Time and Irregular Intervals</a></li>
   <li><a href="#interactive-time-series-exploration" id="toc-interactive-time-series-exploration" class="nav-link" data-scroll-target="#interactive-time-series-exploration">Interactive Time-Series Exploration</a></li>
+  <li><a href="#reproducible-workflow" id="toc-reproducible-workflow" class="nav-link" data-scroll-target="#reproducible-workflow">Reproducible Workflow</a></li>
   <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter Practice</a></li>
   <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
   </ul>
@@ -345,38 +381,229 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Theme:</strong> Trends, seasonality, change, and events over time</li>
 </ul>
 </div>
+<p>Time-series graphics are arguments about <strong>change</strong>. A useful temporal view makes the time grain explicit, distinguishes signal from short-term variation, preserves gaps, and gives important events enough context to be interpreted without implying causality. This chapter develops those habits with a reproducible Python workflow.</p>
 <section id="learning-objectives" class="level2">
 <h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol type="1">
+<li>parse, validate, sort, and index temporal data;</li>
+<li>select line, area, interval, and small-multiple views for different questions;</li>
+<li>use rolling summaries and seasonal profiles without hiding the observations;</li>
+<li>annotate events and regimes with appropriately cautious language;</li>
+<li>expose missing periods and irregular sampling rather than connecting across them;</li>
+<li>design interactive time-series views that support focused exploration; and</li>
+<li>package data, plots, and a manifest as reproducible outputs.</li>
+</ol>
 </section>
 <section id="preparing-temporal-data" class="level2">
 <h2 class="anchored" data-anchor-id="preparing-temporal-data">Preparing Temporal Data</h2>
+<p>Temporal visualization begins before plotting. A trustworthy workflow checks five properties:</p>
+<ul>
+<li><strong>Type:</strong> timestamps are parsed as datetimes rather than stored as text.</li>
+<li><strong>Zone:</strong> timezone-aware data use a documented zone; local reporting time is converted deliberately.</li>
+<li><strong>Grain:</strong> each row represents a known interval, such as one day per region.</li>
+<li><strong>Order:</strong> observations are sorted within each series.</li>
+<li><strong>Uniqueness:</strong> the intended time-series key has no duplicates.</li>
+</ul>
+<div id="30d45e95" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>daily <span class="op">=</span> pd.read_csv(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/processed/09-daily-service-metrics.csv"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    parse_dates<span class="op">=</span>[<span class="st">"date"</span>],</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>key <span class="op">=</span> [<span class="st">"region"</span>, <span class="st">"date"</span>]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">not</span> daily.duplicated(key).<span class="bu">any</span>()</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>daily <span class="op">=</span> daily.sort_values(key)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>expected <span class="op">=</span> pd.date_range(daily[<span class="st">"date"</span>].<span class="bu">min</span>(), daily[<span class="st">"date"</span>].<span class="bu">max</span>(), freq<span class="op">=</span><span class="st">"D"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>coverage <span class="op">=</span> (</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    daily.groupby(<span class="st">"region"</span>)[<span class="st">"date"</span>]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">apply</span>(<span class="kw">lambda</span> values: values.nunique() <span class="op">/</span> <span class="bu">len</span>(expected))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    .rename(<span class="st">"coverage"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>A timestamp alone does not define the analytical meaning of a row. Record whether it is an instant, an interval start, an interval end, or a reporting date. If monthly values represent totals, plotting them at month-end is defensible; if they represent monthly averages, a centered interval or explicit month label may communicate the semantics better.</p>
 </section>
 <section id="line-area-and-interval-views" class="level2">
 <h2 class="anchored" data-anchor-id="line-area-and-interval-views">Line, Area, and Interval Views</h2>
+<p>A line chart is the default for ordered measurements because position on a common scale supports accurate comparison. It is most effective when observations are sufficiently frequent and interpolation between adjacent points is reasonable.</p>
+<p>Use an area chart when accumulated magnitude or composition is central. Because filled shapes emphasize volume, avoid using area merely as decoration. An interval view adds a band for uncertainty, variation, or an expected range. State what the band represents: a confidence interval, prediction interval, interquartile range, or operational threshold are not interchangeable.</p>
+<div id="fig-time-series-overview" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Daily request volume from January through June for three regions, with a darker seven-day average, pale expected range, a marked release date, and a visible missing-data gap.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-time-series-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/09-time-series-overview.png" class="img-fluid figure-img" alt="Daily request volume from January through June for three regions, with a darker seven-day average, pale expected range, a marked release date, and a visible missing-data gap.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-time-series-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.1: Daily volume, a seven-day rolling mean, and an expected interval. The raw series remains visible so smoothing does not erase variation.
+</figcaption>
+</figure>
+</div>
+<p>Figure <a href="#fig-time-series-overview" class="quarto-xref">Figure&nbsp;<span>11.1</span></a> layers the observations, a rolling summary, an expected interval, and an event marker. The hierarchy is intentional: raw observations provide evidence; the thicker rolling line guides attention; the pale band provides context; the annotation explains why a date matters.</p>
 </section>
 <section id="multiple-series-and-small-multiples" class="level2">
 <h2 class="anchored" data-anchor-id="multiple-series-and-small-multiples">Multiple Series and Small Multiples</h2>
+<p>Overlaying several lines works when there are few series, their scales are comparable, and crossings are limited. Direct labels near line ends are often easier to follow than a distant legend. Once the display becomes tangled, small multiples provide each series with the same visual grammar while retaining a shared scale.</p>
+<div id="83e89aa3" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    nrows<span class="op">=</span>daily[<span class="st">"region"</span>].nunique(),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    sharex<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    sharey<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (region, frame) <span class="kw">in</span> <span class="bu">zip</span>(axes, daily.groupby(<span class="st">"region"</span>, sort<span class="op">=</span><span class="va">False</span>)):</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    ax.plot(frame[<span class="st">"date"</span>], frame[<span class="st">"requests"</span>], color<span class="op">=</span><span class="st">"#2563eb"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    ax.set_title(region, loc<span class="op">=</span><span class="st">"left"</span>, fontweight<span class="op">=</span><span class="st">"bold"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Keep axis limits consistent when the goal is comparison. Free scales can reveal within-series patterns but prevent direct magnitude comparison; if you use them, say so in the caption or facet labels.</p>
 </section>
 <section id="rolling-summaries-and-smoothing" class="level2">
 <h2 class="anchored" data-anchor-id="rolling-summaries-and-smoothing">Rolling Summaries and Smoothing</h2>
+<p>Rolling statistics reduce short-term noise, but every choice encodes a judgment. A seven-day window is appropriate for daily data with a weekly cycle; it is not a universally neutral default.</p>
+<div id="329dc252" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>daily[<span class="st">"requests_7d"</span>] <span class="op">=</span> daily.groupby(<span class="st">"region"</span>)[<span class="st">"requests"</span>].transform(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> values: values.rolling(<span class="dv">7</span>, min_periods<span class="op">=</span><span class="dv">4</span>).mean()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Important decisions include:</p>
+<ul>
+<li><strong>window width:</strong> which variation is treated as noise;</li>
+<li><strong>alignment:</strong> trailing windows support monitoring, while centered windows suit retrospective description;</li>
+<li><strong>minimum periods:</strong> whether partial windows are allowed;</li>
+<li><strong>missing values:</strong> whether gaps interrupt, shorten, or invalidate the window; and</li>
+<li><strong>edge behavior:</strong> where a full window cannot be computed.</li>
+</ul>
+<p>Show the original data beneath the smoother when space permits. A smoothed line alone can conceal anomalies, gaps, and the actual variability experienced by users.</p>
 </section>
 <section id="seasonality-and-calendar-patterns" class="level2">
 <h2 class="anchored" data-anchor-id="seasonality-and-calendar-patterns">Seasonality and Calendar Patterns</h2>
+<p>Seasonality is recurring structure tied to a calendar or operational cycle. A seasonal profile groups observations by a meaningful position in that cycle—hour, weekday, week of year, or month—and summarizes repeated observations.</p>
+<div id="fig-weekday-seasonality" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three lines show median requests Monday through Sunday. Each has a translucent interquartile band, with weekdays generally higher than weekends.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weekday-seasonality-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/09-weekday-seasonality.png" class="img-fluid figure-img" alt="Three lines show median requests Monday through Sunday. Each has a translucent interquartile band, with weekdays generally higher than weekends.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weekday-seasonality-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.2: Median request volume by weekday, with an interquartile band for each region.
+</figcaption>
+</figure>
+</div>
+<p>Figure <a href="#fig-weekday-seasonality" class="quarto-xref">Figure&nbsp;<span>11.2</span></a> uses medians and interquartile ranges because they are resistant to isolated spikes. Always order calendar categories semantically rather than alphabetically. Before interpreting a pattern as seasonality, check whether the time span contains enough repeated cycles and whether a trend or regime change is confounded with the calendar effect.</p>
+<p>Calendar heatmaps are useful when both axes have temporal meaning—for example weekday by hour or week by day—but their color encodings make exact comparisons harder. Use them to reveal structure, then provide a line or table when exact values matter.</p>
 </section>
 <section id="events-regimes-and-annotations" class="level2">
 <h2 class="anchored" data-anchor-id="events-regimes-and-annotations">Events, Regimes, and Annotations</h2>
+<p>Events are points in time; regimes are sustained intervals. Represent them differently:</p>
+<div id="f1efeeed" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ax.axvline(release_date, color<span class="op">=</span><span class="st">"#be123c"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ax.axvspan(incident_start, incident_end, color<span class="op">=</span><span class="st">"#f59e0b"</span>, alpha<span class="op">=</span><span class="fl">0.15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Annotations should answer three questions: <strong>what happened, when, and why the viewer should care</strong>. Place labels near the evidence, avoid covering the data, and establish a clear hierarchy among primary and secondary events.</p>
+<p>Temporal coincidence is not causal evidence. Prefer “volume increased after the release” to “the release caused volume to increase” unless the analysis supports causal attribution. Marking every potentially relevant event is also counterproductive; maintain an event table and select events using a documented rule.</p>
 </section>
 <section id="missing-time-and-irregular-intervals" class="level2">
 <h2 class="anchored" data-anchor-id="missing-time-and-irregular-intervals">Missing Time and Irregular Intervals</h2>
+<p>A continuous line can falsely imply observations across a missing period. First distinguish among:</p>
+<ol type="1">
+<li>a true zero;</li>
+<li>no measurement;</li>
+<li>not applicable; and</li>
+<li>a value suppressed by a rule.</li>
+</ol>
+<p>Reindexing exposes missing periods explicitly:</p>
+<div id="f78a3a89" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>complete <span class="op">=</span> (</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    daily.set_index(<span class="st">"date"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">"region"</span>)[<span class="st">"requests"</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">apply</span>(<span class="kw">lambda</span> series: series.reindex(expected))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Matplotlib and most plotting libraries break a line at <code>NaN</code>, making the gap visible. Do not fill gaps solely to make a chart look continuous. If interpolation is analytically justified, retain an imputation flag and use a distinct stroke or overlay so estimated values remain identifiable.</p>
+<p>For irregular observations, plot against the actual timestamps. Connecting distant observations may imply unsupported continuity; points, step plots, or elapsed-time encodings may be more honest. Resampling is appropriate only after choosing and documenting the aggregation rule.</p>
 </section>
 <section id="interactive-time-series-exploration" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-time-series-exploration">Interactive Time-Series Exploration</h2>
+<p>Interactivity should serve a question rather than duplicate a static chart. High-value interactions include:</p>
+<ul>
+<li>a hover tooltip with exact time, value, unit, and series;</li>
+<li>a range selector for focusing on a period;</li>
+<li>linked overview-and-detail views that preserve context;</li>
+<li>selective highlighting instead of hiding all unselected series; and</li>
+<li>accessible keyboard and textual alternatives.</li>
+</ul>
+<div id="2a79dc6a" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.line(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    daily,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"date"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">"requests"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"region"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    hover_data<span class="op">=</span>{<span class="st">"requests_7d"</span>: <span class="st">":.1f"</span>},</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>{<span class="st">"requests"</span>: <span class="st">"Daily requests"</span>, <span class="st">"date"</span>: <span class="st">"Date"</span>},</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>fig.update_xaxes(rangeslider_visible<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"results/interactive/09-time-series-explorer.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>An interactive chart still needs a descriptive title, units, color-safe choices, and a useful initial state. Because interactive output may not survive printing or assistive technology, accompany it with a static figure and a concise written finding.</p>
+</section>
+<section id="reproducible-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="reproducible-workflow">Reproducible Workflow</h2>
+<p>Run the chapter workflow from the repository root:</p>
+<pre class="{bash}"><code>python scripts/python/09-time-series-and-event-visualization.py</code></pre>
+<p>The script creates:</p>
+<ul>
+<li><code>data/processed/09-daily-service-metrics.csv</code> — analysis-ready daily observations;</li>
+<li><code>results/figures/09-time-series-overview.png</code> — layered trend and event view;</li>
+<li><code>results/figures/09-weekday-seasonality.png</code> — seasonal profile;</li>
+<li><code>results/09-time-series-summary.csv</code> — per-region coverage and summary statistics; and</li>
+<li><code>results/09-time-series-figure-manifest.csv</code> — output provenance and accessibility text.</li>
+</ul>
+<p>The synthetic data use a fixed random seed, making the workflow deterministic. The deliberate missing interval demonstrates why gaps must remain visible.</p>
 </section>
 <section id="chapter-practice" class="level2">
 <h2 class="anchored" data-anchor-id="chapter-practice">Chapter Practice</h2>
+<ol type="1">
+<li>Run the workflow and inspect the generated summary. Which region has incomplete coverage, and why?</li>
+<li>Replace the seven-day trailing mean with a 14-day centered median. Describe what becomes easier—and harder—to see.</li>
+<li>Add an interval annotation for a second operational regime. Ensure it does not obscure the observations.</li>
+<li>Create monthly totals and monthly means. Explain why they answer different questions.</li>
+<li>Build an interactive view with a date-range control and a tooltip, then write a two-sentence static interpretation.</li>
+<li>Audit the figures for units, source, event wording, contrast, semantic weekday order, and informative alternative text.</li>
+</ol>
 </section>
 <section id="key-takeaways" class="level2">
 <h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Define the temporal grain, timezone, interval meaning, and unique key before plotting.</li>
+<li>Use lines for ordered change, areas for magnitude or composition, and bands for clearly defined intervals.</li>
+<li>Prefer small multiples when overlapping series become difficult to trace.</li>
+<li>Treat smoothing as an analytical decision and retain the raw evidence.</li>
+<li>Evaluate seasonality across repeated cycles and order calendar categories semantically.</li>
+<li>Distinguish events from regimes and avoid causal claims based only on timing.</li>
+<li>Preserve missing periods and identify imputed values explicitly.</li>
+<li>Use interactivity for focused exploration, while retaining a clear static and accessible account.</li>
+</ul>
 
 
 </section>

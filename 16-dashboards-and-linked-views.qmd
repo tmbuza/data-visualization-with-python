@@ -91,11 +91,15 @@ often shared as screenshots, PDFs, or presentation images.
 
 ## Quarto Dashboards
 
-Quarto supports dashboard pages with rows, columns, cards, tabsets, value boxes,
-and sidebars. A minimal executable dashboard begins with dashboard format in
-the YAML header:
+Quarto supports dashboard pages composed of rows, columns, cards, tabsets,
+value boxes, and sidebars. Dashboard functionality is normally defined in a
+separate `.qmd` file.
 
-```yaml
+The following example demonstrates the source structure only. It is not
+executed as part of this guide; executable workflows are maintained in
+`scripts/python/` and launched through `scripts/bash/`.
+
+~~~markdown
 ---
 title: "Service Operations"
 format:
@@ -104,28 +108,32 @@ format:
 execute:
   echo: false
 ---
-```
 
-The body can then assign content to cards and value boxes:
-
-````markdown
 ```{python}
 #| content: valuebox
 #| title: "Completion rate"
-dict(value=f"{completion_rate:.1%}", icon="check-circle")
+
+dict(
+    value=f"{completion_rate:.1%}",
+    icon="check-circle"
+)
 ```
 
 ## Row
 
 ```{python}
 #| title: "Daily completion rate"
+
 fig.show()
 ```
-````
+~~~
 
-Keep data preparation outside the presentation file when it is substantial.
-This separation makes the calculations testable and lets more than one output
-reuse the same processed data.
+In this guide, substantial preparation and artifact generation belong in
+`scripts/python/`, with reproducible entry points in `scripts/bash/`. The
+chapter files document the workflow and display its saved outputs; they do not
+run Python during book rendering. This separation keeps calculations testable,
+avoids hidden notebook state, and allows the processed data and figures to be
+reused by the book, dashboards, reports, and presentations.
 
 ## Interactive Components and Linked Views
 
@@ -254,4 +262,3 @@ be varied while remaining reproducible.
 - Preserve a useful static fallback and an exact-value data route.
 - Validate data and calculations before testing interaction and presentation.
 - Optimize response time because dashboard performance affects user confidence.
-

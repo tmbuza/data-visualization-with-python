@@ -71,6 +71,7 @@ format:
       theme: forest
 
 execute:
+  enabled: false
   echo: true
   warning: false
   message: false

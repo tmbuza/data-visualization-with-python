@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -71,6 +106,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="assets/css/cdi.css">
 </head>
@@ -249,7 +313,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dashboards and Linked Views</span></a>
+  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Service Operations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -304,6 +368,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#sample-size-and-data-quality-cues" id="toc-sample-size-and-data-quality-cues" class="nav-link" data-scroll-target="#sample-size-and-data-quality-cues">Sample Size and Data Quality Cues</a></li>
   <li><a href="#avoiding-dichotomous-visual-reasoning" id="toc-avoiding-dichotomous-visual-reasoning" class="nav-link" data-scroll-target="#avoiding-dichotomous-visual-reasoning">Avoiding Dichotomous Visual Reasoning</a></li>
   <li><a href="#annotating-evidence-and-limitations" id="toc-annotating-evidence-and-limitations" class="nav-link" data-scroll-target="#annotating-evidence-and-limitations">Annotating Evidence and Limitations</a></li>
+  <li><a href="#reproducing-the-examples" id="toc-reproducing-the-examples" class="nav-link" data-scroll-target="#reproducing-the-examples">Reproducing the Examples</a></li>
   <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter Practice</a></li>
   <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
   </ul>
@@ -347,36 +412,211 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <section id="learning-objectives" class="level2">
 <h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>distinguish observations, estimates, sampling variation, and confidence intervals;</li>
+<li>choose among error bars, interval plots, uncertainty bands, and bootstrap distributions;</li>
+<li>create confidence intervals for group summaries and regression predictions in Python;</li>
+<li>show sample size and data-quality cues alongside estimates;</li>
+<li>avoid visual conventions that turn continuous evidence into a binary verdict; and</li>
+<li>annotate charts with the assumptions and limitations needed for responsible interpretation.</li>
+</ul>
 </section>
 <section id="why-uncertainty-must-be-visible" class="level2">
 <h2 class="anchored" data-anchor-id="why-uncertainty-must-be-visible">Why Uncertainty Must Be Visible</h2>
+<p>A point estimate is a compressed description of data, not an exact fact. A mean, rate, model coefficient, or forecast changes when the sample, measurement process, or model changes. Showing only the point estimate hides that instability and can make small differences look decisive.</p>
+<p>The examples in this chapter use a reproducible fictional service-delivery study. Regions have different sample sizes and average completion times. The data are synthetic, so the chapter teaches visualization patterns without making a substantive claim about a real population.</p>
+<p>A useful uncertainty display answers three questions:</p>
+<ol type="1">
+<li><strong>What was estimated?</strong> For example, a mean completion time or an expected outcome.</li>
+<li><strong>How uncertain is the estimate?</strong> Show an interval, distribution, or band that matches the inferential method.</li>
+<li><strong>Why is it uncertain?</strong> Communicate sample size, variability, missingness, model assumptions, or extrapolation risk.</li>
+</ol>
+<p>Uncertainty is not a decorative error bar. It is part of the result.</p>
 </section>
 <section id="variation-standard-error-and-confidence-intervals" class="level2">
 <h2 class="anchored" data-anchor-id="variation-standard-error-and-confidence-intervals">Variation, Standard Error, and Confidence Intervals</h2>
+<p>Three quantities are often confused:</p>
+<ul>
+<li><strong>Standard deviation (SD)</strong> describes variation among observed values.</li>
+<li><strong>Standard error (SE)</strong> describes the sampling variability of an estimate. For a sample mean, <span class="math inline">\(SE = s / \sqrt{n}\)</span>.</li>
+<li><strong>Confidence interval (CI)</strong> gives a range produced by a procedure with a stated long-run coverage rate. A 95% CI is not a claim that 95% of observations lie inside the interval.</li>
+</ul>
+<p>For a mean with unknown population variance, a two-sided interval is commonly calculated as</p>
+<p><span class="math display">\[
+\bar{x} \pm t_{1-\alpha/2,\,n-1}\frac{s}{\sqrt{n}}.
+\]</span></p>
+<p>The interval becomes narrower when the sample size grows or observations are less variable. Its validity also depends on how the sample was obtained and whether the assumptions of the procedure are reasonable. A precisely estimated biased sample remains biased.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Visual element</th>
+<th>Typical meaning</th>
+<th>Appropriate question</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Raw points</td>
+<td>Observed values</td>
+<td>How are individual cases distributed?</td>
+</tr>
+<tr class="even">
+<td>SD bars</td>
+<td>Spread of observations</td>
+<td>How variable are cases within a group?</td>
+</tr>
+<tr class="odd">
+<td>SE bars</td>
+<td>Precision of an estimate</td>
+<td>How much would the estimate vary across samples?</td>
+</tr>
+<tr class="even">
+<td>Confidence interval</td>
+<td>Inferential uncertainty</td>
+<td>Which values are compatible with the procedure and data?</td>
+</tr>
+<tr class="odd">
+<td>Prediction interval</td>
+<td>Uncertainty for a future observation</td>
+<td>Where might a new case fall?</td>
+</tr>
+</tbody>
+</table>
+<p>Always state what an interval represents. The label “error bars” alone is incomplete.</p>
 </section>
 <section id="error-bars-bands-and-interval-plots" class="level2">
 <h2 class="anchored" data-anchor-id="error-bars-bands-and-interval-plots">Error Bars, Bands, and Interval Plots</h2>
+<p>Bar charts encode magnitude from a zero baseline, but they are rarely the best default for estimates. A dot-and-interval plot gives the estimate visual priority while making uncertainty easy to compare.</p>
+<div id="fig-group-confidence-intervals" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-group-confidence-intervals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/10-group-confidence-intervals.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-group-confidence-intervals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12.1: Mean completion time and 95% t confidence intervals. Labels expose the unequal sample sizes that partly determine interval width.
+</figcaption>
+</figure>
+</div>
+<p>In <a href="#fig-group-confidence-intervals" class="quarto-xref">Figure&nbsp;<span>12.1</span></a>, interval width should not be read as performance. It describes precision. The chart deliberately labels <span class="math inline">\(n\)</span> because viewers otherwise have to guess why one interval is wider than another.</p>
+<p>Use interval plots when:</p>
+<ul>
+<li>comparing a manageable number of group estimates;</li>
+<li>displaying coefficients or effect estimates;</li>
+<li>showing a reference value such as zero, a target, or a baseline; or</li>
+<li>interval endpoints are more important than the full sampling distribution.</li>
+</ul>
+<p>Use a band when uncertainty varies continuously over time or along a predictor. Keep the band lighter than the estimated line and avoid layering so many bands that opacity becomes impossible to decode.</p>
 </section>
 <section id="bootstrap-distributions" class="level2">
 <h2 class="anchored" data-anchor-id="bootstrap-distributions">Bootstrap Distributions</h2>
+<p>The bootstrap approximates sampling variation by repeatedly sampling, with replacement, from the observed data and recalculating the statistic. It is useful when an analytic standard error is unavailable or when visualizing the distribution of a derived statistic.</p>
+<p>For one region, the accompanying script performs 5,000 bootstrap resamples of the mean using a fixed random seed. It displays the bootstrap estimates, their percentile interval, and the observed sample mean.</p>
+<div id="fig-bootstrap-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bootstrap-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/10-bootstrap-distribution.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bootstrap-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12.2: Bootstrap distribution of a regional mean with a 95% percentile interval.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-bootstrap-distribution" class="quarto-xref">Figure&nbsp;<span>12.2</span></a> reveals more than two interval endpoints: viewers can see the center, spread, and approximate shape of the bootstrap distribution. However, resampling does not repair selection bias, dependence, or poor measurement. The resampling scheme must reflect the data-generating structure; clustered or time-dependent data require methods that preserve that dependence.</p>
 </section>
 <section id="model-estimates-and-predictions" class="level2">
 <h2 class="anchored" data-anchor-id="model-estimates-and-predictions">Model Estimates and Predictions</h2>
+<p>Model uncertainty should be displayed on the scale that supports the decision. A coefficient interval is helpful for parameter interpretation; a prediction band is often better for showing how an expected outcome changes with a predictor.</p>
+<p>The example fits an ordinary least-squares line using NumPy and calculates a 95% confidence band for the <strong>mean response</strong>:</p>
+<p><span class="math display">\[
+\hat{y}(x_0) \pm t^*s\sqrt{\frac{1}{n} + \frac{(x_0-\bar{x})^2}{\sum_i(x_i-\bar{x})^2}}.
+\]</span></p>
+<div id="fig-model-confidence-band" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-model-confidence-band-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/10-model-confidence-band.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-model-confidence-band-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12.3: Observed outcomes, fitted linear relationship, and a 95% confidence band for the mean response.
+</figcaption>
+</figure>
+</div>
+<p>The band in <a href="#fig-model-confidence-band" class="quarto-xref">Figure&nbsp;<span>12.3</span></a> is narrowest near the center of the observed predictor values and widens toward the edges. It is not a prediction interval for an individual future observation; that interval would be wider because it also includes residual variation. Do not extend a fitted line far beyond the observed data range unless extrapolation is explicitly justified.</p>
 </section>
 <section id="sample-size-and-data-quality-cues" class="level2">
 <h2 class="anchored" data-anchor-id="sample-size-and-data-quality-cues">Sample Size and Data Quality Cues</h2>
+<p>Interval width is only one cue about evidence quality. Depending on the analysis, add:</p>
+<ul>
+<li>group sample sizes near labels or estimates;</li>
+<li>raw observations, jittered or summarized, when overplotting is manageable;</li>
+<li>missing-value counts or completion rates;</li>
+<li>a visual distinction for imputed, provisional, censored, or low-quality values;</li>
+<li>the observed range of a predictor to expose extrapolation; and</li>
+<li>warnings when independence, representativeness, or measurement assumptions are doubtful.</li>
+</ul>
+<p>Avoid mapping sample size to an unrelated aesthetic if labels would be clearer. For example, simultaneously varying point size, color, and opacity may burden the viewer more than a concise <code>n = ...</code> annotation.</p>
 </section>
 <section id="avoiding-dichotomous-visual-reasoning" class="level2">
 <h2 class="anchored" data-anchor-id="avoiding-dichotomous-visual-reasoning">Avoiding Dichotomous Visual Reasoning</h2>
+<p>A chart should not encourage “significant versus not significant” as the only interpretation. The conventional <span class="math inline">\(p &lt; 0.05\)</span> threshold does not separate important effects from unimportant ones, nor does a confidence interval crossing zero prove that no effect exists.</p>
+<p>Prefer these questions:</p>
+<ul>
+<li>What effect sizes are compatible with the data and method?</li>
+<li>Does the interval include values that would matter in practice?</li>
+<li>How precise is the estimate?</li>
+<li>Are estimates consistent across groups, specifications, or data sources?</li>
+<li>What decisions would change across the plausible range?</li>
+</ul>
+<p>If a reference line is necessary, make it visually secondary. Do not color estimates bright green on one side of a threshold and red on the other unless that classification corresponds to a defensible decision rule.</p>
 </section>
 <section id="annotating-evidence-and-limitations" class="level2">
 <h2 class="anchored" data-anchor-id="annotating-evidence-and-limitations">Annotating Evidence and Limitations</h2>
+<p>A compact chart note should identify:</p>
+<ul>
+<li>the estimand, such as a mean difference or expected response;</li>
+<li>the interval type and level, such as a 95% t interval or bootstrap percentile interval;</li>
+<li>the sample and analysis unit;</li>
+<li>weighting, clustering, adjustment, or model details that materially affect interpretation; and</li>
+<li>important exclusions, missingness, or limitations.</li>
+</ul>
+<p>For example:</p>
+<blockquote class="blockquote">
+<p>Points show regional sample means; lines show two-sided 95% t confidence intervals. Synthetic records are independent within this teaching example. Intervals describe sampling precision, not the spread of individual completion times.</p>
+</blockquote>
+<p>Place essential interpretation next to the visual. A reader should not need to search a distant appendix to learn what the interval means.</p>
+</section>
+<section id="reproducing-the-examples" class="level2">
+<h2 class="anchored" data-anchor-id="reproducing-the-examples">Reproducing the Examples</h2>
+<p>Run the chapter script from the repository root:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/python/10-uncertainty-and-statistical-evidence.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The script creates the three figures used above and writes reusable CSV summaries to <code>results/10-uncertainty-and-statistical-evidence/</code>. It uses a fixed random seed, creates output directories when needed, and records the principal estimates in a JSON run manifest.</p>
 </section>
 <section id="chapter-practice" class="level2">
 <h2 class="anchored" data-anchor-id="chapter-practice">Chapter Practice</h2>
+<ol type="1">
+<li>Replace the 95% group intervals with 90% and 99% intervals. Describe what changes and what does not.</li>
+<li>Add raw observations behind the group interval plot. Decide whether the additional detail improves or weakens the comparison.</li>
+<li>Bootstrap the median rather than the mean. Compare its distribution and interval with the mean-based result.</li>
+<li>Extend the model figure with a prediction interval for a future observation and explain why it is wider than the confidence band.</li>
+<li>Draft a chart note for a real dataset that states the estimand, interval method, sample size, and two important limitations.</li>
+</ol>
 </section>
 <section id="key-takeaways" class="level2">
 <h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Point estimates without uncertainty can imply more certainty than the analysis supports.</li>
+<li>Standard deviation, standard error, confidence intervals, and prediction intervals answer different questions.</li>
+<li>Dot-and-interval plots are strong defaults for group estimates; bands suit continuous predictors and time.</li>
+<li>Bootstrap distributions expose the shape of sampling uncertainty but cannot fix biased or dependent data.</li>
+<li>Sample size and data-quality cues help viewers understand why precision differs.</li>
+<li>Interpret effect sizes and plausible ranges rather than reducing evidence to a threshold decision.</li>
+<li>Label the interval method, confidence level, analysis unit, and material limitations directly and clearly.</li>
+</ul>
 
 
 </section>

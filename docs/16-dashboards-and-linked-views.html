@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -84,7 +119,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./16-dashboards-and-linked-views.html">Interactive Delivery and Production</a></li><li class="breadcrumb-item"><a href="./16-dashboards-and-linked-views.html"><span class="chapter-title">Dashboards and Linked Views</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./16-dashboards-and-linked-views.html">Interactive Delivery and Production</a></li><li class="breadcrumb-item"><a href="./16-dashboards-and-linked-views.html"><span class="chapter-title">Service Operations</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -249,7 +284,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Dashboards and Linked Views</span></a>
+  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Service Operations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -304,6 +339,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#filters-inputs-and-tooltips" id="toc-filters-inputs-and-tooltips" class="nav-link" data-scroll-target="#filters-inputs-and-tooltips">Filters, Inputs, and Tooltips</a></li>
   <li><a href="#responsive-and-accessible-design" id="toc-responsive-and-accessible-design" class="nav-link" data-scroll-target="#responsive-and-accessible-design">Responsive and Accessible Design</a></li>
   <li><a href="#dashboard-performance-and-testing" id="toc-dashboard-performance-and-testing" class="nav-link" data-scroll-target="#dashboard-performance-and-testing">Dashboard Performance and Testing</a></li>
+  <li><a href="#reproduce-the-chapter-workflow" id="toc-reproduce-the-chapter-workflow" class="nav-link" data-scroll-target="#reproduce-the-chapter-workflow">Reproduce the Chapter Workflow</a></li>
   <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter Practice</a></li>
   <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
   </ul>
@@ -312,7 +348,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./16-dashboards-and-linked-views.html">Interactive Delivery and Production</a></li><li class="breadcrumb-item"><a href="./16-dashboards-and-linked-views.html"><span class="chapter-title">Dashboards and Linked Views</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./16-dashboards-and-linked-views.html">Interactive Delivery and Production</a></li><li class="breadcrumb-item"><a href="./16-dashboards-and-linked-views.html"><span class="chapter-title">Service Operations</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span id="sec-dashboards" class="quarto-section-identifier"><span class="chapter-title">Dashboards and Linked Views</span></span></h1>
 </div>
@@ -345,38 +381,251 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Theme:</strong> Focused dashboards for monitoring and exploration</li>
 </ul>
 </div>
+<p>Dashboards compress many observations into a decision surface. Their value is not the number of charts they contain, but the speed and confidence with which a reader can answer a small set of recurring questions. This chapter develops a reproducible service-operations dashboard and uses it to connect metric design, layout, interaction, accessibility, performance, and testing.</p>
 <section id="learning-objectives" class="level2">
 <h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>After completing this chapter, you will be able to:</p>
+<ol type="1">
+<li>decide when a dashboard is more appropriate than a report or exploratory notebook;</li>
+<li>translate decision needs into metrics, comparisons, and diagnostic views;</li>
+<li>organize a dashboard using a clear information hierarchy;</li>
+<li>build a Quarto dashboard with value boxes, plots, and tabbed content;</li>
+<li>coordinate linked views through shared selections and filters;</li>
+<li>design responsive, accessible interactions; and</li>
+<li>test dashboard data, behavior, performance, and presentation.</li>
+</ol>
 </section>
 <section id="when-a-dashboard-is-appropriate" class="level2">
 <h2 class="anchored" data-anchor-id="when-a-dashboard-is-appropriate">When a Dashboard Is Appropriate</h2>
+<p>A dashboard is appropriate when users revisit a changing system and make a repeatable class of decisions. Examples include detecting a service-level breach, locating a regional bottleneck, or deciding whether a recent change requires investigation. A dashboard is a weak fit when the argument is mainly linear, the analysis is a one-time investigation, or the evidence needs lengthy qualification. In those cases, a report or data story is usually clearer.</p>
+<p>Before creating any chart, write a dashboard contract:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Contract element</th>
+<th>Service-operations example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>User</td>
+<td>Operations lead</td>
+</tr>
+<tr class="even">
+<td>Decision</td>
+<td>Where should the team investigate first?</td>
+</tr>
+<tr class="odd">
+<td>Frequency</td>
+<td>Daily review, with weekly trend checks</td>
+</tr>
+<tr class="even">
+<td>Freshness</td>
+<td>Data updated through the previous day</td>
+</tr>
+<tr class="odd">
+<td>Primary outcome</td>
+<td>Completion rate</td>
+</tr>
+<tr class="even">
+<td>Guardrail</td>
+<td>Median resolution time</td>
+</tr>
+<tr class="odd">
+<td>Diagnostic dimensions</td>
+<td>Region, channel, and date</td>
+</tr>
+<tr class="even">
+<td>Action threshold</td>
+<td>Completion below 92%</td>
+</tr>
+</tbody>
+</table>
+<p>The contract prevents an attractive collection of charts from becoming a substitute for a useful decision tool.</p>
 </section>
 <section id="metrics-context-and-decision-needs" class="level2">
 <h2 class="anchored" data-anchor-id="metrics-context-and-decision-needs">Metrics, Context, and Decision Needs</h2>
+<p>A metric without context is only a number. A useful headline metric normally needs at least one comparison: a target, a previous period, a benchmark, or an uncertainty interval. The chapter workflow calculates four headline measures:</p>
+<ul>
+<li><strong>Requests:</strong> workload during the selected period;</li>
+<li><strong>Completion rate:</strong> completed requests divided by requests;</li>
+<li><strong>Median resolution time:</strong> the typical time to completion;</li>
+<li><strong>Satisfaction:</strong> the mean post-resolution score.</li>
+</ul>
+<p>The completion rate is paired with a 92% service target. Resolution time acts as a guardrail: a higher completion rate is not necessarily an improvement if cases are being closed carelessly or delayed excessively.</p>
+<p>Keep denominators visible in the data model. Rates should be derived from counts rather than averaged across already aggregated percentages. The companion script follows this rule when it creates daily and regional metrics.</p>
 </section>
 <section id="layout-and-information-hierarchy" class="level2">
 <h2 class="anchored" data-anchor-id="layout-and-information-hierarchy">Layout and Information Hierarchy</h2>
+<p>Readers usually scan a dashboard from summary to explanation. A practical three-level hierarchy is:</p>
+<ol type="1">
+<li><strong>Status:</strong> What is happening now?</li>
+<li><strong>Trend:</strong> Is the situation improving, stable, or worsening?</li>
+<li><strong>Diagnosis:</strong> Where and for whom is the pattern concentrated?</li>
+</ol>
+<p>Place a compact filter bar before the headline indicators, put the main trend in the largest visual region, and move supporting breakdowns into smaller cards or tabs. Use whitespace and alignment to express hierarchy instead of relying on decoration. Every card should answer a distinct question.</p>
+<div id="fig-dashboard-preview" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A dashboard preview with four metric cards, a completion-rate trend by region, request volume bars, and a regional performance comparison.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dashboard-preview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/16-dashboard-preview.png" class="img-fluid figure-img" alt="A dashboard preview with four metric cards, a completion-rate trend by region, request volume bars, and a regional performance comparison.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dashboard-preview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.1: Static preview of the service-operations dashboard generated by the chapter workflow.
+</figcaption>
+</figure>
+</div>
+<p>The preview in <a href="#fig-dashboard-preview" class="quarto-xref">Figure&nbsp;<span>18.1</span></a> retains meaning when printed or viewed without interaction. This is important because interactive dashboards are often shared as screenshots, PDFs, or presentation images.</p>
 </section>
 <section id="quarto-dashboards" class="level2">
 <h2 class="anchored" data-anchor-id="quarto-dashboards">Quarto Dashboards</h2>
+<p>Quarto supports dashboard pages composed of rows, columns, cards, tabsets, value boxes, and sidebars. Dashboard functionality is normally defined in a separate <code>.qmd</code> file.</p>
+<p>The following example demonstrates the source structure only. It is not executed as part of this guide; executable workflows are maintained in <code>scripts/python/</code> and launched through <code>scripts/bash/</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>title: "Service Operations"</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>format:</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  dashboard:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    orientation: rows</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>execute:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  echo: false</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## Row</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this guide, substantial preparation and artifact generation belong in <code>scripts/python/</code>, with reproducible entry points in <code>scripts/bash/</code>. The chapter files document the workflow and display its saved outputs; they do not run Python during book rendering. This separation keeps calculations testable, avoids hidden notebook state, and allows the processed data and figures to be reused by the book, dashboards, reports, and presentations.</p>
 </section>
 <section id="interactive-components-and-linked-views" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-components-and-linked-views">Interactive Components and Linked Views</h2>
+<p>Linked views coordinate multiple charts through a shared selection. Selecting a region in one view can highlight the same region elsewhere; selecting a time interval can update summaries and distributions. The interaction should answer a question that would otherwise require mental matching.</p>
+<p>The generated HTML artifact links three Plotly views using a region selector:</p>
+<ul>
+<li>a daily completion-rate trend;</li>
+<li>daily request volume; and</li>
+<li>a regional comparison of completion rate and resolution time.</li>
+</ul>
+<p>Run the workflow and open <code>results/interactive/16-linked-dashboard.html</code> to try the linked view. The selector includes an <strong>All regions</strong> state so a user can always recover the overview.</p>
+<p>A linked dashboard has three conceptual layers:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Data</td>
+<td>Stable keys, valid measures, and aggregation rules</td>
+</tr>
+<tr class="even">
+<td>Selection</td>
+<td>The active region, category, date range, or point set</td>
+</tr>
+<tr class="odd">
+<td>Encoding</td>
+<td>How selected and unselected marks change</td>
+</tr>
+</tbody>
+</table>
+<p>Use stable identifiers rather than display labels as join keys. A renamed label should not silently break the connection between views.</p>
 </section>
 <section id="filters-inputs-and-tooltips" class="level2">
 <h2 class="anchored" data-anchor-id="filters-inputs-and-tooltips">Filters, Inputs, and Tooltips</h2>
+<p>Filters reduce the data considered by every relevant component. Highlights preserve the overall context while emphasizing a subset. Prefer highlighting when comparison with the whole is important; prefer filtering when unrelated marks would create clutter.</p>
+<p>Good controls have a clear label, a useful default, a visible current state, and a simple reset path. Avoid cascading controls whose valid options change in surprising ways. If a filter changes a denominator, make that fact explicit.</p>
+<p>Tooltips are best for precise secondary detail—not for the only copy of an essential value. Include the mark identity, formatted value, time period, unit, and denominator where relevant. Keep tooltip content in a predictable order.</p>
 </section>
 <section id="responsive-and-accessible-design" class="level2">
 <h2 class="anchored" data-anchor-id="responsive-and-accessible-design">Responsive and Accessible Design</h2>
+<p>Accessibility applies to both perception and operation:</p>
+<ul>
+<li>provide a meaningful title and short dashboard description;</li>
+<li>use a colorblind-safe palette and pair color with position, line style, text, or symbols;</li>
+<li>maintain adequate foreground/background contrast;</li>
+<li>label controls and support keyboard navigation;</li>
+<li>preserve visible focus indicators;</li>
+<li>do not require hover to access essential information;</li>
+<li>use concise alternative text for static exports; and</li>
+<li>provide a table or downloadable data view when exact values matter.</li>
+</ul>
+<p>Responsive design is prioritization, not merely shrinking. On narrow screens, stack cards vertically, keep the primary metric and trend first, simplify legends, and allow secondary detail to move into tabs. Test common widths and at least one real mobile device or browser emulator.</p>
 </section>
 <section id="dashboard-performance-and-testing" class="level2">
 <h2 class="anchored" data-anchor-id="dashboard-performance-and-testing">Dashboard Performance and Testing</h2>
+<p>Performance influences interpretation. Slow feedback makes users repeat clicks or assume a filter failed. Aggregate data before rendering, request only needed columns, cache stable computations, and avoid sending raw high-frequency data to the browser when a summarized view answers the question.</p>
+<p>Test the dashboard at four levels:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Level</th>
+<th>Example checks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Data</td>
+<td>Unique keys, valid dates, nonnegative counts, bounded rates</td>
+</tr>
+<tr class="even">
+<td>Calculation</td>
+<td>Rates use the correct denominator; empty groups are handled</td>
+</tr>
+<tr class="odd">
+<td>Interaction</td>
+<td>Controls update every intended view and reset correctly</td>
+</tr>
+<tr class="even">
+<td>Presentation</td>
+<td>No clipping, readable labels, keyboard access, useful fallback</td>
+</tr>
+</tbody>
+</table>
+<p>The workflow writes <code>results/16-dashboard-validation.txt</code>. A successful run checks schema, row uniqueness, ranges, missingness, and expected regions before it creates the visual artifacts.</p>
+</section>
+<section id="reproduce-the-chapter-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="reproduce-the-chapter-workflow">Reproduce the Chapter Workflow</h2>
+<p>From the repository root, run:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/bash/16-run-dashboard.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The runner creates or refreshes:</p>
+<ul>
+<li><code>data/processed/16-service-operations.csv</code>;</li>
+<li><code>results/figures/16-dashboard-preview.png</code>;</li>
+<li><code>results/interactive/16-linked-dashboard.html</code>;</li>
+<li><code>results/16-dashboard-summary.csv</code>;</li>
+<li><code>results/16-dashboard-validation.txt</code>; and</li>
+<li><code>results/16-dashboard-manifest.json</code>.</li>
+</ul>
+<p>The Python script accepts <code>--seed</code> and <code>--days</code> arguments, so the workflow can be varied while remaining reproducible.</p>
 </section>
 <section id="chapter-practice" class="level2">
 <h2 class="anchored" data-anchor-id="chapter-practice">Chapter Practice</h2>
+<ol type="1">
+<li><strong>Change the decision.</strong> Rewrite the dashboard contract for a regional manager rather than an operations lead. Identify one metric to add and one to remove.</li>
+<li><strong>Add a threshold.</strong> Introduce a target for median resolution time. Make the target visible without relying on red and green alone.</li>
+<li><strong>Create a second link.</strong> Add a date-range control and make it update the headline metrics as well as the charts.</li>
+<li><strong>Test an edge case.</strong> Remove one region from the final seven days and decide whether the dashboard should show zero, missing, or no mark. Document the choice.</li>
+<li><strong>Audit accessibility.</strong> Navigate the interactive artifact without a mouse, inspect the focus order, and write three concrete improvements.</li>
+</ol>
 </section>
 <section id="key-takeaways" class="level2">
 <h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Start with a recurring decision and a named user, not a chart inventory.</li>
+<li>Pair headline metrics with targets, prior periods, or guardrails.</li>
+<li>Organize the page from status to trend to diagnosis.</li>
+<li>Use linked views only when coordinated interaction reduces comparison effort.</li>
+<li>Treat filters, defaults, empty states, and reset behavior as part of the analysis.</li>
+<li>Preserve a useful static fallback and an exact-value data route.</li>
+<li>Validate data and calculations before testing interaction and presentation.</li>
+<li>Optimize response time because dashboard performance affects user confidence.</li>
+</ul>
 
 
 </section>
