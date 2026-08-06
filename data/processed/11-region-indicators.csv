@@ -1,0 +1,7 @@
+region_id,region_name,population,served,facilities,coverage_pct,facilities_per_100k
+R01,Northwest,410000,219350,18,53.5,4.39
+R02,North Central,520000,390000,31,75.0,5.96
+R03,Northeast,315000,204750,16,65.0,5.08
+R04,Southwest,365000,310250,24,85.0,6.58
+R05,South Central,610000,353800,27,58.0,4.43
+R06,Southeast,280000,229600,20,82.0,7.14

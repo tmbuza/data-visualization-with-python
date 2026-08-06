@@ -1,0 +1,31 @@
+{
+  "figure_id": "DVP-017-F01",
+  "title": "Publishing success rate by output channel",
+  "alt_text": "Horizontal bars show publishing success rates of 96 percent for Web, 91 percent for PDF, and 88 percent for Slides. Web has the highest rate.",
+  "source_data": "data/processed/17-publishing-runs.csv",
+  "generator": "scripts/python/17_generate_governed_figures.py",
+  "summary_data": "results/17-publishing-summary.csv",
+  "generated_at_utc": "2026-08-06T21:30:35+00:00",
+  "canvas_inches": [
+    8.0,
+    4.8
+  ],
+  "png_dpi": 160,
+  "python_version": "3.12.13",
+  "matplotlib_version": "3.10.8",
+  "artifacts": [
+    {
+      "path": "results/figures/17-publishing-success-rate.png",
+      "format": "png",
+      "bytes": 58415,
+      "sha256": "088c975b3221142a274bf47142a5619f5eef4b19a88f2ff2d70087b992f5c851"
+    },
+    {
+      "path": "results/figures/17-publishing-success-rate.svg",
+      "format": "svg",
+      "bytes": 51223,
+      "sha256": "0b5598757a5fb76edb49012660f4c026981b5f72612e819dc4a1597049b8edf8"
+    }
+  ],
+  "validation_status": "passed"
+}

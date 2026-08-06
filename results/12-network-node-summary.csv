@@ -1,0 +1,10 @@
+node,stage,region,community,in_degree,out_degree,in_volume,out_volume,betweenness,pagerank
+Hub Central,distributor,Central,1,2,2,130,126,0.08928571428571427,0.15212504615944514
+Hub East,distributor,East,1,2,2,110,105,0.08928571428571427,0.13542889779834635
+Market Coast,market,Coast,1,2,0,113,0,0.0,0.1687587935918153
+Market Metro,market,East,1,2,0,118,0,0.0,0.17367977421897182
+Plant A,processor,North,3,2,2,122,117,0.10714285714285714,0.1064931038783355
+Plant B,processor,West,2,2,2,135,123,0.10714285714285714,0.11649052118050512
+Co-op Lake,supplier,Lake,2,0,1,0,73,0.0,0.04900795439086024
+Farm North,supplier,North,3,0,1,0,84,0.0,0.04900795439086024
+Farm West,supplier,West,2,0,2,0,100,0.0,0.04900795439086024

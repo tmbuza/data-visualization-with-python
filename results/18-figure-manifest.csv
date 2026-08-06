@@ -1,0 +1,5 @@
+figure_id,path,format,width_px,height_px,purpose
+fig-dvp18-monthly,results/figures/18-monthly-service-performance.png,PNG,2160,1440,Monthly overview
+fig-dvp18-heatmap,results/figures/18-district-service-heatmap.png,PNG,1800,1080,District-service diagnosis
+fig-dvp18-flow,results/figures/18-request-flow.png,PNG,1800,975,Channel-service-outcome flow
+interactive-dvp18-resolution,results/interactive/18-resolution-time-explorer.html,HTML,responsive,responsive,Interactive distribution explorer

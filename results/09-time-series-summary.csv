@@ -1,0 +1,4 @@
+region,observed_days,mean_requests,peak_requests,coverage_pct
+Central,181,773.3,939.0,100.0
+Coastal,174,724.2,866.0,96.1
+Northern,181,675.4,806.0,100.0

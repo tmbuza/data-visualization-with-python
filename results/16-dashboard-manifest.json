@@ -1,0 +1,22 @@
+{
+  "chapter": "DVP-016",
+  "seed": 1607,
+  "days": 90,
+  "date_min": "2026-04-01",
+  "date_max": "2026-06-29",
+  "rows": 360,
+  "regions": [
+    "Central",
+    "Coastal",
+    "Lake",
+    "Northern"
+  ],
+  "target_completion_rate": 0.92,
+  "artifacts": [
+    "data/processed/16-service-operations.csv",
+    "results/16-dashboard-summary.csv",
+    "results/16-dashboard-validation.txt",
+    "results/figures/16-dashboard-preview.png",
+    "results/interactive/16-linked-dashboard.html"
+  ]
+}

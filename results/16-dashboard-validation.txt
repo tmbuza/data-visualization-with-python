@@ -1,0 +1,10 @@
+DVP-016 dashboard validation
+PASS | required columns present
+PASS | date-region keys unique
+PASS | expected row count
+PASS | all regions present
+PASS | no missing values
+PASS | requests positive
+PASS | completed bounded by requests
+PASS | completion rates bounded
+PASS | satisfaction bounded

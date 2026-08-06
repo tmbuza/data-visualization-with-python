@@ -1,19 +1,790 @@
 # Appendix {#sec-appendix}
 
-:::cdi-message
-- **ID:** DVP-999A
-- **Type:** Reference
-- **Audience:** All readers
-- **Theme:** Reusable visualization references and checklists
+::: {.cdi-message}
+- **ID:** DVP-999
+- **Type:** Reference appendix
+- **Audience:** Data practitioners creating reproducible static, interactive, and publication-ready visualizations
+- **Theme:** Commands, conventions, chart selection, accessibility, export, quality assurance, and troubleshooting
 :::
 
-## Chart Selection Matrix
-## Library Selection Matrix
-## Color and Accessibility Checklist
-## Static Export Checklist
-## Interactive Visualization Checklist
-## Figure Review Checklist
-## Suggested Repository Structure
-## Troubleshooting Guide
-## Further Practice
+This appendix is the quick-reference companion to *Visualization with Python*. Use it when you need to set up the project, choose a chart, recall a library pattern, export a figure, review accessibility, reproduce an output, or diagnose a rendering problem. Run commands from the repository root unless a section says otherwise.
 
+## Environment setup
+
+Create and activate the repository-specific Python environment:
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+On Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Confirm the expected tools and core packages:
+
+```bash
+python --version
+python -m pip --version
+quarto --version
+git --version
+python -c "import matplotlib, seaborn, pandas; print('core imports: OK')"
+```
+
+Render the complete guide or only this appendix:
+
+```bash
+quarto render
+quarto render 999-appendix.qmd
+```
+
+Deactivate the environment when finished:
+
+```bash
+deactivate
+```
+
+## Repository map
+
+| Path | Purpose | Version-control convention |
+|---|---|---|
+| `data/raw/` | Immutable source data or documented local samples | Keep large, licensed, or sensitive data out of Git |
+| `data/processed/` | Clean, analysis-ready data | Regenerate unless a small fixture is intentional |
+| `scripts/python/` | Reproducible data preparation and figure scripts | Track source code |
+| `scripts/bash/` | Repeatable command-line wrappers | Track executable scripts |
+| `notebooks/` | Exploration and visual prototyping | Keep outputs intentional and reviewable |
+| `results/` | Tables, summaries, manifests, and validation evidence | Track small, meaningful artifacts |
+| `results/figures/` | Generated static figures | Track publication-ready outputs when useful |
+| `results/html/` | Standalone interactive exports | Track only intentional deliverables |
+| `docs/` | Rendered Quarto book | Generate with `quarto render` |
+| `library/` | Bibliography and supporting reference files | Track curated references |
+| `.github/workflows/` | Continuous integration and publication | Track workflow definitions |
+| `.githooks/` | Repository-specific Git hooks | Track and activate locally |
+
+Activate repository hooks after cloning when the project provides them:
+
+```bash
+git config core.hooksPath .githooks
+git config --get core.hooksPath
+```
+
+## Reproducible figure anatomy
+
+A dependable visualization script separates five concerns:
+
+1. **Inputs** — identify data files, parameters, and assumptions.
+2. **Preparation** — clean, reshape, aggregate, and validate data.
+3. **Encoding** — map variables to position, color, size, shape, or facets.
+4. **Presentation** — apply labels, annotations, layout, and accessible styling.
+5. **Export** — write deterministic outputs and record how they were created.
+
+Use a clear entry point and paths relative to the repository root:
+
+```python
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
+DATA_PATH = Path("data/processed/monthly-metrics.csv")
+FIGURE_PATH = Path("results/figures/999-example.png")
+
+
+def main() -> int:
+    data = pd.read_csv(DATA_PATH, parse_dates=["month"])
+    required = {"month", "value"}
+    missing = required.difference(data.columns)
+    if missing:
+        raise ValueError(f"Missing columns: {sorted(missing)}")
+
+    figure, axis = plt.subplots(figsize=(9, 5), constrained_layout=True)
+    axis.plot(data["month"], data["value"], marker="o", linewidth=2)
+    axis.set(
+        title="Monthly metric",
+        xlabel="Month",
+        ylabel="Value",
+    )
+
+    FIGURE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    figure.savefig(FIGURE_PATH, dpi=180, bbox_inches="tight")
+    plt.close(figure)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+```
+
+Avoid hidden dependencies on notebook state, the current working directory, a manually edited intermediate file, or an unrecorded plotting theme.
+
+## Chart-selection reference
+
+Begin with the analytical question, not a preferred library or chart type.
+
+| Question | Strong first choice | Useful alternatives | Common mistake |
+|---|---|---|---|
+| How does a value change over ordered time? | Line chart | Dot plot, area chart, small multiples | Treating dates as unordered categories |
+| How do categories compare? | Sorted bar or dot plot | Lollipop chart, heatmap | Using a pie chart for many categories |
+| What is the distribution? | Histogram plus summary marks | ECDF, box plot, violin plot | Choosing bins that hide structure |
+| How do two quantitative variables relate? | Scatterplot | Hexbin, density contours | Ignoring overplotting |
+| How do several variables relate? | Faceted plots or focused pair plot | Correlation heatmap, parallel coordinates | Encoding too many variables at once |
+| How does a part relate to a whole? | Stacked bar for a few parts | 100% stacked bar, treemap | Comparing angles across many pies |
+| Where does a value occur? | Appropriately projected map | Ranked table, dot plot | Mapping data when geography is irrelevant |
+| How does flow move between stages? | Sankey or alluvial diagram | Network, chord, funnel | Omitting totals or direction |
+| How uncertain is an estimate? | Point estimate with interval | Ribbon, fan chart, ensemble | Showing only the central estimate |
+| What text or category pattern matters? | Ranked bars or dot plot | Heatmap, annotated table | Using a word cloud for precise comparison |
+
+When several charts are plausible, choose the one that makes the important comparison easiest and the uncertainty hardest to overlook.
+
+## Visual-encoding hierarchy
+
+For precise quantitative comparison, prefer encodings roughly in this order:
+
+1. position on a common scale;
+2. position on separate but aligned scales;
+3. length;
+4. angle or slope;
+5. area;
+6. color intensity or saturation.
+
+This is a design heuristic, not an inflexible law. Context, familiarity, accessibility, and the audience's task still matter. Reserve area, color intensity, and animation for patterns that do not require exact reading.
+
+## Data preparation checklist
+
+Before plotting, confirm:
+
+- the row grain and unit of analysis;
+- column names, data types, units, and category definitions;
+- missing-value meaning and handling;
+- duplicate keys and repeated measurements;
+- time zone, date frequency, and interval boundaries;
+- aggregation rules and denominators;
+- category ordering;
+- transformations such as percentages, rates, indexes, or logarithms;
+- whether uncertainty is available and should be shown;
+- whether sensitive values require suppression or aggregation.
+
+Do not use a chart to discover that the dataset has the wrong grain. Validate first:
+
+```python
+required = {"group", "period", "estimate"}
+assert required <= set(data.columns)
+assert data[["group", "period"]].duplicated().sum() == 0
+assert data["estimate"].notna().all()
+```
+
+Assertions are appropriate for internal invariants. For user-facing scripts, raise exceptions with actionable messages and include the failing field or condition.
+
+## Matplotlib quick reference
+
+### Object-oriented pattern
+
+```python
+import matplotlib.pyplot as plt
+
+figure, axis = plt.subplots(figsize=(8, 4.5), constrained_layout=True)
+axis.plot(x, y, color="#2A6FBB", linewidth=2)
+axis.set(title="Descriptive title", xlabel="Time", ylabel="Outcome (units)")
+axis.spines[["top", "right"]].set_visible(False)
+figure.savefig("results/figures/example.png", dpi=180, bbox_inches="tight")
+plt.close(figure)
+```
+
+Prefer the object-oriented interface when a figure has more than one axes, will be reused in a function, or requires precise control.
+
+### Multiple panels
+
+```python
+figure, axes = plt.subplots(
+    nrows=1,
+    ncols=2,
+    figsize=(11, 4.5),
+    sharey=True,
+    constrained_layout=True,
+)
+
+axes[0].plot(x, observed, label="Observed")
+axes[1].plot(x, forecast, label="Forecast")
+
+for axis in axes:
+    axis.legend(frameon=False)
+    axis.spines[["top", "right"]].set_visible(False)
+```
+
+Share scales only when the comparison benefits from a common frame. Never share an axis merely to save space if panels use different units.
+
+## Seaborn quick reference
+
+Use Seaborn for statistical summaries and consistent semantic mappings:
+
+```python
+import seaborn as sns
+
+sns.set_theme(style="whitegrid", context="notebook")
+
+axis = sns.scatterplot(
+    data=data,
+    x="exposure",
+    y="outcome",
+    hue="group",
+    style="group",
+    alpha=0.75,
+)
+axis.set(title="Outcome increases with exposure")
+```
+
+For figure-level faceting:
+
+```python
+grid = sns.relplot(
+    data=data,
+    x="period",
+    y="value",
+    col="region",
+    col_wrap=3,
+    kind="line",
+    height=3,
+    aspect=1.2,
+)
+grid.set_axis_labels("Period", "Value")
+grid.set_titles("{col_name}")
+```
+
+Check whether the selected Seaborn function aggregates observations and draws uncertainty automatically. Make the estimator, error-bar method, and repeated-measure structure explicit when they affect interpretation.
+
+## plotnine quick reference
+
+The grammar-of-graphics workflow builds a chart by combining data, mappings, geometric marks, scales, coordinates, facets, and a theme:
+
+```python
+from plotnine import (
+    aes,
+    facet_wrap,
+    geom_line,
+    geom_point,
+    ggplot,
+    labs,
+    theme_minimal,
+)
+
+chart = (
+    ggplot(data, aes("period", "value", color="group"))
+    + geom_line(size=0.9)
+    + geom_point(size=1.8)
+    + facet_wrap("region")
+    + labs(title="Change by group and region", x="Period", y="Value")
+    + theme_minimal()
+)
+
+chart.save("results/figures/example-plotnine.png", width=10, height=6, dpi=180)
+```
+
+Keep repeated semantic mappings in `aes(...)`; use fixed presentation values outside it.
+
+## Plotly quick reference
+
+Create interactive views when hover, filtering, zoom, animation, or linked exploration improves the task:
+
+```python
+import plotly.express as px
+
+figure = px.scatter(
+    data,
+    x="exposure",
+    y="outcome",
+    color="group",
+    hover_data=["record_id", "period"],
+    labels={"exposure": "Exposure (units)", "outcome": "Outcome (units)"},
+    title="Explore the exposure-outcome relationship",
+)
+figure.update_layout(legend_title_text="Group")
+figure.write_html(
+    "results/html/example-plotly.html",
+    include_plotlyjs="cdn",
+    full_html=True,
+)
+```
+
+For a portable offline file, set `include_plotlyjs=True`; the output will be larger. For static export, install the compatible Kaleido version and use `figure.write_image(...)`.
+
+Interactivity should reveal useful detail, not hide essential evidence behind hover. Put the main conclusion, units, and limitations in visible text.
+
+## Altair quick reference
+
+Altair is effective for concise declarative charts and linked selections:
+
+```python
+import altair as alt
+
+selection = alt.selection_point(fields=["group"], bind="legend")
+
+chart = (
+    alt.Chart(data)
+    .mark_circle(size=70)
+    .encode(
+        x=alt.X("exposure:Q", title="Exposure (units)"),
+        y=alt.Y("outcome:Q", title="Outcome (units)"),
+        color=alt.Color("group:N", title="Group"),
+        opacity=alt.condition(selection, alt.value(0.9), alt.value(0.12)),
+        tooltip=["record_id:N", "group:N", "exposure:Q", "outcome:Q"],
+    )
+    .add_params(selection)
+    .properties(title="Select a group in the legend")
+)
+
+chart.save("results/html/example-altair.html")
+```
+
+Large datasets may exceed the default row limit. Aggregate or sample deliberately before disabling safeguards, and disclose the reduction.
+
+## Time-series reference
+
+Time-series charts require decisions that ordinary line charts can conceal:
+
+- distinguish event time from processing time;
+- preserve the intended time zone;
+- state whether intervals are daily, weekly, monthly, or irregular;
+- show gaps instead of silently connecting missing periods;
+- distinguish level, change, seasonality, and trend;
+- annotate interventions without implying causality;
+- show forecast intervals and the forecast origin;
+- avoid dual axes unless the relationship and scale are exceptionally clear.
+
+Use direct labels or annotations for important events, and place them near the affected interval. If smoothing is applied, retain the raw series or state the smoothing window prominently.
+
+## Geospatial reference
+
+Before mapping, verify:
+
+- the geographic unit and identifier system;
+- the coordinate reference system;
+- longitude-latitude order;
+- joins between geometry and attributes;
+- missing or unmatched regions;
+- map projection suitability;
+- whether counts should be normalized by population, area, or exposure;
+- classification method and breakpoints;
+- the treatment of small numbers and sensitive locations.
+
+Use choropleths for rates or normalized values, not raw counts when region sizes or populations differ materially. Add a non-map comparison when readers need precise ranking.
+
+## Uncertainty and statistical evidence
+
+Match the display to the inferential object:
+
+| Evidence | Recommended display | Label explicitly |
+|---|---|---|
+| Estimate and uncertainty | Point with confidence or credible interval | Interval level and method |
+| Distribution across groups | Raw points plus box/violin summary | Sample size and summary definition |
+| Regression relationship | Fitted line plus interval and observations | Model, scale, and interval type |
+| Forecast | Central path plus prediction bands | Horizon, origin, and coverage |
+| Simulation or ensemble | Quantile ribbon, fan chart, or representative paths | Number of draws and quantiles |
+| Small counts | Counts, rates, and compatible intervals | Denominator and suppression rules |
+
+Error bars are not self-explanatory. State whether they represent standard deviation, standard error, confidence intervals, credible intervals, prediction intervals, or another quantity.
+
+## Color and accessibility
+
+### Color checklist
+
+- Use color only when it encodes information or establishes hierarchy.
+- Choose a sequential scale for low-to-high values.
+- Choose a diverging scale only when a meaningful midpoint exists.
+- Use a categorical palette for unordered groups.
+- Limit the number of categorical colors.
+- Avoid rainbow scales for ordered quantitative data.
+- Do not rely on red versus green alone.
+- Keep the same category-color mapping across related figures.
+- Verify contrast against the actual background.
+- Test the figure in grayscale and at its final display size.
+
+### Beyond color
+
+Redundant encodings make charts more robust. Combine color with line style, marker shape, direct labels, facets, or spatial grouping. Avoid dense cross-hatching and excessive marker variation that creates new clutter.
+
+### Text and structure
+
+- Write a descriptive title that communicates the chart's subject or conclusion.
+- Label axes with units.
+- Expand abbreviations on first use.
+- Use sentence case consistently.
+- Ensure tick labels remain legible without unnecessary rotation.
+- Provide alt text or an adjacent narrative summary.
+- Describe the main pattern, notable exceptions, and important uncertainty.
+- Keep keyboard access and visible focus states for interactive controls.
+
+Example Quarto image with alt text:
+
+```markdown
+![Monthly completion rate rises from January through June, with a short decline in April.](results/figures/monthly-completion-rate.png){#fig-monthly-completion-rate}
+```
+
+Alt text should communicate the figure's function and essential pattern, not reproduce every visible label.
+
+## Annotation reference
+
+Use annotations to direct attention, establish context, or explain a discontinuity. Effective annotations:
+
+- sit close to the relevant mark;
+- use short, specific language;
+- preserve a clear reading order;
+- distinguish observed events from inferred explanations;
+- avoid covering data;
+- remain legible in the final export.
+
+Prefer direct labels when they eliminate repeated legend lookup. Reserve arrows and callouts for evidence that needs interpretation; decorating every point weakens emphasis.
+
+## Export settings
+
+Choose the output format for the delivery context:
+
+| Format | Best use | Important consideration |
+|---|---|---|
+| PNG | Web pages, slides, raster previews | Set dimensions and sufficient pixel density |
+| SVG | Web and scalable vector graphics | Check fonts and complex mark counts |
+| PDF | Print, reports, and vector publication | Confirm embedded fonts and page size |
+| HTML | Interactive exploration | Decide between CDN and self-contained assets |
+| JSON specification | Reuse or validation of declarative charts | Preserve data-access assumptions |
+
+Static Matplotlib exports:
+
+```python
+figure.savefig("results/figures/chart.png", dpi=180, bbox_inches="tight")
+figure.savefig("results/figures/chart.svg", bbox_inches="tight")
+figure.savefig("results/figures/chart.pdf", bbox_inches="tight")
+```
+
+Set figure dimensions before export. Increasing DPI does not repair tiny text, poor spacing, or an unsuitable aspect ratio.
+
+## Naming conventions
+
+Use stable, descriptive, lowercase filenames:
+
+```text
+results/figures/09-monthly-trend.png
+results/figures/10-regional-rate-map.svg
+results/html/16-linked-dashboard.html
+results/17-figure-manifest.csv
+```
+
+A practical pattern is `<chapter>-<subject>-<view>.<extension>`. Avoid names such as `final.png`, `new-chart-2.png`, or timestamps when downstream documents reference a stable path.
+
+## Figure manifests and provenance
+
+For important releases, record at least:
+
+| Field | Meaning |
+|---|---|
+| `figure_id` | Stable human-readable identifier |
+| `output_path` | Repository-relative artifact path |
+| `script_path` | Producing script |
+| `source_path` | Primary data input |
+| `created_at_utc` | Generation time |
+| `code_version` | Git commit or release tag |
+| `data_version` | Checksum, snapshot, or documented version |
+| `width` / `height` | Intended dimensions |
+| `format` | PNG, SVG, PDF, or HTML |
+| `status` | Draft, reviewed, approved, or retired |
+
+The manifest supports reproduction and review; it does not replace readable titles, captions, or methods.
+
+## Quarto figure patterns
+
+### Cross-reference an existing image
+
+```markdown
+![Accessible description of the figure.](results/figures/09-monthly-trend.png){#fig-monthly-trend}
+
+As shown in @fig-monthly-trend, the seasonal peak occurs in July.
+```
+
+### Executable Python cell
+
+````markdown
+```{python}
+#| label: fig-category-comparison
+#| fig-cap: "Comparison across categories."
+#| fig-alt: "Category A has the highest value, followed by B and C."
+#| echo: false
+
+plot_category_comparison(data)
+```
+````
+
+Keep labels unique across the book. Use the `{#sec-*}` convention for section identifiers and `fig-*` for executable-cell labels or figure identifiers.
+
+## Dashboard quality checklist
+
+Before releasing a dashboard, confirm:
+
+- the audience and decision are explicit;
+- the default view answers the most common question;
+- filters have safe defaults and visible active states;
+- summaries update consistently when filters change;
+- units, denominators, and refresh times are visible;
+- empty, loading, and error states are understandable;
+- keyboard navigation and focus order work;
+- color is not the only status signal;
+- narrow-screen behavior is acceptable;
+- downloads preserve filters and metadata;
+- expensive queries or transformations are cached appropriately;
+- the dashboard has an owner and review date.
+
+Do not force every finding into one screen. A dashboard is a task-oriented interface, not a gallery of unrelated charts.
+
+## Visual-review checklist
+
+Review each figure at the size and in the medium where readers will encounter it.
+
+### Analytical integrity
+
+- Does the chart answer the stated question?
+- Are the grain, denominator, units, and scale correct?
+- Are missing values and exclusions disclosed?
+- Is uncertainty represented appropriately?
+- Could axis limits or transformations distort interpretation?
+- Does the annotation distinguish observation from explanation?
+
+### Perceptual clarity
+
+- Is the most important comparison visually easiest?
+- Is the reading order obvious?
+- Are legends necessary, ordered, and close to the marks?
+- Are categories sorted meaningfully?
+- Is visual clutter removed without deleting context?
+- Are facets comparable and consistently scaled where appropriate?
+
+### Accessibility and delivery
+
+- Are text and marks legible at final size?
+- Does the palette remain interpretable with color-vision differences?
+- Is information redundantly encoded where necessary?
+- Is alt text or a narrative summary present?
+- Does the exported format work in the target medium?
+- Are interactive essentials available without hover alone?
+
+## Automated validation ideas
+
+Not every design choice can be tested automatically, but scripts can verify structural expectations:
+
+```python
+from pathlib import Path
+from PIL import Image
+
+path = Path("results/figures/09-monthly-trend.png")
+assert path.exists(), f"Missing figure: {path}"
+assert path.stat().st_size > 10_000, "Figure may be empty or incomplete"
+
+with Image.open(path) as image:
+    width, height = image.size
+    assert width >= 1200
+    assert height >= 600
+```
+
+Other useful checks include expected file counts, unique manifest identifiers, valid SVG/XML, nonempty HTML exports, required alt-text metadata, and clean Quarto cross-references. Automated checks complement visual inspection; they do not certify that a chart is truthful or understandable.
+
+## Reproduction checklist
+
+### Before generation
+
+- Activate the repository environment.
+- Confirm package versions and the Quarto version.
+- Confirm that raw inputs are unchanged or correctly versioned.
+- Verify required directories and configuration.
+- Remove undocumented manual steps.
+
+### During generation
+
+- Set a random seed for sampling, jitter, layout, or simulation.
+- Sort data before order-sensitive operations.
+- Use deterministic category orders and color mappings.
+- Write outputs to documented repository-relative paths.
+- Fail loudly on missing fields and invalid values.
+- Close figures after saving them in batch scripts.
+
+### After generation
+
+- Confirm all expected artifacts exist.
+- Inspect figures visually at full and publication size.
+- Compare manifests or checksums when exact stability is required.
+- Render the book and review cross-references.
+- Record code and data versions.
+- Check that no confidential data appears in labels, tooltips, or exported HTML.
+
+## Troubleshooting guide
+
+### The virtual environment is active, but imports fail
+
+Confirm that `python` and `pip` resolve inside `.venv`, then install through that interpreter:
+
+```bash
+which python
+python -m pip --version
+python -m pip install -r requirements.txt
+```
+
+### A figure is blank
+
+Check whether filters removed all rows, values became missing after conversion, axis limits exclude the data, or `savefig()` runs after the figure was cleared or closed. Print the row count and essential ranges immediately before plotting.
+
+### A figure is clipped
+
+Increase the figure dimensions, use `constrained_layout=True`, shorten labels, or save with `bbox_inches="tight"`. Inspect the actual exported file; notebook display and saved output can differ.
+
+### Categories appear in the wrong order
+
+Pass an explicit order or use an ordered categorical dtype. Do not rely on incidental input order:
+
+```python
+order = ["Low", "Medium", "High"]
+data["level"] = pd.Categorical(data["level"], categories=order, ordered=True)
+```
+
+### Dates are spaced or sorted incorrectly
+
+Parse them as dates, sort explicitly, and verify time zones:
+
+```python
+data["timestamp"] = pd.to_datetime(data["timestamp"], utc=True)
+data = data.sort_values("timestamp")
+```
+
+Strings that look like dates remain categorical labels and may sort lexicographically.
+
+### Points overlap heavily
+
+Use smaller marks, transparency, jitter for genuinely discrete positions, faceting, hexagonal bins, density contours, or aggregation. Disclose sampling and aggregation. Do not use jitter when exact positions are analytically meaningful unless the displacement is clearly explained.
+
+### Colors differ across figures
+
+Define one named mapping and reuse it:
+
+```python
+GROUP_COLORS = {
+    "Control": "#4C78A8",
+    "Treatment": "#F58518",
+}
+```
+
+Avoid assigning colors from the order in which categories happen to appear.
+
+### Static image export fails for Plotly
+
+Confirm that Kaleido is installed in the active environment and compatible with the installed Plotly version. HTML export does not require Kaleido. Restart the Python process after changing visualization dependencies.
+
+### Altair reports too many rows
+
+Aggregate, filter, or sample before plotting. If the full dataset is truly necessary, use an appropriate data transformer and understand where data will be embedded or served. Avoid disabling limits without considering page size and privacy.
+
+### Geospatial features do not align
+
+Confirm the coordinate reference system of every layer, transform them to a shared CRS, and check longitude-latitude order. A plausible-looking misalignment can still be analytically wrong.
+
+### An interactive chart works locally but not in the rendered book
+
+Check whether JavaScript assets were embedded or loaded from a network location, whether content-security rules block them, and whether relative paths remain valid under `docs/`. Test the rendered output through a local web server rather than opening the HTML file directly.
+
+### Quarto reports an unresolved figure reference
+
+Confirm that the identifier exists, is unique, and matches exactly. For an existing image use `{#fig-name}` on the image; for an executable cell use `#| label: fig-name`. Refer to it as `@fig-name`.
+
+### A script succeeds but the chapter shows an old figure
+
+Confirm the output path, file modification time, filename capitalization, Quarto cache or freeze settings, and the path referenced by the chapter. Remove only the relevant generated cache when necessary; do not delete unrelated user files.
+
+### Fonts change in CI or publication
+
+Use fonts available in the build environment, declare fallbacks, or install fonts explicitly in CI. Review SVG and PDF font behavior in the final delivery application. A local system font is not automatically portable.
+
+## Glossary
+
+**Alt text**  
+A concise textual alternative that communicates an image's purpose and essential content.
+
+**Aspect ratio**  
+The relationship between a figure's width and height, which can affect perceived slopes, density, and layout.
+
+**Binning**  
+Grouping continuous values or spatial locations into intervals or cells for summarization.
+
+**Choropleth**  
+A map that shades geographic regions according to a quantitative value, usually a normalized rate or proportion.
+
+**Color scale**  
+A mapping from data values or categories to colors.
+
+**Confidence interval**  
+An interval produced by a frequentist procedure designed to achieve a stated long-run coverage rate under its assumptions.
+
+**Credible interval**  
+A Bayesian interval containing a stated posterior probability for a parameter under the model.
+
+**Dashboard**  
+A task-oriented interface that combines coordinated summaries, charts, controls, and contextual information.
+
+**Data provenance**  
+Recorded information about where data came from and how an output was produced.
+
+**Declarative visualization**  
+A specification of what data and encodings a chart should use, leaving much of the rendering procedure to the library.
+
+**Encoding**  
+A mapping from a variable to a visual property such as position, color, size, shape, or opacity.
+
+**Facet**  
+A repeated panel that shows subsets of the data using a consistent visual specification.
+
+**Figure manifest**  
+A structured inventory linking figure identifiers and output paths to producing code, data, versions, and review status.
+
+**Mark**  
+A graphical element such as a point, line, bar, area, or text label.
+
+**Overplotting**  
+The loss of visible detail when many marks occupy the same or nearby positions.
+
+**Projection**  
+A mathematical transformation from the curved surface of Earth to a flat map.
+
+**Scale**  
+A function mapping data values to visual values and defining guides such as axes or legends.
+
+**Small multiples**  
+A collection of similarly designed panels that enables comparison across subsets.
+
+**Uncertainty interval**  
+A general term for an interval representing uncertainty; its specific statistical meaning must be stated.
+
+**Visual hierarchy**  
+The ordering of attention created by position, size, contrast, spacing, and annotation.
+
+## Final release check
+
+Run the relevant scripts, tests, and render from a clean environment:
+
+```bash
+python -m pytest -q
+quarto render
+git status --short
+```
+
+Before publishing, confirm that:
+
+- the book renders without unresolved citations or cross-references;
+- every referenced figure exists at the expected path;
+- generated figures and interactive exports are current;
+- charts have meaningful titles, units, captions, and accessible descriptions;
+- visual encodings are consistent across chapters;
+- uncertainty and exclusions are disclosed;
+- static and interactive outputs work in their target formats;
+- scripts reproduce outputs without hidden notebook state;
+- manifests or provenance records are current where required;
+- no credentials, confidential data, local paths, or sensitive tooltips are published;
+- all intentional source files are included in version control.
+
+The appendix is intentionally script-free: its examples are reusable reference patterns, and it produces no standalone plot. The only required DVP-999 repository artifact is this chapter file.

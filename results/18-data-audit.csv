@@ -1,0 +1,7 @@
+metric,value
+rows,2400
+unique_request_ids,2400
+open_requests,173
+completed_requests,2227
+missing_resolution_hours,173
+grouped_count_reconciliation,2400

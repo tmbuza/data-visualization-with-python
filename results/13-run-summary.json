@@ -1,0 +1,16 @@
+{
+  "chapter": "DVP-013",
+  "seed": 1307,
+  "ticket_count": 600,
+  "figures": [
+    "13-category-ranking.png",
+    "13-channel-composition.png",
+    "13-channel-slope.png",
+    "13-priority-region-heatmap.png",
+    "13-term-comparison.png"
+  ],
+  "tables": [
+    "results/13-category-summary.csv",
+    "results/13-term-cooccurrence.csv"
+  ]
+}

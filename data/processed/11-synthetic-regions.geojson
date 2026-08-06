@@ -1,0 +1,215 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "region_id": "R01",
+        "region_name": "Northwest",
+        "coverage_pct": 53.5
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0,
+              2
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              2
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "region_id": "R02",
+        "region_name": "North Central",
+        "coverage_pct": 75.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2,
+              2
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              2
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "region_id": "R03",
+        "region_name": "Northeast",
+        "coverage_pct": 65.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              4,
+              2
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              2
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "region_id": "R04",
+        "region_name": "Southwest",
+        "coverage_pct": 85.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "region_id": "R05",
+        "region_name": "South Central",
+        "coverage_pct": 58.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2,
+              0
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "region_id": "R06",
+        "region_name": "Southeast",
+        "coverage_pct": 82.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              4,
+              0
+            ],
+            [
+              6,
+              0
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              0
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

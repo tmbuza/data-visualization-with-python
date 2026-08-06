@@ -1,0 +1,4 @@
+source_stage,target_stage,volume,edge_count
+distributor,market,231,4
+processor,distributor,240,4
+supplier,processor,257,4

@@ -1,0 +1,49 @@
+channel,service_type,outcome,requests
+Mobile app,Lighting,Late,72
+Mobile app,Lighting,On time,110
+Mobile app,Lighting,Open,16
+Mobile app,Roads,Late,129
+Mobile app,Roads,On time,93
+Mobile app,Roads,Open,23
+Mobile app,Waste,Late,69
+Mobile app,Waste,On time,154
+Mobile app,Waste,Open,16
+Mobile app,Water,Late,75
+Mobile app,Water,On time,60
+Mobile app,Water,Open,10
+Phone,Lighting,Late,59
+Phone,Lighting,On time,87
+Phone,Lighting,Open,13
+Phone,Roads,Late,80
+Phone,Roads,On time,79
+Phone,Roads,Open,10
+Phone,Waste,Late,64
+Phone,Waste,On time,111
+Phone,Waste,Open,12
+Phone,Water,Late,52
+Phone,Water,On time,52
+Phone,Water,Open,8
+Walk-in,Lighting,Late,19
+Walk-in,Lighting,On time,36
+Walk-in,Lighting,Open,4
+Walk-in,Roads,Late,29
+Walk-in,Roads,On time,26
+Walk-in,Roads,Open,6
+Walk-in,Waste,Late,27
+Walk-in,Waste,On time,53
+Walk-in,Waste,Open,3
+Walk-in,Water,Late,18
+Walk-in,Water,On time,26
+Walk-in,Water,Open,4
+Web,Lighting,Late,51
+Web,Lighting,On time,98
+Web,Lighting,Open,21
+Web,Roads,Late,93
+Web,Roads,On time,79
+Web,Roads,Open,11
+Web,Waste,Late,68
+Web,Waste,On time,140
+Web,Waste,Open,11
+Web,Water,Late,65
+Web,Water,On time,53
+Web,Water,Open,5

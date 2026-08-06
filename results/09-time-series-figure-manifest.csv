@@ -1,0 +1,3 @@
+figure_id,path,purpose
+fig-time-series-overview,results/figures/09-time-series-overview.png,"Trend, smoothing, expected interval, event, and missing-data gap"
+fig-weekday-seasonality,results/figures/09-weekday-seasonality.png,Weekday median and interquartile seasonal profile

@@ -1,0 +1,21 @@
+{
+  "chapter": "DVP-010",
+  "seed": 20260807,
+  "figures": [
+    "results/figures/10-group-confidence-intervals.png",
+    "results/figures/10-bootstrap-distribution.png",
+    "results/figures/10-model-confidence-band.png"
+  ],
+  "group_count": 4,
+  "record_count": 306,
+  "bootstrap": {
+    "observed_mean": 20.265365889648848,
+    "ci_low": 18.75849303550895,
+    "ci_high": 21.688997316734905
+  },
+  "model": {
+    "intercept": 9.243245132363317,
+    "slope": 0.17126649534328023,
+    "residual_sd": 3.385641857338003
+  }
+}

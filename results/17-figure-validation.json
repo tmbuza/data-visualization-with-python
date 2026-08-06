@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "validated_at_utc": "2026-08-06T21:30:35+00:00",
+  "checks": [
+    {
+      "check": "index_rows",
+      "passed": true,
+      "detail": "found 2 format rows"
+    },
+    {
+      "check": "alt_text",
+      "passed": true,
+      "detail": "alternative text is descriptive"
+    },
+    {
+      "check": "exists:png",
+      "passed": true,
+      "detail": "results/figures/17-publishing-success-rate.png"
+    },
+    {
+      "check": "digest:png",
+      "passed": true,
+      "detail": "SHA-256 matches metadata"
+    },
+    {
+      "check": "png_dimensions",
+      "passed": true,
+      "detail": "1280x768 pixels"
+    },
+    {
+      "check": "exists:svg",
+      "passed": true,
+      "detail": "results/figures/17-publishing-success-rate.svg"
+    },
+    {
+      "check": "digest:svg",
+      "passed": true,
+      "detail": "SHA-256 matches metadata"
+    },
+    {
+      "check": "svg_structure",
+      "passed": true,
+      "detail": "SVG root element present"
+    }
+  ]
+}

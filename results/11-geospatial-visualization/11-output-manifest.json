@@ -1,0 +1,10 @@
+{
+  "chapter": "DVP-011",
+  "data_note": "synthetic demonstration data",
+  "outputs": [
+    "results/figures/11-geospatial-choropleth.png",
+    "results/figures/11-geospatial-map-and-ranking.png",
+    "data/processed/11-region-indicators.csv",
+    "data/processed/11-synthetic-regions.geojson"
+  ]
+}

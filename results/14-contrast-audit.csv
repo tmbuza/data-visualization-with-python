@@ -1,0 +1,6 @@
+element,foreground,background,ratio,threshold,passes
+Body text,#222222,#FFFFFF,15.91,4.5,True
+Secondary text,#707070,#FFFFFF,4.95,4.5,True
+Blue graphical object,#0072B2,#FFFFFF,5.19,3.0,True
+Orange graphical object,#D55E00,#FFFFFF,3.87,3.0,True
+Light gray grid,#D9D9D9,#FFFFFF,1.41,3.0,False

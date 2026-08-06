@@ -1,0 +1,5 @@
+region,requests,completed,completion_rate,median_resolution_hours,satisfaction_score
+Central,11002,10054,0.9138,20.1332,3.6707
+Coastal,9194,8215,0.8935,20.6835,3.6106
+Lake,7143,6616,0.9262,20.1305,3.6783
+Northern,8054,7230,0.8977,21.0546,3.6478
