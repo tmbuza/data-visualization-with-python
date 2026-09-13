@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -354,6 +374,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#beyond-color" id="toc-beyond-color" class="nav-link" data-scroll-target="#beyond-color">Beyond color</a></li>
   <li><a href="#text-and-structure" id="toc-text-and-structure" class="nav-link" data-scroll-target="#text-and-structure">Text and structure</a></li>
   </ul></li>
+  <li><a href="#selected-further-reading" id="toc-selected-further-reading" class="nav-link" data-scroll-target="#selected-further-reading">Selected further reading</a></li>
   <li><a href="#annotation-reference" id="toc-annotation-reference" class="nav-link" data-scroll-target="#annotation-reference">Annotation reference</a></li>
   <li><a href="#export-settings" id="toc-export-settings" class="nav-link" data-scroll-target="#export-settings">Export settings</a></li>
   <li><a href="#naming-conventions" id="toc-naming-conventions" class="nav-link" data-scroll-target="#naming-conventions">Naming conventions</a></li>
@@ -541,7 +562,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="reproducible-figure-anatomy" class="level2">
 <h2 class="anchored" data-anchor-id="reproducible-figure-anatomy">Reproducible figure anatomy</h2>
-<p>A dependable visualization script separates five concerns:</p>
+<p>A dependable visualization script separates five concerns. This separation also supports the general reproducibility principle that every result should be traceable from recorded inputs through documented computational steps <span class="citation" data-cites="sandve2013tenrules">(<a href="999-references.html#ref-sandve2013tenrules" role="doc-biblioref">Sandve et al. 2013</a>)</span>.</p>
 <ol type="1">
 <li><strong>Inputs</strong> — identify data files, parameters, and assumptions.</li>
 <li><strong>Preparation</strong> — clean, reshape, aggregate, and validate data.</li>
@@ -586,7 +607,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="chart-selection-reference" class="level2">
 <h2 class="anchored" data-anchor-id="chart-selection-reference">Chart-selection reference</h2>
-<p>Begin with the analytical question, not a preferred library or chart type.</p>
+<p>Begin with the analytical question, not a preferred library or chart type. A useful design process connects the reader’s task, the available data, the chosen visual encoding, and the interaction or presentation method <span class="citation" data-cites="munzner2014visualization">(<a href="999-references.html#ref-munzner2014visualization" role="doc-biblioref">Munzner 2014</a>)</span>.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -669,7 +690,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="visual-encoding-hierarchy" class="level2">
 <h2 class="anchored" data-anchor-id="visual-encoding-hierarchy">Visual-encoding hierarchy</h2>
-<p>For precise quantitative comparison, prefer encodings roughly in this order:</p>
+<p>For precise quantitative comparison, prefer encodings roughly in this order. The ordering reflects classic experimental work showing that graphical encodings differ in how accurately people can judge quantitative values <span class="citation" data-cites="cleveland1984graphical">(<a href="999-references.html#ref-cleveland1984graphical" role="doc-biblioref">Cleveland and McGill 1984</a>)</span>:</p>
 <ol type="1">
 <li>position on a common scale;</li>
 <li>position on separate but aligned scales;</li>
@@ -768,7 +789,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="plotnine-quick-reference" class="level2">
 <h2 class="anchored" data-anchor-id="plotnine-quick-reference">plotnine quick reference</h2>
-<p>The grammar-of-graphics workflow builds a chart by combining data, mappings, geometric marks, scales, coordinates, facets, and a theme:</p>
+<p>The grammar-of-graphics workflow builds a chart by combining data, mappings, geometric marks, scales, coordinates, facets, and a theme <span class="citation" data-cites="wilkinson2005grammar">(<a href="999-references.html#ref-wilkinson2005grammar" role="doc-biblioref">Wilkinson 2005</a>)</span>:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    aes,</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    facet_wrap,</span>
@@ -922,6 +943,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="color-and-accessibility" class="level2">
 <h2 class="anchored" data-anchor-id="color-and-accessibility">Color and accessibility</h2>
+<p>Color choices can change what patterns readers perceive and can even introduce visual artifacts. Prefer perceptually uniform, data-appropriate palettes and test them under realistic viewing conditions <span class="citation" data-cites="crameri2020misuse">(<a href="999-references.html#ref-crameri2020misuse" role="doc-biblioref">Crameri, Shephard, and Heron 2020</a>)</span>. For interactive outputs, treat the Web Content Accessibility Guidelines as a baseline for contrast, keyboard access, focus visibility, and non-text alternatives <span class="citation" data-cites="w3c2023wcag22">(<a href="999-references.html#ref-w3c2023wcag22" role="doc-biblioref">World Wide Web Consortium 2023</a>)</span>.</p>
 <section id="color-checklist" class="level3">
 <h3 class="anchored" data-anchor-id="color-checklist">Color checklist</h3>
 <ul>
@@ -957,6 +979,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb16"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="al">![Monthly completion rate rises from January through June, with a short decline in April.](results/figures/monthly-completion-rate.png)</span>{#fig-monthly-completion-rate}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Alt text should communicate the figure’s function and essential pattern, not reproduce every visible label.</p>
 </section>
+</section>
+<section id="selected-further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="selected-further-reading">Selected further reading</h2>
+<ul>
+<li><span class="citation" data-cites="munzner2014visualization">Munzner (<a href="999-references.html#ref-munzner2014visualization" role="doc-biblioref">2014</a>)</span> provides a systematic framework for matching visual designs to data and analytical tasks.</li>
+<li><span class="citation" data-cites="cleveland1984graphical">Cleveland and McGill (<a href="999-references.html#ref-cleveland1984graphical" role="doc-biblioref">1984</a>)</span> supplies foundational empirical evidence for comparing quantitative encodings.</li>
+<li><span class="citation" data-cites="wilkinson2005grammar">Wilkinson (<a href="999-references.html#ref-wilkinson2005grammar" role="doc-biblioref">2005</a>)</span> develops the compositional theory behind grammar-of-graphics libraries.</li>
+<li><span class="citation" data-cites="crameri2020misuse">Crameri, Shephard, and Heron (<a href="999-references.html#ref-crameri2020misuse" role="doc-biblioref">2020</a>)</span> explains common scientific color failures and principles for safer palette selection.</li>
+<li><span class="citation" data-cites="w3c2023wcag22">World Wide Web Consortium (<a href="999-references.html#ref-w3c2023wcag22" role="doc-biblioref">2023</a>)</span> is the normative accessibility standard for web-delivered figures and interactive views.</li>
+<li><span class="citation" data-cites="sandve2013tenrules">Sandve et al. (<a href="999-references.html#ref-sandve2013tenrules" role="doc-biblioref">2013</a>)</span> gives concise, durable rules for reproducible computational research.</li>
+</ul>
 </section>
 <section id="annotation-reference" class="level2">
 <h2 class="anchored" data-anchor-id="annotation-reference">Annotation reference</h2>
@@ -1345,6 +1378,26 @@ The ordering of attention created by position, size, contrast, spacing, and anno
 <p>The appendix is intentionally script-free: its examples are reusable reference patterns, and it produces no standalone plot. The only required DVP-999 repository artifact is this chapter file.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-cleveland1984graphical" class="csl-entry" role="listitem">
+Cleveland, William S., and Robert McGill. 1984. <span>“Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods.”</span> <em>Journal of the American Statistical Association</em> 79 (387): 531–54. <a href="https://doi.org/10.1080/01621459.1984.10478080">https://doi.org/10.1080/01621459.1984.10478080</a>.
+</div>
+<div id="ref-crameri2020misuse" class="csl-entry" role="listitem">
+Crameri, Fabio, Grace E. Shephard, and Philip J. Heron. 2020. <span>“The Misuse of Colour in Science Communication.”</span> <em>Nature Communications</em> 11 (1): 5444. <a href="https://doi.org/10.1038/s41467-020-19160-7">https://doi.org/10.1038/s41467-020-19160-7</a>.
+</div>
+<div id="ref-munzner2014visualization" class="csl-entry" role="listitem">
+Munzner, Tamara. 2014. <em>Visualization Analysis and Design</em>. Boca Raton, FL: CRC Press. <a href="https://doi.org/10.1201/b17511">https://doi.org/10.1201/b17511</a>.
+</div>
+<div id="ref-sandve2013tenrules" class="csl-entry" role="listitem">
+Sandve, Geir Kjetil, Anton Nekrutenko, James Taylor, and Eivind Hovig. 2013. <span>“Ten Simple Rules for Reproducible Computational Research.”</span> <em>PLoS Computational Biology</em> 9 (10): e1003285. <a href="https://doi.org/10.1371/journal.pcbi.1003285">https://doi.org/10.1371/journal.pcbi.1003285</a>.
+</div>
+<div id="ref-wilkinson2005grammar" class="csl-entry" role="listitem">
+Wilkinson, Leland. 2005. <em>The Grammar of Graphics</em>. 2nd ed. New York, NY: Springer. <a href="https://doi.org/10.1007/0-387-28695-0">https://doi.org/10.1007/0-387-28695-0</a>.
+</div>
+<div id="ref-w3c2023wcag22" class="csl-entry" role="listitem">
+World Wide Web Consortium. 2023. <span>“Web Content Accessibility Guidelines (<span>WCAG</span>) 2.2.”</span> W3C Recommendation. <a href="https://www.w3.org/TR/WCAG22/">https://www.w3.org/TR/WCAG22/</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

@@ -75,7 +75,7 @@ git config --get core.hooksPath
 
 ## Reproducible figure anatomy
 
-A dependable visualization script separates five concerns:
+A dependable visualization script separates five concerns. This separation also supports the general reproducibility principle that every result should be traceable from recorded inputs through documented computational steps [@sandve2013tenrules].
 
 1. **Inputs** — identify data files, parameters, and assumptions.
 2. **Preparation** — clean, reshape, aggregate, and validate data.
@@ -124,7 +124,7 @@ Avoid hidden dependencies on notebook state, the current working directory, a ma
 
 ## Chart-selection reference
 
-Begin with the analytical question, not a preferred library or chart type.
+Begin with the analytical question, not a preferred library or chart type. A useful design process connects the reader's task, the available data, the chosen visual encoding, and the interaction or presentation method [@munzner2014visualization].
 
 | Question | Strong first choice | Useful alternatives | Common mistake |
 |---|---|---|---|
@@ -143,7 +143,7 @@ When several charts are plausible, choose the one that makes the important compa
 
 ## Visual-encoding hierarchy
 
-For precise quantitative comparison, prefer encodings roughly in this order:
+For precise quantitative comparison, prefer encodings roughly in this order. The ordering reflects classic experimental work showing that graphical encodings differ in how accurately people can judge quantitative values [@cleveland1984graphical]:
 
 1. position on a common scale;
 2. position on separate but aligned scales;
@@ -259,7 +259,7 @@ Check whether the selected Seaborn function aggregates observations and draws un
 
 ## plotnine quick reference
 
-The grammar-of-graphics workflow builds a chart by combining data, mappings, geometric marks, scales, coordinates, facets, and a theme:
+The grammar-of-graphics workflow builds a chart by combining data, mappings, geometric marks, scales, coordinates, facets, and a theme [@wilkinson2005grammar]:
 
 ```python
 from plotnine import (
@@ -390,6 +390,8 @@ Error bars are not self-explanatory. State whether they represent standard devia
 
 ## Color and accessibility
 
+Color choices can change what patterns readers perceive and can even introduce visual artifacts. Prefer perceptually uniform, data-appropriate palettes and test them under realistic viewing conditions [@crameri2020misuse]. For interactive outputs, treat the Web Content Accessibility Guidelines as a baseline for contrast, keyboard access, focus visibility, and non-text alternatives [@w3c2023wcag22].
+
 ### Color checklist
 
 - Use color only when it encodes information or establishes hierarchy.
@@ -425,6 +427,15 @@ Example Quarto image with alt text:
 ```
 
 Alt text should communicate the figure's function and essential pattern, not reproduce every visible label.
+
+## Selected further reading
+
+- @munzner2014visualization provides a systematic framework for matching visual designs to data and analytical tasks.
+- @cleveland1984graphical supplies foundational empirical evidence for comparing quantitative encodings.
+- @wilkinson2005grammar develops the compositional theory behind grammar-of-graphics libraries.
+- @crameri2020misuse explains common scientific color failures and principles for safer palette selection.
+- @w3c2023wcag22 is the normative accessibility standard for web-delivered figures and interactive views.
+- @sandve2013tenrules gives concise, durable rules for reproducible computational research.
 
 ## Annotation reference
 
