@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Distributions, Relationships, and Multivariate Views – Data Visualization with Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./09-time-series-and-event-visualization.html" rel="next">
+<link href="./07-declarative-interactivity-with-altair.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="assets/css/cdi.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-distributions-relationships-and-multivariate-views.html">Analytical and Specialized Visuals</a></li><li class="breadcrumb-item"><a href="./08-distributions-relationships-and-multivariate-views.html"><span class="chapter-title">Distributions, Relationships, and Multivariate Views</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data Visualization with Python</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visual Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-visualization-thinking-and-chart-choice.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualization Thinking and Chart Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-environment-data-and-reproducible-workflows.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Environment, Data, and Reproducible Workflows</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Core Visualization Libraries</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-matplotlib-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Matplotlib Foundations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-statistical-visualization-with-seaborn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical Visualization with Seaborn</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-grammar-of-graphics-with-plotnine.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Grammar of Graphics with Plotnine</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-interactive-visualization-with-plotly.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interactive Visualization with Plotly</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-declarative-interactivity-with-altair.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Declarative Interactivity with Altair</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Analytical and Specialized Visuals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-distributions-relationships-and-multivariate-views.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Distributions, Relationships, and Multivariate Views</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-time-series-and-event-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Time Series and Event Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-uncertainty-and-statistical-evidence.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Uncertainty and Statistical Evidence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-geospatial-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Geospatial Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-network-and-flow-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Network and Flow Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-text-categorical-and-compositional-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Text, Categorical, and Compositional Visualization</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Design and Communication</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-color-layout-annotation-and-accessibility.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Color, Layout, Annotation, and Accessibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-data-storytelling-and-visual-critique.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Storytelling and Visual Critique</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Interactive Delivery and Production</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Service Operations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-publishing-automation-and-figure-governance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Publishing, Automation, and Figure Governance</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Case Study</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-end-to-end-visualization-case-study.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">End-to-End Visualization Case Study</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-analytical-progression" id="toc-the-analytical-progression" class="nav-link active" data-scroll-target="#the-analytical-progression">The analytical progression</a></li>
+  <li><a href="#the-chapter-dataset" id="toc-the-chapter-dataset" class="nav-link" data-scroll-target="#the-chapter-dataset">The chapter dataset</a></li>
+  <li><a href="#visualizing-one-distribution" id="toc-visualizing-one-distribution" class="nav-link" data-scroll-target="#visualizing-one-distribution">Visualizing one distribution</a>
+  <ul class="collapse">
+  <li><a href="#histograms-and-bin-width" id="toc-histograms-and-bin-width" class="nav-link" data-scroll-target="#histograms-and-bin-width">Histograms and bin width</a></li>
+  <li><a href="#density-plots-and-bandwidth" id="toc-density-plots-and-bandwidth" class="nav-link" data-scroll-target="#density-plots-and-bandwidth">Density plots and bandwidth</a></li>
+  <li><a href="#empirical-cumulative-distributions" id="toc-empirical-cumulative-distributions" class="nav-link" data-scroll-target="#empirical-cumulative-distributions">Empirical cumulative distributions</a></li>
+  <li><a href="#transforming-a-skewed-scale" id="toc-transforming-a-skewed-scale" class="nav-link" data-scroll-target="#transforming-a-skewed-scale">Transforming a skewed scale</a></li>
+  </ul></li>
+  <li><a href="#comparing-distributions-across-groups" id="toc-comparing-distributions-across-groups" class="nav-link" data-scroll-target="#comparing-distributions-across-groups">Comparing distributions across groups</a>
+  <ul class="collapse">
+  <li><a href="#box-plots" id="toc-box-plots" class="nav-link" data-scroll-target="#box-plots">Box plots</a></li>
+  <li><a href="#violin-plots" id="toc-violin-plots" class="nav-link" data-scroll-target="#violin-plots">Violin plots</a></li>
+  <li><a href="#points-plus-summaries" id="toc-points-plus-summaries" class="nav-link" data-scroll-target="#points-plus-summaries">Points plus summaries</a></li>
+  <li><a href="#ordering-categories" id="toc-ordering-categories" class="nav-link" data-scroll-target="#ordering-categories">Ordering categories</a></li>
+  </ul></li>
+  <li><a href="#examining-relationships-between-two-variables" id="toc-examining-relationships-between-two-variables" class="nav-link" data-scroll-target="#examining-relationships-between-two-variables">Examining relationships between two variables</a>
+  <ul class="collapse">
+  <li><a href="#a-fitted-line-is-a-model" id="toc-a-fitted-line-is-a-model" class="nav-link" data-scroll-target="#a-fitted-line-is-a-model">A fitted line is a model</a></li>
+  <li><a href="#association-is-not-causation" id="toc-association-is-not-causation" class="nav-link" data-scroll-target="#association-is-not-causation">Association is not causation</a></li>
+  </ul></li>
+  <li><a href="#managing-overplotting" id="toc-managing-overplotting" class="nav-link" data-scroll-target="#managing-overplotting">Managing overplotting</a></li>
+  <li><a href="#moving-to-multivariate-views" id="toc-moving-to-multivariate-views" class="nav-link" data-scroll-target="#moving-to-multivariate-views">Moving to multivariate views</a>
+  <ul class="collapse">
+  <li><a href="#colour-as-a-third-variable" id="toc-colour-as-a-third-variable" class="nav-link" data-scroll-target="#colour-as-a-third-variable">Colour as a third variable</a></li>
+  <li><a href="#size-requires-care" id="toc-size-requires-care" class="nav-link" data-scroll-target="#size-requires-care">Size requires care</a></li>
+  <li><a href="#faceting-for-conditional-comparison" id="toc-faceting-for-conditional-comparison" class="nav-link" data-scroll-target="#faceting-for-conditional-comparison">Faceting for conditional comparison</a></li>
+  </ul></li>
+  <li><a href="#pair-plots-and-correlation-matrices" id="toc-pair-plots-and-correlation-matrices" class="nav-link" data-scroll-target="#pair-plots-and-correlation-matrices">Pair plots and correlation matrices</a></li>
+  <li><a href="#a-reproducible-visual-analysis-workflow" id="toc-a-reproducible-visual-analysis-workflow" class="nav-link" data-scroll-target="#a-reproducible-visual-analysis-workflow">A reproducible visual-analysis workflow</a>
+  <ul class="collapse">
+  <li><a href="#define-the-question" id="toc-define-the-question" class="nav-link" data-scroll-target="#define-the-question">1. Define the question</a></li>
+  <li><a href="#validate-the-data" id="toc-validate-the-data" class="nav-link" data-scroll-target="#validate-the-data">2. Validate the data</a></li>
+  <li><a href="#start-with-marginal-distributions" id="toc-start-with-marginal-distributions" class="nav-link" data-scroll-target="#start-with-marginal-distributions">3. Start with marginal distributions</a></li>
+  <li><a href="#build-the-simplest-relational-view" id="toc-build-the-simplest-relational-view" class="nav-link" data-scroll-target="#build-the-simplest-relational-view">4. Build the simplest relational view</a></li>
+  <li><a href="#add-one-analytical-distinction-at-a-time" id="toc-add-one-analytical-distinction-at-a-time" class="nav-link" data-scroll-target="#add-one-analytical-distinction-at-a-time">5. Add one analytical distinction at a time</a></li>
+  <li><a href="#stress-test-the-pattern" id="toc-stress-test-the-pattern" class="nav-link" data-scroll-target="#stress-test-the-pattern">6. Stress-test the pattern</a></li>
+  <li><a href="#write-an-evidence-bounded-interpretation" id="toc-write-an-evidence-bounded-interpretation" class="nav-link" data-scroll-target="#write-an-evidence-bounded-interpretation">7. Write an evidence-bounded interpretation</a></li>
+  </ul></li>
+  <li><a href="#common-mistakes-and-better-choices" id="toc-common-mistakes-and-better-choices" class="nav-link" data-scroll-target="#common-mistakes-and-better-choices">Common mistakes and better choices</a></li>
+  <li><a href="#practical-checklist" id="toc-practical-checklist" class="nav-link" data-scroll-target="#practical-checklist">Practical checklist</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-distributions-relationships-and-multivariate-views.html">Analytical and Specialized Visuals</a></li><li class="breadcrumb-item"><a href="./08-distributions-relationships-and-multivariate-views.html"><span class="chapter-title">Distributions, Relationships, and Multivariate Views</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-distributions-relationships-multivariate" class="quarto-section-identifier"><span class="chapter-title">Distributions, Relationships, and Multivariate Views</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Aug 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cdi-message">
+<ul>
+<li><strong>ID:</strong> DVP-008</li>
+<li><strong>Type:</strong> Analytical and specialized visualization</li>
+<li><strong>Audience:</strong> Beginner-to-intermediate Python users</li>
+<li><strong>Theme:</strong> Reveal structure before summarizing it</li>
+</ul>
+</div>
+<p>A chart becomes analytically useful when its design matches the structure of the question. A histogram can reveal the shape of one quantitative variable. A scatter plot can expose the form of a relationship between two variables. Colour, facets, size, and small multiples can extend the view to additional variables—but every added encoding also increases the reader’s cognitive load.</p>
+<p>This chapter develops a practical workflow for choosing, constructing, and interpreting distributional, relational, and multivariate graphics. The emphasis is not on producing every possible chart. It is on revealing patterns without hiding uncertainty, sample size, overlap, or important subgroups.</p>
+<p>By the end of the chapter, you will be able to:</p>
+<ul>
+<li>select appropriate displays for univariate and grouped distributions;</li>
+<li>explain how bin width, bandwidth, and axis transformations affect interpretation;</li>
+<li>compare groups without relying only on summary statistics;</li>
+<li>distinguish association, form, strength, and unusual observations in relationships;</li>
+<li>use colour, size, style, and facets deliberately in multivariate displays;</li>
+<li>reduce overplotting in dense datasets; and</li>
+<li>build a reproducible visual analysis from question to interpretation.</li>
+</ul>
+<section id="the-analytical-progression" class="level2">
+<h2 class="anchored" data-anchor-id="the-analytical-progression">The analytical progression</h2>
+<p>An effective visual analysis usually moves from simple views to more structured ones:</p>
+<ol type="1">
+<li>inspect each variable independently;</li>
+<li>compare distributions across relevant groups;</li>
+<li>examine pairwise relationships;</li>
+<li>add a third variable only when it answers a defined question;</li>
+<li>facet when separate panels are easier to compare than layered encodings; and</li>
+<li>return to the data and assumptions when a pattern looks surprising.</li>
+</ol>
+<p>This progression protects against a common mistake: interpreting an aggregate relationship before checking whether it is driven by skewness, outliers, unequal group sizes, or subgroup differences.</p>
+<div class="cdi-message">
+<p>A multivariate chart should answer a multivariate question. Adding encodings simply because the columns are available usually weakens the display.</p>
+</div>
+</section>
+<section id="the-chapter-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="the-chapter-dataset">The chapter dataset</h2>
+<p>The companion script creates a synthetic environmental field-study dataset. Each row represents one sampling site and includes:</p>
+<ul>
+<li><code>region</code>: North, Central, or South;</li>
+<li><code>habitat</code>: Forest or Grassland;</li>
+<li><code>elevation_m</code>: elevation in metres;</li>
+<li><code>rainfall_mm</code>: annual rainfall in millimetres;</li>
+<li><code>temperature_c</code>: mean temperature in degrees Celsius;</li>
+<li><code>species_richness</code>: observed species count; and</li>
+<li><code>survey_effort_h</code>: survey effort in hours.</li>
+</ul>
+<p>The data are synthetic, so they support reproducible teaching without being mistaken for evidence about a real ecosystem. The generation process intentionally includes skew, group differences, correlated variables, and a few unusual observations.</p>
+<p>Run the complete workflow from the repository root:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/bash/08-generate-analytical-visuals.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The command writes the generated data to <code>data/processed/</code>, a compact summary to <code>results/</code>, and four figures to <code>results/figures/</code>.</p>
+</section>
+<section id="visualizing-one-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-one-distribution">Visualizing one distribution</h2>
+<p>A distribution describes how values are arranged across their observed range. Four features are especially useful:</p>
+<ul>
+<li><strong>centre</strong>: where typical values lie;</li>
+<li><strong>spread</strong>: how variable the observations are;</li>
+<li><strong>shape</strong>: whether the distribution is symmetric, skewed, multimodal, or bounded; and</li>
+<li><strong>unusual values</strong>: observations separated from the main body of the data.</li>
+</ul>
+<section id="histograms-and-bin-width" class="level3">
+<h3 class="anchored" data-anchor-id="histograms-and-bin-width">Histograms and bin width</h3>
+<p>A histogram divides a quantitative scale into intervals and counts observations within them. It is often the best first view of a continuous variable because it preserves more structure than a mean and standard deviation.</p>
+<p>The bin width is an analytical choice. Very wide bins can conceal multiple modes or gaps. Very narrow bins can make random variation look like structure. Compare several reasonable values, then select one that shows stable features without excessive noise.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>sites,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"species_richness"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    bins<span class="op">=</span><span class="dv">18</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"#036281"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    edgecolor<span class="op">=</span><span class="st">"white"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If groups are important, avoid immediately stacking many transparent histograms. Separate panels or carefully designed density curves are usually easier to interpret.</p>
+</section>
+<section id="density-plots-and-bandwidth" class="level3">
+<h3 class="anchored" data-anchor-id="density-plots-and-bandwidth">Density plots and bandwidth</h3>
+<p>A kernel density estimate draws a smooth representation of a distribution. Its bandwidth controls smoothness in much the same way that bin width controls a histogram. A small bandwidth follows local fluctuations; a large bandwidth suppresses them.</p>
+<p>Density plots are useful for comparing shapes, but they do not directly show counts. They may also imply values beyond a variable’s possible boundary. Pair density curves with sample-size information, and avoid using them for very small groups.</p>
+</section>
+<section id="empirical-cumulative-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="empirical-cumulative-distributions">Empirical cumulative distributions</h3>
+<p>An empirical cumulative distribution function (ECDF) shows the proportion of observations less than or equal to each value. Unlike a histogram or density plot, it does not require a bin width or bandwidth. It is particularly useful when the question concerns thresholds, percentiles, or stochastic ordering.</p>
+<p>For example, an ECDF can answer: “What proportion of sites recorded richness no greater than 35?” Every observation contributes to the curve, although the shape may be less immediately familiar to new readers.</p>
+</section>
+<section id="transforming-a-skewed-scale" class="level3">
+<h3 class="anchored" data-anchor-id="transforming-a-skewed-scale">Transforming a skewed scale</h3>
+<p>Positive quantities such as income, duration, concentration, and file size often have long right tails. A logarithmic axis can reveal relative differences that are compressed on a linear scale.</p>
+<p>Use a log scale when multiplicative change is meaningful and all plotted values are positive. State the transformation clearly. Do not apply a transformation simply to make a chart look more symmetric; explain what comparisons the transformed scale supports.</p>
+</section>
+</section>
+<section id="comparing-distributions-across-groups" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-distributions-across-groups">Comparing distributions across groups</h2>
+<p>Grouped comparisons should show both between-group differences and within-group variation. A bar chart of means alone hides distribution shape, sample size, overlap, and unusual values.</p>
+<section id="box-plots" class="level3">
+<h3 class="anchored" data-anchor-id="box-plots">Box plots</h3>
+<p>A box plot compactly displays the median, quartiles, and observations beyond a conventional whisker rule. It works well when many groups must fit in limited space. However, it does not reveal multimodality and can look overly authoritative for small samples.</p>
+</section>
+<section id="violin-plots" class="level3">
+<h3 class="anchored" data-anchor-id="violin-plots">Violin plots</h3>
+<p>A violin plot mirrors an estimated density around a central axis. It makes differences in distribution shape more visible, but it inherits the bandwidth limitations of density estimation. Width normalization can also be misunderstood as sample size unless the plotting settings are made explicit.</p>
+</section>
+<section id="points-plus-summaries" class="level3">
+<h3 class="anchored" data-anchor-id="points-plus-summaries">Points plus summaries</h3>
+<p>When group sizes are modest, jittered or beeswarm points reveal the observations directly. A median and interval can be layered on top. This combination is often more transparent than either a box plot or violin plot alone.</p>
+<div id="fig-grouped-distributions" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four violins compare species-richness distributions for forest and grassland sites across selected regions, with box summaries and individual observations.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grouped-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/08-grouped-distributions.png" class="img-fluid figure-img" alt="Four violins compare species-richness distributions for forest and grassland sites across selected regions, with box summaries and individual observations.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grouped-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.1: Grouped richness distributions combine violin shapes, quartiles, and sampled observations.
+</figcaption>
+</figure>
+</div>
+<p>Figure <a href="#fig-grouped-distributions" class="quarto-xref">Figure&nbsp;<span>10.1</span></a> shows why a distributional view is more informative than a table of group means. The forest and grassland samples overlap, but their centres and upper tails differ. The visible points also prevent the smoothed shapes from being mistaken for raw observations.</p>
+</section>
+<section id="ordering-categories" class="level3">
+<h3 class="anchored" data-anchor-id="ordering-categories">Ordering categories</h3>
+<p>Alphabetical category order is rarely analytically meaningful. Order groups by a relevant statistic, an inherent sequence, or a deliberate reference order. For ordinal categories, preserve the real ordering rather than sorting by the observed mean.</p>
+</section>
+</section>
+<section id="examining-relationships-between-two-variables" class="level2">
+<h2 class="anchored" data-anchor-id="examining-relationships-between-two-variables">Examining relationships between two variables</h2>
+<p>A scatter plot is the default view for two quantitative variables. Read it in a disciplined sequence:</p>
+<ol type="1">
+<li><strong>direction</strong>: positive, negative, or no consistent direction;</li>
+<li><strong>form</strong>: linear, curved, segmented, clustered, or otherwise structured;</li>
+<li><strong>strength</strong>: how tightly points follow the form;</li>
+<li><strong>spread</strong>: whether variability changes across the x-axis;</li>
+<li><strong>subgroups</strong>: whether colour or facets reveal distinct patterns; and</li>
+<li><strong>unusual observations</strong>: points that depart from the main structure.</li>
+</ol>
+<div id="fig-bivariate-relationship" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Scatter plot of rainfall against species richness. Forest and grassland sites use different colours, and each habitat has its own fitted trend line.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bivariate-relationship-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/08-bivariate-relationship.png" class="img-fluid figure-img" alt="Scatter plot of rainfall against species richness. Forest and grassland sites use different colours, and each habitat has its own fitted trend line.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bivariate-relationship-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.2: A scatter plot relates rainfall to species richness and distinguishes habitats.
+</figcaption>
+</figure>
+</div>
+<p>In Figure <a href="#fig-bivariate-relationship" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>, richness generally increases with rainfall, but habitat shifts the level and possibly the shape of the relationship. An overall correlation would compress these structures into one number.</p>
+<section id="a-fitted-line-is-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="a-fitted-line-is-a-model">A fitted line is a model</h3>
+<p>A trend line is not a decorative element. It asserts a particular form for the conditional relationship. A straight line implies a constant rate of change. A locally smoothed curve permits the rate to vary.</p>
+<p>Before adding a line, decide whether the purpose is description, model checking, or communication of a fitted model. Display uncertainty when it is relevant, and do not interpret the line beyond the observed x-range.</p>
+</section>
+<section id="association-is-not-causation" class="level3">
+<h3 class="anchored" data-anchor-id="association-is-not-causation">Association is not causation</h3>
+<p>A visible relationship may reflect direct influence, reverse influence, a shared cause, selection, measurement, or chance. A scatter plot describes the observed data; it does not establish an intervention effect.</p>
+<p>Use causal language only when the study design and assumptions support it. Prefer phrases such as “is associated with,” “varies with,” or “is higher among” for observational comparisons.</p>
+</section>
+</section>
+<section id="managing-overplotting" class="level2">
+<h2 class="anchored" data-anchor-id="managing-overplotting">Managing overplotting</h2>
+<p>When many points occupy the same region, a scatter plot can hide density. Several techniques address different forms of overlap:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Technique</th>
+<th>Best use</th>
+<th>Important caution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Smaller markers</td>
+<td>Moderate point density</td>
+<td>Very small marks may become inaccessible</td>
+</tr>
+<tr class="even">
+<td>Transparency</td>
+<td>Overlap with visible individual points</td>
+<td>Dark regions depend on plotting order and opacity</td>
+</tr>
+<tr class="odd">
+<td>Jitter</td>
+<td>Discrete or rounded axes</td>
+<td>Jitter changes position and must be described</td>
+</tr>
+<tr class="even">
+<td>Hexagonal bins</td>
+<td>Large quantitative datasets</td>
+<td>Individual observations are no longer visible</td>
+</tr>
+<tr class="odd">
+<td>Two-dimensional density</td>
+<td>Emphasizing concentration</td>
+<td>Smoothing choices affect apparent structure</td>
+</tr>
+<tr class="even">
+<td>Sampling</td>
+<td>Interactive or extremely large data</td>
+<td>Preserve rare groups and document the method</td>
+</tr>
+</tbody>
+</table>
+<div id="fig-overplotting-hexbin" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Hexagonal-binned plot of rainfall and species richness. Darker blue hexagons indicate more sampling sites, and a colour bar gives counts.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-overplotting-hexbin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/08-overplotting-hexbin.png" class="img-fluid figure-img" alt="Hexagonal-binned plot of rainfall and species richness. Darker blue hexagons indicate more sampling sites, and a colour bar gives counts.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overplotting-hexbin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.3: Hexagonal bins reveal concentration in a dense rainfall–richness relationship.
+</figcaption>
+</figure>
+</div>
+<p>Figure <a href="#fig-overplotting-hexbin" class="quarto-xref">Figure&nbsp;<span>10.3</span></a> replaces overlapping points with counts in hexagonal cells. This view is effective for density but should not be used when identifying individual sites is central to the question.</p>
+</section>
+<section id="moving-to-multivariate-views" class="level2">
+<h2 class="anchored" data-anchor-id="moving-to-multivariate-views">Moving to multivariate views</h2>
+<p>A multivariate chart represents three or more variables. Common visual channels include:</p>
+<ul>
+<li>x and y position;</li>
+<li>colour hue or lightness;</li>
+<li>marker size;</li>
+<li>marker shape or line style; and</li>
+<li>panels created by faceting.</li>
+</ul>
+<p>Position is generally the most precise quantitative channel. Colour works well for a small number of categories or an ordered numerical scale. Size supports approximate magnitude comparisons but is difficult to read precisely. Shape should be reserved for a small number of categories.</p>
+<section id="colour-as-a-third-variable" class="level3">
+<h3 class="anchored" data-anchor-id="colour-as-a-third-variable">Colour as a third variable</h3>
+<p>For categories, use a discrete palette with clearly distinguishable colours. For ordered values, use a sequential palette. For deviations around a meaningful midpoint, use a diverging palette and state the midpoint.</p>
+<p>Avoid rainbow palettes for ordered data. They introduce artificial boundaries and are not perceptually ordered. Also check that the palette remains interpretable for readers with colour-vision differences and when printed in greyscale.</p>
+</section>
+<section id="size-requires-care" class="level3">
+<h3 class="anchored" data-anchor-id="size-requires-care">Size requires care</h3>
+<p>If marker size represents a quantitative variable, viewers perceive area rather than radius. Use plotting functions that scale area appropriately, limit the range, and include a readable legend. Do not encode the most important quantitative comparison only through bubble size.</p>
+</section>
+<section id="faceting-for-conditional-comparison" class="level3">
+<h3 class="anchored" data-anchor-id="faceting-for-conditional-comparison">Faceting for conditional comparison</h3>
+<p>Faceting creates a separate panel for each subgroup while keeping the same visual grammar. It is useful when layered colours or shapes would become crowded.</p>
+<div id="fig-multivariate-facets" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Six small scatter plots arrange three regions in columns and two habitats in rows. Point colour represents temperature, while common axes support comparison.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-multivariate-facets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/08-multivariate-facets.png" class="img-fluid figure-img" alt="Six small scatter plots arrange three regions in columns and two habitats in rows. Point colour represents temperature, while common axes support comparison.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-multivariate-facets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.4: Faceted scatter plots show rainfall–richness relationships by region and habitat.
+</figcaption>
+</figure>
+</div>
+<p>Figure <a href="#fig-multivariate-facets" class="quarto-xref">Figure&nbsp;<span>10.4</span></a> separates region and habitat into panels while colour represents temperature. Shared axes make slopes, ranges, and clusters directly comparable. The panel structure also makes missing combinations or unequal coverage easier to detect.</p>
+<p>Use free scales only when the purpose is to inspect within-panel shape and direct cross-panel magnitude comparison is not required. Shared scales are preferable for most comparisons.</p>
+</section>
+</section>
+<section id="pair-plots-and-correlation-matrices" class="level2">
+<h2 class="anchored" data-anchor-id="pair-plots-and-correlation-matrices">Pair plots and correlation matrices</h2>
+<p>A pair plot displays every pairwise relationship among a selected set of quantitative variables, often with univariate distributions on the diagonal. It is useful during exploration, but its size grows quickly with the number of variables. Select a small, theoretically relevant subset rather than sending the complete dataframe.</p>
+<p>A correlation heatmap is even more compact, but it reduces each pair to one coefficient. It can hide nonlinearity, clusters, outliers, and range restrictions. Use it as an index that guides deeper inspection, not as a replacement for the underlying plots.</p>
+<p>Remember that repeated pairwise inspection increases the chance of noticing patterns that arose by chance. Treat exploratory findings as hypotheses to validate, not confirmed results.</p>
+</section>
+<section id="a-reproducible-visual-analysis-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="a-reproducible-visual-analysis-workflow">A reproducible visual-analysis workflow</h2>
+<p>The companion script follows a reusable sequence.</p>
+<section id="define-the-question" class="level3">
+<h3 class="anchored" data-anchor-id="define-the-question">1. Define the question</h3>
+<p>Write the comparison in words before choosing a chart. For example:</p>
+<blockquote class="blockquote">
+<p>How does species richness vary with rainfall, and does the pattern differ by habitat and region?</p>
+</blockquote>
+<p>This question identifies two quantitative variables and two categorical conditioning variables.</p>
+</section>
+<section id="validate-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="validate-the-data">2. Validate the data</h3>
+<p>Check row uniqueness, units, missingness, category values, plausible ranges, and sample sizes by group. Visualizations cannot repair a misdefined unit of observation.</p>
+</section>
+<section id="start-with-marginal-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="start-with-marginal-distributions">3. Start with marginal distributions</h3>
+<p>Inspect rainfall and richness independently. Skewness, boundaries, and unusual observations affect how their relationship should be viewed.</p>
+</section>
+<section id="build-the-simplest-relational-view" class="level3">
+<h3 class="anchored" data-anchor-id="build-the-simplest-relational-view">4. Build the simplest relational view</h3>
+<p>Plot rainfall against richness before adding colour, size, or facets. Confirm that the axes, units, and point density are readable.</p>
+</section>
+<section id="add-one-analytical-distinction-at-a-time" class="level3">
+<h3 class="anchored" data-anchor-id="add-one-analytical-distinction-at-a-time">5. Add one analytical distinction at a time</h3>
+<p>Use colour for habitat, then facet by region if the regional comparison matters. Each addition should answer a stated question.</p>
+</section>
+<section id="stress-test-the-pattern" class="level3">
+<h3 class="anchored" data-anchor-id="stress-test-the-pattern">6. Stress-test the pattern</h3>
+<p>Check whether the conclusion changes with transformations, reasonable smoothing choices, exclusion of an unusual observation, or separate subgroup views. Sensitivity is part of the result.</p>
+</section>
+<section id="write-an-evidence-bounded-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="write-an-evidence-bounded-interpretation">7. Write an evidence-bounded interpretation</h3>
+<p>Describe visible direction, form, overlap, and subgroup differences. State what the plot cannot establish. Record the dataset, script, seed, and output paths so the result can be reproduced.</p>
+</section>
+</section>
+<section id="common-mistakes-and-better-choices" class="level2">
+<h2 class="anchored" data-anchor-id="common-mistakes-and-better-choices">Common mistakes and better choices</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Mistake</th>
+<th>Why it weakens the analysis</th>
+<th>Better choice</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Showing only group means</td>
+<td>Hides variation, overlap, and sample size</td>
+<td>Show distributions or observations with summaries</td>
+</tr>
+<tr class="even">
+<td>Selecting a single convenient bin width</td>
+<td>Can manufacture or conceal apparent modes</td>
+<td>Compare reasonable widths and document the final choice</td>
+</tr>
+<tr class="odd">
+<td>Adding many visual encodings</td>
+<td>Produces a chart that is hard to decode</td>
+<td>Add only variables required by the question</td>
+</tr>
+<tr class="even">
+<td>Using colour for too many categories</td>
+<td>Makes groups difficult to distinguish</td>
+<td>Facet, filter, aggregate, or use direct labels</td>
+</tr>
+<tr class="odd">
+<td>Fitting one line across distinct groups</td>
+<td>Can conceal conditional relationships</td>
+<td>Inspect and model relevant groups separately</td>
+</tr>
+<tr class="even">
+<td>Interpreting correlation as causation</td>
+<td>Ignores design and alternative explanations</td>
+<td>Use association language and discuss design</td>
+</tr>
+<tr class="odd">
+<td>Truncating a scale to dramatize separation</td>
+<td>Exaggerates differences</td>
+<td>Use a defensible range and disclose breaks</td>
+</tr>
+<tr class="even">
+<td>Ignoring overlapping points</td>
+<td>Understates concentration and sample size</td>
+<td>Use transparency, bins, density, or facets</td>
+</tr>
+<tr class="odd">
+<td>Using free facet scales for comparison</td>
+<td>Makes visual magnitudes incomparable</td>
+<td>Keep shared scales unless within-panel shape is the goal</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="practical-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="practical-checklist">Practical checklist</h2>
+<p>Before finalizing an analytical visual, ask:</p>
+<ul>
+<li>Is the unit of observation clear?</li>
+<li>Does the chart type match the variable types and question?</li>
+<li>Are units and transformations stated?</li>
+<li>Can the reader see sample size, variation, and overlap?</li>
+<li>Are bin width, bandwidth, smoothing, and aggregation defensible?</li>
+<li>Does every colour, size, shape, or facet encode necessary information?</li>
+<li>Are legends, categories, and panels ordered meaningfully?</li>
+<li>Could overplotting or missing data change the apparent pattern?</li>
+<li>Does the interpretation distinguish observation from explanation?</li>
+<li>Can the figure be regenerated from a saved script?</li>
+</ul>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter summary</h2>
+<p>Distributional graphics reveal centre, spread, shape, and unusual values that summary statistics can conceal. Relational graphics show direction, form, strength, spread, and subgroup structure, but they do not establish causation. Multivariate views are most effective when every encoding answers a specific analytical question and when faceting replaces cluttered layering.</p>
+<p>The most reliable workflow begins with simple marginal views, builds toward conditional comparisons, addresses overplotting, and ends with an interpretation bounded by the data and study design. Reproducible scripts make those choices visible and testable.</p>
+<div class="cdi-next">
+<p>The next chapter extends these principles to time-series and longitudinal visualization, where ordering, temporal resolution, seasonality, and change become central design concerns.</p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./07-declarative-interactivity-with-altair.html" class="pagination-link" aria-label="Declarative Interactivity with Altair">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Declarative Interactivity with Altair</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./09-time-series-and-event-visualization.html" class="pagination-link" aria-label="Time Series and Event Visualization">
+        <span class="nav-page-text"><span class="chapter-title">Time Series and Event Visualization</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

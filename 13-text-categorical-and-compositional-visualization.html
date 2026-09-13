@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Text, Categorical, and Compositional Visualization – Data Visualization with Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./14-color-layout-annotation-and-accessibility.html" rel="next">
+<link href="./12-network-and-flow-visualization.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="assets/css/cdi.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-distributions-relationships-and-multivariate-views.html">Analytical and Specialized Visuals</a></li><li class="breadcrumb-item"><a href="./13-text-categorical-and-compositional-visualization.html"><span class="chapter-title">Text, Categorical, and Compositional Visualization</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data Visualization with Python</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visual Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-visualization-thinking-and-chart-choice.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualization Thinking and Chart Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-environment-data-and-reproducible-workflows.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Environment, Data, and Reproducible Workflows</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Core Visualization Libraries</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-matplotlib-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Matplotlib Foundations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-statistical-visualization-with-seaborn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical Visualization with Seaborn</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-grammar-of-graphics-with-plotnine.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Grammar of Graphics with Plotnine</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-interactive-visualization-with-plotly.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interactive Visualization with Plotly</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-declarative-interactivity-with-altair.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Declarative Interactivity with Altair</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Analytical and Specialized Visuals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-distributions-relationships-and-multivariate-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distributions, Relationships, and Multivariate Views</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-time-series-and-event-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Time Series and Event Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-uncertainty-and-statistical-evidence.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Uncertainty and Statistical Evidence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-geospatial-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Geospatial Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-network-and-flow-visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Network and Flow Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-text-categorical-and-compositional-visualization.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Text, Categorical, and Compositional Visualization</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Design and Communication</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-color-layout-annotation-and-accessibility.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Color, Layout, Annotation, and Accessibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-data-storytelling-and-visual-critique.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Storytelling and Visual Critique</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Interactive Delivery and Production</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-dashboards-and-linked-views.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Service Operations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-publishing-automation-and-figure-governance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Publishing, Automation, and Figure Governance</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Case Study</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-end-to-end-visualization-case-study.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">End-to-End Visualization Case Study</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#ordered-categorical-comparisons" id="toc-ordered-categorical-comparisons" class="nav-link" data-scroll-target="#ordered-categorical-comparisons">Ordered Categorical Comparisons</a></li>
+  <li><a href="#dot-lollipop-and-slope-charts" id="toc-dot-lollipop-and-slope-charts" class="nav-link" data-scroll-target="#dot-lollipop-and-slope-charts">Dot, Lollipop, and Slope Charts</a></li>
+  <li><a href="#composition-and-part-to-whole-views" id="toc-composition-and-part-to-whole-views" class="nav-link" data-scroll-target="#composition-and-part-to-whole-views">Composition and Part-to-Whole Views</a></li>
+  <li><a href="#text-frequency-and-term-comparison" id="toc-text-frequency-and-term-comparison" class="nav-link" data-scroll-target="#text-frequency-and-term-comparison">Text Frequency and Term Comparison</a></li>
+  <li><a href="#co-occurrence-and-topic-views" id="toc-co-occurrence-and-topic-views" class="nav-link" data-scroll-target="#co-occurrence-and-topic-views">Co-Occurrence and Topic Views</a></li>
+  <li><a href="#heatmaps-and-matrix-displays" id="toc-heatmaps-and-matrix-displays" class="nav-link" data-scroll-target="#heatmaps-and-matrix-displays">Heatmaps and Matrix Displays</a></li>
+  <li><a href="#why-word-clouds-are-usually-weak-evidence" id="toc-why-word-clouds-are-usually-weak-evidence" class="nav-link" data-scroll-target="#why-word-clouds-are-usually-weak-evidence">Why Word Clouds Are Usually Weak Evidence</a></li>
+  <li><a href="#choosing-labels-and-ordering-categories" id="toc-choosing-labels-and-ordering-categories" class="nav-link" data-scroll-target="#choosing-labels-and-ordering-categories">Choosing Labels and Ordering Categories</a></li>
+  <li><a href="#chapter-practice" id="toc-chapter-practice" class="nav-link" data-scroll-target="#chapter-practice">Chapter Practice</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-distributions-relationships-and-multivariate-views.html">Analytical and Specialized Visuals</a></li><li class="breadcrumb-item"><a href="./13-text-categorical-and-compositional-visualization.html"><span class="chapter-title">Text, Categorical, and Compositional Visualization</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-text-categorical" class="quarto-section-identifier"><span class="chapter-title">Text, Categorical, and Compositional Visualization</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Aug 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cdi-message">
+<ul>
+<li><strong>ID:</strong> DVP-013</li>
+<li><strong>Type:</strong> Specialized Visualization</li>
+<li><strong>Audience:</strong> Intermediate</li>
+<li><strong>Theme:</strong> Frequencies, rankings, language, and part-to-whole structure</li>
+</ul>
+</div>
+<p>Many datasets describe <em>what kind</em>, <em>how much of each kind</em>, or <em>which words occur together</em>. These questions look different, but they share a design problem: categories have no automatic visual position. The analyst must choose an order, a denominator, and a level of aggregation before drawing the chart.</p>
+<p>This chapter uses a small synthetic survey of 600 support tickets. Each record has a region, priority, channel, resolution status, response time, and short customer comment. The data are generated by <code>scripts/python/13-text-categorical-compositional.py</code>, so every figure and summary can be reproduced without an external download.</p>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>After completing this chapter, you will be able to:</p>
+<ul>
+<li>order categorical displays by magnitude, meaning, or a fixed business sequence;</li>
+<li>choose between bars, dots, lollipops, and slope charts;</li>
+<li>distinguish counts from within-group proportions;</li>
+<li>compare term frequencies without treating text as decoration;</li>
+<li>build interpretable co-occurrence and category-term matrices;</li>
+<li>explain when composition charts, heatmaps, and direct labels are appropriate; and</li>
+<li>recognize why word clouds are usually weak analytical evidence.</li>
+</ul>
+</section>
+<section id="ordered-categorical-comparisons" class="level2">
+<h2 class="anchored" data-anchor-id="ordered-categorical-comparisons">Ordered Categorical Comparisons</h2>
+<p>An unordered bar chart makes readers repeatedly search for the largest and smallest values. Sorting converts that search into a visual pattern. Figure <a href="#fig-13-category-ranking" class="quarto-xref">Figure&nbsp;<span>15.1</span></a> ranks ticket topics by median first-response time and uses horizontal marks so the labels remain readable.</p>
+<div id="fig-13-category-ranking" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Horizontal dot plot ranking billing, account, delivery, product, returns, and technical ticket topics by median first-response time.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-13-category-ranking-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/13-category-ranking.png" class="img-fluid figure-img" alt="Horizontal dot plot ranking billing, account, delivery, product, returns, and technical ticket topics by median first-response time.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-13-category-ranking-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.1: Median first-response time by ticket topic. Categories are ordered by the measured value rather than alphabetically.
+</figcaption>
+</figure>
+</div>
+<p>The correct order depends on the question:</p>
+<ul>
+<li><strong>Magnitude order</strong> supports ranking and comparison.</li>
+<li><strong>Semantic order</strong> preserves sequences such as low, medium, high, and critical.</li>
+<li><strong>Chronological order</strong> is required for weekdays, months, and lifecycle stages.</li>
+<li><strong>Reference order</strong> can foreground a baseline or policy target.</li>
+</ul>
+<p>Never sort categories mechanically when their sequence carries meaning. A severity scale displayed as <code>critical, low, medium, high</code> is numerically tidy but conceptually broken.</p>
+</section>
+<section id="dot-lollipop-and-slope-charts" class="level2">
+<h2 class="anchored" data-anchor-id="dot-lollipop-and-slope-charts">Dot, Lollipop, and Slope Charts</h2>
+<p>Bars encode values by length from a zero baseline and remain the safest choice for absolute magnitudes. Dot plots reduce visual ink and work well when the main task is comparing positions on a common scale. Lollipop charts add a line from the baseline to each dot; they can help connect a value to its label, but many lollipops become busier than bars.</p>
+<p>A slope chart answers a different question: how did each category change between two conditions? Figure <a href="#fig-13-channel-slope" class="quarto-xref">Figure&nbsp;<span>15.2</span></a> compares resolution rates by channel in two periods. The important encoding is the direction and size of each line, not the rank at either endpoint.</p>
+<div id="fig-13-channel-slope" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Slope chart comparing earlier and recent resolution rates for chat, email, phone, social, and web support channels.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-13-channel-slope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/13-channel-slope.png" class="img-fluid figure-img" alt="Slope chart comparing earlier and recent resolution rates for chat, email, phone, social, and web support channels.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-13-channel-slope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.2: Resolution rate by support channel in two periods. Direct labels reduce lookup effort.
+</figcaption>
+</figure>
+</div>
+<p>Use a slope chart when there are two meaningful endpoints and a manageable number of series. With many categories, crossings and labels overwhelm the signal; a sorted difference plot is then more effective.</p>
+</section>
+<section id="composition-and-part-to-whole-views" class="level2">
+<h2 class="anchored" data-anchor-id="composition-and-part-to-whole-views">Composition and Part-to-Whole Views</h2>
+<p>Composition requires an explicit denominator. “Thirty percent unresolved” may mean 30% of all tickets, 30% within one region, or 30% within one channel. Figure <a href="#fig-13-channel-composition" class="quarto-xref">Figure&nbsp;<span>15.3</span></a> normalizes each channel to 100%, making within-channel status distributions comparable even though channel volumes differ.</p>
+<div id="fig-13-channel-composition" class="quarto-float quarto-figure quarto-figure-center anchored" alt="One-hundred-percent stacked horizontal bars showing resolved, pending, and escalated ticket shares within each support channel.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-13-channel-composition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/13-channel-composition.png" class="img-fluid figure-img" alt="One-hundred-percent stacked horizontal bars showing resolved, pending, and escalated ticket shares within each support channel.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-13-channel-composition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.3: Ticket status composition within each support channel. Every bar sums to 100 percent.
+</figcaption>
+</figure>
+</div>
+<p>Part-to-whole choices have distinct strengths:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Effective display</th>
+<th>Main caution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>What is the overall share of a few parts?</td>
+<td>Bar or 100% stacked bar</td>
+<td>Keep the denominator visible</td>
+</tr>
+<tr class="even">
+<td>How does composition differ across groups?</td>
+<td>100% stacked bars</td>
+<td>Middle segments lack a shared baseline</td>
+</tr>
+<tr class="odd">
+<td>How do both totals and parts differ?</td>
+<td>Regular stacked bars</td>
+<td>Large totals can hide proportional change</td>
+</tr>
+<tr class="even">
+<td>How does a hierarchy divide?</td>
+<td>Treemap</td>
+<td>Area is difficult to compare precisely</td>
+</tr>
+<tr class="odd">
+<td>How did share change over time?</td>
+<td>Lines or small multiples</td>
+<td>Avoid stacked areas for exact comparisons</td>
+</tr>
+</tbody>
+</table>
+<p>Pie and donut charts can communicate a simple two- or three-part split, but bars support more precise comparison and scale better when categories multiply.</p>
+</section>
+<section id="text-frequency-and-term-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="text-frequency-and-term-comparison">Text Frequency and Term Comparison</h2>
+<p>Text visualization begins with a transparent counting rule. The chapter script lowercases comments, extracts alphabetic tokens, removes a short documented stop-word list, and counts each term once per ticket. Counting document presence rather than raw repetition prevents a single repetitive comment from dominating the result.</p>
+<p>Figure <a href="#fig-13-term-comparison" class="quarto-xref">Figure&nbsp;<span>15.4</span></a> compares the prevalence of selected terms in resolved and escalated tickets. The horizontal axis reports the percentage of documents containing the term, so differently sized groups remain comparable.</p>
+<div id="fig-13-term-comparison" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Grouped dot plot comparing the percentage of resolved and escalated comments containing selected customer-service terms.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-13-term-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/13-term-comparison.png" class="img-fluid figure-img" alt="Grouped dot plot comparing the percentage of resolved and escalated comments containing selected customer-service terms.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-13-term-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.4: Selected-term prevalence in resolved and escalated tickets.
+</figcaption>
+</figure>
+</div>
+<p>Term frequency is descriptive, not automatically meaningful. Frequent terms may reflect template language, collection practices, or common background vocabulary. Preserve the underlying comments, document preprocessing decisions, and inspect examples before interpreting a term as a theme.</p>
+</section>
+<section id="co-occurrence-and-topic-views" class="level2">
+<h2 class="anchored" data-anchor-id="co-occurrence-and-topic-views">Co-Occurrence and Topic Views</h2>
+<p>Two terms co-occur when they appear in the same defined context, such as a sentence, document, or sliding window. That context is an analytical choice. Document-level co-occurrence is easy to explain here: each pair receives one count per ticket containing both terms.</p>
+<p>The strongest pairs are saved in <code>results/13-term-cooccurrence.csv</code>. A network can be useful when relationships and clusters matter, but it should be pruned deliberately and accompanied by exact values. Dense “hairball” networks often communicate little beyond dataset size.</p>
+<p>Topic models introduce additional assumptions about tokenization, topic count, and probabilistic structure. Treat topics as exploratory summaries: label them after inspecting high-weight terms and representative documents, and report the model settings. Do not present an automatically assigned topic name as observed truth.</p>
+</section>
+<section id="heatmaps-and-matrix-displays" class="level2">
+<h2 class="anchored" data-anchor-id="heatmaps-and-matrix-displays">Heatmaps and Matrix Displays</h2>
+<p>A heatmap is a table whose cell values are encoded by color. It is effective when the repeated two-dimensional structure is the message. Figure <a href="#fig-13-priority-region-heatmap" class="quarto-xref">Figure&nbsp;<span>15.5</span></a> shows median response time for each priority-region combination.</p>
+<div id="fig-13-priority-region-heatmap" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Annotated heatmap of median first-response hours for low, medium, high, and critical priority tickets across four regions.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-13-priority-region-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results/figures/13-priority-region-heatmap.png" class="img-fluid figure-img" alt="Annotated heatmap of median first-response hours for low, medium, high, and critical priority tickets across four regions.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-13-priority-region-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.5: Median first-response time by ticket priority and region.
+</figcaption>
+</figure>
+</div>
+<p>The sequential color scale has a clear low-to-high direction. A diverging scale would be justified only if a meaningful midpoint existed, such as deviation from a service-level target. Annotations provide exact values, while color exposes the broader pattern. Reorder rows and columns when doing so reveals structure, but retain semantic orders such as priority severity.</p>
+</section>
+<section id="why-word-clouds-are-usually-weak-evidence" class="level2">
+<h2 class="anchored" data-anchor-id="why-word-clouds-are-usually-weak-evidence">Why Word Clouds Are Usually Weak Evidence</h2>
+<p>Word clouds map frequency to area or font size, scatter terms across two dimensions that carry no quantitative meaning, and often rotate words. Readers cannot compare areas accurately, recover exact values, or see denominators. Layout can also change when the algorithm or canvas changes even when the data do not.</p>
+<p>For analysis, prefer a sorted bar or dot plot with counts or rates. For relationships, use a matrix or a carefully filtered network. A word cloud may be acceptable as a decorative orientation device, but it should not carry the evidential burden of a result.</p>
+</section>
+<section id="choosing-labels-and-ordering-categories" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-labels-and-ordering-categories">Choosing Labels and Ordering Categories</h2>
+<p>Labels should let the reader identify the mark and interpret the measure without reverse-engineering the chart.</p>
+<ul>
+<li>Use sentence case and human-readable category names.</li>
+<li>State whether values are counts, percentages, rates, or model estimates.</li>
+<li>Put units in the axis title or direct label.</li>
+<li>Label endpoints directly when a legend would force repeated lookup.</li>
+<li>Combine rare categories only when the rule is defensible and disclosed.</li>
+<li>Keep category colors consistent across related figures.</li>
+</ul>
+<p>The script writes <code>results/13-category-summary.csv</code> and <code>results/13-run-summary.json</code> so plotted values and generation settings can be audited independently of the images.</p>
+</section>
+<section id="chapter-practice" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-practice">Chapter Practice</h2>
+<p>Run the complete workflow from the repository root:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/bash/13-run-text-categorical-compositional.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then complete the following tasks:</p>
+<ol type="1">
+<li>Rebuild the ranking chart using ticket counts rather than response time. Explain why the category order changes.</li>
+<li>Replace the 100% stacked chart with regular stacked counts. Write one sentence describing the different question it answers.</li>
+<li>Change the co-occurrence context from a complete ticket to adjacent token pairs. Compare the five strongest relationships.</li>
+<li>Recalculate term prevalence by channel and identify one term whose apparent importance depends on the denominator.</li>
+<li>Remove the numeric heatmap annotations. Ask another reader to identify the largest two cells, then decide whether color alone is sufficient.</li>
+</ol>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Category order is part of the analysis, not a cosmetic afterthought.</li>
+<li>Bars are dependable for magnitude; dots reduce ink; slopes emphasize two-point change.</li>
+<li>Every compositional claim must identify its denominator.</li>
+<li>Text frequencies depend on tokenization, filtering, and counting rules.</li>
+<li>Co-occurrence shows association within a chosen context, not semantic equivalence or causation.</li>
+<li>Heatmaps work best for repeated matrix structure and require a scale matched to the data.</li>
+<li>Sorted, labeled displays usually provide stronger evidence than word clouds.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./12-network-and-flow-visualization.html" class="pagination-link" aria-label="Network and Flow Visualization">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Network and Flow Visualization</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./14-color-layout-annotation-and-accessibility.html" class="pagination-link" aria-label="Color, Layout, Annotation, and Accessibility">
+        <span class="nav-page-text"><span class="chapter-title">Color, Layout, Annotation, and Accessibility</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
